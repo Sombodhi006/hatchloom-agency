@@ -10,7 +10,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=Playfair+Display:ital,wght@0,600;1,400;1,600&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&amp;display=swap"
         rel="stylesheet" />
     <!-- Three.js Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -103,7 +103,7 @@
                         "on-surface": "#e5e2e4",
                         "surface-variant": "#353436",
                         "surface-bright": "#39393b",
-                        "abyssal-navy": "#0A1128",
+                        "abyssal-navy": "#02040c",
                         "on-secondary-fixed-variant": "#444749",
                         "primary-fixed": "#dce1ff",
                         "on-tertiary-fixed-variant": "#574331",
@@ -179,8 +179,8 @@
         .grid-bg {
             background-size: 80px 80px;
             background-image:
-                linear-gradient(to right, rgba(10, 17, 40, 0.08) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(10, 17, 40, 0.08) 1px, transparent 1px);
+                linear-gradient(to right, rgba(2, 4, 12, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(2, 4, 12, 0.08) 1px, transparent 1px);
         }
 
         .animate-on-scroll {
@@ -198,7 +198,7 @@
         .thread-h {
             position: absolute;
             height: 1px;
-            background: rgba(10, 17, 40, 0.2);
+            background: rgba(2, 4, 12, 0.2);
             width: 200vw;
             left: -50vw;
             z-index: 0;
@@ -207,7 +207,7 @@
         .thread-v {
             position: absolute;
             width: 1px;
-            background: rgba(10, 17, 40, 0.2);
+            background: rgba(2, 4, 12, 0.2);
             height: 200vh;
             top: -50vh;
             z-index: 0;
@@ -509,10 +509,12 @@
     class="text-abyssal-navy font-body-md overflow-x-hidden selection:bg-abyssal-navy selection:text-desert-sand relative">
     <!-- Fixed Background Color (Fixed CSS Stacking Bug) -->
     <div class="fixed inset-0 -z-20 pointer-events-none"
-        style="background: #0A1128; background: linear-gradient(180deg, rgba(10, 17, 40, 1) 16%, rgba(244, 245, 247, 0.31) 56%, rgba(217, 186, 156, 1) 80%);">
+        style="background: #02040c; background: linear-gradient(180deg, rgba(2, 4, 12, 1) 16%, rgba(244, 245, 247, 0.31) 56%, rgba(217, 186, 156, 1) 80%);">
     </div>
     <!-- STITCH_CANVAS_START:ANIMATION_31 class="fixed inset-0 w-full h-full -z-10 pointer-events-none" -->
     <canvas id="loom-canvas" class="fixed inset-0 w-full h-full -z-10 pointer-events-none"></canvas>
+    <!-- Interactive Background Canvas (vividmotion.co inspired) -->
+    <canvas id="fluid-canvas" class="fixed inset-0 w-full h-full z-0 pointer-events-none" style="mix-blend-mode: screen;"></canvas>
 
     <script>
         (function () {
@@ -790,11 +792,11 @@
                 canvas.style.display = 'block';
 
                 // Draw background solid color and gradient on canvas to blend multiply layers correctly
-                ctx.fillStyle = '#0A1128';
+                ctx.fillStyle = '#02040c';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                 const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                grad.addColorStop(0.16, 'rgba(10, 17, 40, 1)');
+                grad.addColorStop(0.16, 'rgba(2, 4, 12, 1)');
                 grad.addColorStop(0.56, 'rgba(244, 245, 247, 0.31)');
                 grad.addColorStop(0.80, 'rgba(217, 186, 156, 1)');
                 ctx.fillStyle = grad;
@@ -814,7 +816,7 @@
                     s.velocity *= 0.85;
                     s.tension += s.velocity;
 
-                    ctx.strokeStyle = 'rgba(10, 17, 40, 0.05)';
+                    ctx.strokeStyle = 'rgba(2, 4, 12, 0.05)';
                     ctx.beginPath();
                     ctx.moveTo(xBase, 0);
                     if (Math.abs(s.tension) > 0.01) {
@@ -834,7 +836,7 @@
 
                 if (currentPoint) {
                     // Draw horizontal weft guide line
-                    ctx.strokeStyle = 'rgba(10, 17, 40, 0.03)';
+                    ctx.strokeStyle = 'rgba(2, 4, 12, 0.03)';
                     ctx.lineWidth = 1 * dpr;
                     ctx.beginPath();
                     ctx.moveTo(0, currentPoint.y);
@@ -847,13 +849,13 @@
                         ctx.lineJoin = 'round';
 
                         // Drop Shadow for 3D realism
-                        ctx.shadowColor = 'rgba(10, 17, 40, 0.25)';
+                        ctx.shadowColor = 'rgba(2, 4, 12, 0.25)';
                         ctx.shadowBlur = 4 * dpr;
                         ctx.shadowOffsetX = 1.5 * dpr;
                         ctx.shadowOffsetY = 2.5 * dpr;
 
                         // Base navy strand (dark and clear)
-                        ctx.strokeStyle = '#0A1128';
+                        ctx.strokeStyle = '#02040c';
                         ctx.lineWidth = 3.5 * dpr;
                         ctx.beginPath();
                         let first = getScreenCoords(pathPoints[0]);
@@ -872,8 +874,8 @@
                         ctx.shadowOffsetX = 0;
                         ctx.shadowOffsetY = 0;
 
-                        // Gold/beige twist overlay
-                        ctx.strokeStyle = '#D1B49D';
+                        // Glowing gold/orange twist overlay to match particles
+                        ctx.strokeStyle = '#FF9F1C';
                         ctx.lineWidth = 1.2 * dpr;
                         ctx.setLineDash([5 * dpr, 7 * dpr]);
                         ctx.beginPath();
@@ -910,14 +912,14 @@
                     ctx.translate(currentPoint.x, currentPoint.y);
                     ctx.rotate(angle);
 
-                    ctx.shadowColor = 'rgba(10, 17, 40, 0.3)';
+                    ctx.shadowColor = 'rgba(2, 4, 12, 0.3)';
                     ctx.shadowBlur = 6 * dpr;
                     ctx.shadowOffsetX = 2 * dpr;
                     ctx.shadowOffsetY = 4 * dpr;
 
                     // Canoe-shaped wood shuttle
                     ctx.fillStyle = '#D1B49D';
-                    ctx.strokeStyle = '#0A1128';
+                    ctx.strokeStyle = '#02040c';
                     ctx.lineWidth = 1.5 * dpr;
                     ctx.beginPath();
                     const sWidth = 24 * dpr;
@@ -935,7 +937,7 @@
                     ctx.shadowOffsetX = 0;
                     ctx.shadowOffsetY = 0;
 
-                    ctx.fillStyle = '#0A1128';
+                    ctx.fillStyle = '#02040c';
                     ctx.beginPath();
                     ctx.ellipse(0, 0, 8 * dpr, 3 * dpr, 0, 0, Math.PI * 2);
                     ctx.fill();
@@ -1050,7 +1052,7 @@
             });
         </script>
     </nav>
-    <main>
+    <main class="relative z-10">
         <!-- Hero Section -->
         <section
             class="relative min-h-screen pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden flex items-center animate-on-scroll">
@@ -1074,11 +1076,43 @@
                             Innovation Agency</span>
                     </div>
                     <h1
-                        class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-display text-white mb-8 leading-[1.0] tracking-tight kinetic-reveal">
+                        class="text-headline-lg-mobile md:text-headline-display text-white mb-8 leading-[1.1] tracking-tight kinetic-reveal"
+                        style="font-family: 'Playfair Display', serif; font-weight: 500;">
                         Weaving Your Vision Into <br /><span
-                            class="block ml-8 md:ml-24 text-desert-sand font-serif italic font-normal tracking-wide mt-2"
-                            style="font-family: 'Playfair Display', serif;">Digital Success</span>
+                            class="block ml-8 md:ml-24 text-desert-sand italic tracking-wide mt-2"
+                            style="font-family: 'Playfair Display', serif; font-weight: 500; font-style: italic;">Digital Success</span>
                     </h1>
+                    <!-- Seamless Floating Brand Marquee (No Panel) -->
+                    <div class="w-full overflow-hidden py-4 my-6 relative z-30 select-none pointer-events-none" style="mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);">
+                        <div class="flex w-max animate-marquee text-[#D1B49D]/40 font-label-sm uppercase tracking-[0.25em] text-xs sm:text-sm">
+                            <span class="mr-12">STRATEGIC VISION</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                            <span class="mr-12">PATH-SIGHTFUL</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                            <span class="mr-12">SCALABLE TECH</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                            <span class="mr-12">RESILIENT DESIGN</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                            <!-- Duplicate 1 -->
+                            <span class="mr-12">STRATEGIC VISION</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                            <span class="mr-12">PATH-SIGHTFUL</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                            <span class="mr-12">SCALABLE TECH</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                            <span class="mr-12">RESILIENT DESIGN</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                            <!-- Duplicate 2 -->
+                            <span class="mr-12">STRATEGIC VISION</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                            <span class="mr-12">PATH-SIGHTFUL</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                            <span class="mr-12">SCALABLE TECH</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                            <span class="mr-12">RESILIENT DESIGN</span>
+                            <span class="mr-12 text-[#D1B49D]/20">//</span>
+                        </div>
+                    </div>
                 </div>
                 <div
                     class="md:col-span-6 md:col-start-7 bg-abyssal-navy/90 text-desert-sand flex flex-col justify-center px-6 md:px-20 py-16 md:py-20 relative z-10 md:-ml-32 mt-12 md:mt-32 md:mb-32 shadow-2xl border border-desert-sand/20 backdrop-blur-md">
@@ -1550,7 +1584,7 @@
                         const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
                         scene.add(ambientLight);
 
-                        const pointLight = new THREE.PointLight(0xd1b49d, 2, 50); // Accent Desert Sand
+                        const pointLight = new THREE.PointLight(0xff9f1c, 2.5, 50); // Glowing Orange Accent
                         pointLight.position.set(5, 5, 5);
                         scene.add(pointLight);
 
@@ -1955,6 +1989,185 @@
                     });
                 }
             }
+        })();
+    </script>
+    <!-- High-Fidelity Interactive Background Script (vividmotion.co inspired) -->
+    <script>
+        (function () {
+            const canvas = document.getElementById('fluid-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            let dpr = window.devicePixelRatio || 1;
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+
+            function resize() {
+                dpr = window.devicePixelRatio || 1;
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            let particles = [];
+            let isMobile = window.innerWidth < 768;
+
+            window.addEventListener('resize', () => {
+                isMobile = window.innerWidth < 768;
+            });
+
+            let lastMouseX = null;
+            let lastMouseY = null;
+            let lastTime = null;
+
+            // Fluid Particle representation
+            class FluidParticle {
+                constructor(x, y, vx, vy, size, color, maxLife) {
+                    this.x = x;
+                    this.y = y;
+                    this.vx = vx;
+                    this.vy = vy;
+                    this.size = size;
+                    this.color = color;
+                    this.maxLife = maxLife;
+                    this.life = maxLife;
+                    this.alpha = 1;
+                }
+
+                update(dt) {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    // Apply organic friction/damping
+                    this.vx *= 0.96;
+                    this.vy *= 0.96;
+                    this.life -= dt;
+                    this.alpha = Math.max(0, this.life / this.maxLife);
+                }
+
+                draw(c) {
+                    c.save();
+                    c.globalAlpha = this.alpha;
+                    c.beginPath();
+                    // Create soft organic glow
+                    const grad = c.createRadialGradient(
+                        this.x * dpr, this.y * dpr, 0,
+                        this.x * dpr, this.y * dpr, this.size * dpr
+                    );
+                    grad.addColorStop(0, this.color);
+                    grad.addColorStop(0.2, this.color);
+                    grad.addColorStop(1, 'rgba(230, 92, 0, 0)');
+                    c.fillStyle = grad;
+                    c.arc(this.x * dpr, this.y * dpr, this.size * dpr, 0, Math.PI * 2);
+                    c.fill();
+                    c.restore();
+                }
+            }
+
+            function spawnParticles(x, y, dx, dy, dist, dt) {
+                const speed = dt > 0 ? dist / dt : 0;
+                
+                // mobile throttling: limit max particles and spawn frequency by 50%
+                const maxSpawnCount = isMobile ? 3 : 6;
+                const count = Math.min(maxSpawnCount, Math.floor(dist / 10) + 1);
+                
+                // Velocity-based sizing and spread
+                const baseSize = isMobile ? (10 + speed * 6) : (18 + speed * 12);
+                const sizeSpread = baseSize * 0.4;
+                const speedScale = isMobile ? 0.08 : 0.15;
+                
+                // Interpolate along the path to avoid gaps on fast sweeps
+                for (let i = 0; i < count; i++) {
+                    const ratio = i / count;
+                    const px = lastMouseX + dx * ratio;
+                    const py = lastMouseY + dy * ratio;
+                    
+                    // Slightly random direction with speed velocity component
+                    const angle = Math.random() * Math.PI * 2;
+                    const pSpeed = (Math.random() * speed * speedScale) + 0.5;
+                    const vx = Math.cos(angle) * pSpeed + dx * 0.1;
+                    const vy = Math.sin(angle) * pSpeed + dy * 0.1;
+                    
+                    const size = Math.max(3, baseSize + (Math.random() - 0.5) * sizeSpread);
+                    const color = Math.random() > 0.5 ? '#FF9F1C' : '#E65C00';
+                    const maxLife = 1000 + Math.random() * 500; // grace cool down over 1.5 seconds (1000-1500ms)
+
+                    particles.push(new FluidParticle(px, py, vx, vy, size, color, maxLife));
+                }
+                
+                // enforce performance cap on particle allocation
+                const particleCap = isMobile ? 50 : 120;
+                if (particles.length > particleCap) {
+                    particles.splice(0, particles.length - particleCap);
+                }
+            }
+
+            function handlePointerMove(e) {
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                const now = performance.now();
+                if (lastMouseX === null || lastMouseY === null || lastTime === null) {
+                    lastMouseX = clientX;
+                    lastMouseY = clientY;
+                    lastTime = now;
+                    return;
+                }
+
+                const dx = clientX - lastMouseX;
+                const dy = clientY - lastMouseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const dt = now - lastTime;
+
+                // Only spawn if mouse/touch actually moved
+                if (dist > 1) {
+                    spawnParticles(clientX, clientY, dx, dy, dist, dt);
+                    lastMouseX = clientX;
+                    lastMouseY = clientY;
+                    lastTime = now;
+                }
+            }
+
+            function handlePointerStart(e) {
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                lastMouseX = clientX;
+                lastMouseY = clientY;
+                lastTime = performance.now();
+            }
+
+            // Bind Events (Passive for performance and smooth scroll)
+            window.addEventListener('mousemove', handlePointerMove, { passive: true });
+            window.addEventListener('touchstart', handlePointerStart, { passive: true });
+            window.addEventListener('touchmove', handlePointerMove, { passive: true });
+
+            let lastFrameTime = performance.now();
+
+            function tick(now) {
+                const dt = now - lastFrameTime;
+                lastFrameTime = now;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Update and draw particles
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    p.update(dt);
+                    if (p.life <= 0) {
+                        particles.splice(i, 1);
+                    } else {
+                        p.draw(ctx);
+                    }
+                }
+
+                requestAnimationFrame(tick);
+            }
+
+            requestAnimationFrame(tick);
         })();
     </script>
 </body>
