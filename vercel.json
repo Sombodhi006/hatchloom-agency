@@ -2,6 +2,7 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/hatchloom/:path*", "destination": "/hatchloom/:path*" },
+    { "source": "/", "destination": "/hatchloom/index.html" },
     { "source": "/:path*", "destination": "/hatchloom/:path*" }
   ]
 }
