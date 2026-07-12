@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html class="dark scroll-smooth overflow-x-hidden" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Hatchloom - Weaving Your Vision Into Digital Success</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=Playfair+Display:ital,wght@0,600;1,400;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Three.js Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        class ThreeJSScene extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+
+                this.container = document.createElement('div');
+                this.container.style.width = '100%';
+                this.container.style.height = '100%';
+                this.container.id = 'threejs-container-' + this.getAttribute('src').match(/ANIMATION_\d+/)?.[0] || 'threejs-container';
+                this.shadowRoot.appendChild(this.container);
+            }
+
+            async connectedCallback() {
+                const src = this.getAttribute('src');
+                if (src) {
+                    try {
+                        const setupScene = new Function('container', 'THREE', src);
+                        setupScene(this.container, THREE);
+                    } catch (error) {
+                        console.error('Error executing Three.js script:', error);
+                    }
+                }
+            }
+        }
+        customElements.define('threejs-scene', ThreeJSScene);
+
+        class WebGLShader extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+                this.canvas = document.createElement('canvas');
+                this.canvas.style.width = '100%';
+                this.canvas.style.height = '100%';
+                this.canvas.style.display = 'block';
+                this.shadowRoot.appendChild(this.canvas);
+            }
+            connectedCallback() {
+                const src = this.getAttribute('src');
+                if (src) {
+                    const ctx = this.canvas.getContext('2d');
+                    if (ctx) {
+                        ctx.fillStyle = 'rgba(229, 213, 198, 0.1)';
+                        ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                    }
+                }
+            }
+        }
+        customElements.define('webgl-shader', WebGLShader);
+    </script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#c6c6ce",
+                        "on-primary-fixed": "#141a32",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#2a2a2c",
+                        "tertiary-fixed-dim": "#dfc1aa",
+                        "surface": "#131315",
+                        "secondary-fixed-dim": "#c5c6c8",
+                        "on-tertiary-fixed": "#281809",
+                        "tertiary-container": "#1e0f03",
+                        "on-primary-container": "#767c99",
+                        "on-tertiary-container": "#927964",
+                        "secondary": "#c5c6c8",
+                        "inverse-on-surface": "#303032",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e4",
+                        "error": "#ffb4ab",
+                        "outline": "#909098",
+                        "on-error": "#690005",
+                        "outline-variant": "#46464d",
+                        "secondary-container": "#444749",
+                        "surface-container": "#1f1f21",
+                        "on-primary": "#292f48",
+                        "background": "#131315",
+                        "on-tertiary": "#3f2d1c",
+                        "on-secondary-container": "#b4b5b7",
+                        "tertiary": "#dfc1aa",
+                        "on-secondary-fixed": "#191c1e",
+                        "inverse-surface": "#e5e2e4",
+                        "tertiary-fixed": "#fcddc4",
+                        "surface-dim": "#131315",
+                        "on-surface": "#e5e2e4",
+                        "surface-variant": "#353436",
+                        "surface-bright": "#39393b",
+                        "abyssal-navy": "#0A1128",
+                        "on-secondary-fixed-variant": "#444749",
+                        "primary-fixed": "#dce1ff",
+                        "on-tertiary-fixed-variant": "#574331",
+                        "primary": "#bfc5e4",
+                        "surface-tint": "#bfc5e4",
+                        "secondary-fixed": "#e1e2e4",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-primary-fixed-variant": "#3f465f",
+                        "chalk-linen": "#F4F5F7",
+                        "inverse-primary": "#575d78",
+                        "surface-container-low": "#1b1b1d",
+                        "desert-sand": "#D1B49D",
+                        "primary-fixed-dim": "#bfc5e4",
+                        "on-secondary": "#2e3132",
+                        "surface-container-highest": "#353436",
+                        "primary-container": "#0a1128"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "32px",
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-display": ["Hanken Grotesk"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["20px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-display": ["80px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    },
+                    "animation": {
+                        "fade-in-up": "fadeInUp 0.4s ease-out forwards",
+                        "weave-x": "weaveX 20s linear infinite",
+                        "weave-y": "weaveY 20s linear infinite"
+                    },
+                    "keyframes": {
+                        "fadeInUp": {
+                            "0%": { opacity: "0", transform: "translateY(40px)" },
+                            "100%": { opacity: "1", transform: "translateY(0)" }
+                        },
+                        "weaveX": {
+                            "0%": { backgroundPosition: "0px 0px" },
+                            "100%": { backgroundPosition: "100px 0px" }
+                        },
+                        "weaveY": {
+                            "0%": { backgroundPosition: "0px 0px" },
+                            "100%": { backgroundPosition: "0px 100px" }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .grid-bg {
+            background-size: 80px 80px;
+            background-image:
+                linear-gradient(to right, rgba(10, 17, 40, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(10, 17, 40, 0.08) 1px, transparent 1px);
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom thread lines */
+        .thread-h {
+            position: absolute;
+            height: 1px;
+            background: rgba(10, 17, 40, 0.2);
+            width: 200vw;
+            left: -50vw;
+            z-index: 0;
+        }
+
+        .thread-v {
+            position: absolute;
+            width: 1px;
+            background: rgba(10, 17, 40, 0.2);
+            height: 200vh;
+            top: -50vh;
+            z-index: 0;
+        }
+
+        /* Button micro-interaction */
+        .btn-weave {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-weave::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.2s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+
+        .btn-weave:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-weave-fill {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-weave-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.2s cubic-bezier(0.86, 0, 0.07, 1);
+            z-index: 1;
+        }
+
+        .btn-weave-fill:hover::before {
+            left: 0;
+        }
+
+        /* Crop logo asset white space to align and space correctly */
+        .nav-logo {
+            margin-left: -9px;
+            margin-top: -22px;
+            margin-bottom: -22px;
+            height: 48px;
+            width: 48px;
+        }
+
+        .hero-logo {
+            margin-left: -20px;
+            margin-top: -40px;
+            margin-bottom: -30px;
+            height: auto;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        @media (min-width: 768px) {
+            .hero-logo {
+                margin-left: -75px;
+                margin-top: -173px;
+                margin-bottom: -110px;
+                height: 384px;
+                width: 384px;
+            }
+        }
+        /* Seamless Marquee Animation */
+        .animate-marquee {
+            display: flex;
+            animation: marquee 35s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        /* Hide scrollbars but keep functionality */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .animate-scale-in {
+            animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        /* Active touch micro-interactions for mobile (with elastic spring bounce) */
+        @media (max-width: 767px) {
+            button, a, .service-card, .budget-card {
+                transition: transform 0.15s cubic-bezier(0.25, 1.5, 0.5, 1), background-color 0.2s, border-color 0.2s;
+            }
+            button:active, a:active, .service-card:active, .budget-card:active, .btn-weave-fill:active {
+                transform: scale3d(0.96, 0.96, 1) !important;
+                transition: transform 0.2s cubic-bezier(0.25, 1.5, 0.5, 1) !important;
+            }
+        }
+
+        /* Kinetic Text Reveal Mask */
+        .text-reveal-container {
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: bottom;
+            width: 100%;
+            will-change: transform;
+        }
+        .text-reveal-item {
+            display: block;
+            transform: translateY(102%) translateZ(0);
+            opacity: 0;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .text-reveal-item.reveal-active {
+            transform: translateY(0) translateZ(0);
+            opacity: 1;
+        }
+        
+        /* Video reveal transitions */
+        .video-reveal-card.is-visible {
+            opacity: 1 !important;
+            transform: scale(1) translateY(0) !important;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Generate dynamic grainy noise background
+            const noiseCanvas = document.createElement('canvas');
+            noiseCanvas.width = 128;
+            noiseCanvas.height = 128;
+            const noiseCtx = noiseCanvas.getContext('2d');
+            const noiseImgData = noiseCtx.createImageData(128, 128);
+            const buffer = new Uint32Array(noiseImgData.data.buffer);
+            for (let i = 0; i < buffer.length; i++) {
+                const noise = (Math.random() * 255) | 0;
+                buffer[i] = (15 << 24) | (noise << 16) | (noise << 8) | noise;
+            }
+            noiseCtx.putImageData(noiseImgData, 0, 0);
+
+            const grainDiv = document.createElement('div');
+            grainDiv.className = 'fixed inset-0 pointer-events-none mix-blend-multiply opacity-[0.35]';
+            grainDiv.style.zIndex = '-5';
+            grainDiv.style.backgroundImage = `url(${noiseCanvas.toDataURL()})`;
+            grainDiv.style.backgroundRepeat = 'repeat';
+            document.body.appendChild(grainDiv);
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            document.querySelectorAll('.animate-on-scroll, section').forEach((element) => {
+                if (!element.classList.contains('animate-on-scroll')) {
+                    element.classList.add('animate-on-scroll');
+                }
+                observer.observe(element);
+            });
+
+            // Service details accordion toggle
+            document.querySelectorAll('.service-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const wrapper = btn.previousElementSibling;
+                    if (btn.getAttribute('data-expanded') === 'true') {
+                        wrapper.classList.remove('max-h-96', 'opacity-100');
+                        wrapper.classList.add('max-h-0', 'opacity-0');
+                        btn.textContent = '[ + Read More Details ]';
+                        btn.setAttribute('data-expanded', 'false');
+                    } else {
+                        wrapper.classList.remove('max-h-0', 'opacity-0');
+                        wrapper.classList.add('max-h-96', 'opacity-100');
+                        btn.textContent = '[ - Hide Details ]';
+                        btn.setAttribute('data-expanded', 'true');
+                    }
+                });
+            });
+
+
+
+            // Kinetic Text Reveal setup
+            document.querySelectorAll('.kinetic-reveal').forEach(el => {
+                const wrapper = document.createElement('span');
+                wrapper.className = 'text-reveal-container';
+                const item = document.createElement('span');
+                item.className = 'text-reveal-item';
+                item.innerHTML = el.innerHTML;
+                wrapper.appendChild(item);
+                el.innerHTML = '';
+                el.appendChild(wrapper);
+                
+                const revealObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            item.classList.add('reveal-active');
+                            revealObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                revealObserver.observe(el);
+            });
+
+            // Touch Glow effect for services cards
+            document.querySelectorAll('.glow-card').forEach(card => {
+                const glow = document.createElement('div');
+                glow.className = 'absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300 z-0 bg-[radial-gradient(circle_at_var(--mouse-x)_var(--mouse-y),rgba(209,180,157,0.15),transparent_60%)]';
+                card.classList.add('relative');
+                card.prepend(glow);
+                
+                const handleMove = (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+                    const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                };
+
+                card.addEventListener('mousemove', handleMove);
+                card.addEventListener('mouseenter', () => glow.classList.replace('opacity-0', 'opacity-100'));
+                card.addEventListener('mouseleave', () => glow.classList.replace('opacity-100', 'opacity-0'));
+
+                card.addEventListener('touchstart', (e) => {
+                    glow.classList.replace('opacity-0', 'opacity-100');
+                    handleMove(e);
+                }, { passive: true });
+                card.addEventListener('touchmove', (e) => {
+                    handleMove(e);
+                }, { passive: true });
+                card.addEventListener('touchend', () => {
+                    glow.classList.replace('opacity-100', 'opacity-0');
+                });
+            });
+
+            // Scroll interactive video highlighting (fade-to-dark offset effects)
+            const videoCards = document.querySelectorAll('.video-reveal-card');
+            const updateVideoScrollEffects = () => {
+                const viewportHeight = window.innerHeight;
+                videoCards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const cardCenter = rect.top + rect.height / 2;
+                    const viewportCenter = viewportHeight / 2;
+                    
+                    // Distance from center of viewport (normalized by viewport height)
+                    const distance = Math.abs(cardCenter - viewportCenter);
+                    const maxDistance = viewportHeight * 0.6; // fade out boundary
+                    
+                    // Calculate a ratio (0 when centered, 1 when far away)
+                    const ratio = Math.min(1.0, distance / maxDistance);
+                    
+                    // Adjust filters and overlay opacity dynamically (softened so video remains visible)
+                    const brightness = 1.0 - (ratio * 0.3); // 100% brightness at center down to 70% when far
+                    const contrast = 1.0 - (ratio * 0.15);   // 100% contrast at center down to 85% when far
+                    
+                    const video = card.querySelector('video');
+                    if (video) {
+                        video.style.filter = `brightness(${brightness}) contrast(${contrast})`;
+                    }
+                    
+                    const overlay = card.querySelector('.dark-scroll-overlay');
+                    if (overlay) {
+                        // Softened ranges: 0.05 opacity at center, 0.35 max when off-screen
+                        overlay.style.opacity = 0.05 + (ratio * 0.30);
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', () => {
+                window.requestAnimationFrame(updateVideoScrollEffects);
+            }, { passive: true });
+            
+            // Trigger initially and on resize
+            window.addEventListener('resize', updateVideoScrollEffects);
+            setTimeout(updateVideoScrollEffects, 100);
+        });
+    </script>
+</head>
+
+<body
+    class="text-abyssal-navy font-body-md overflow-x-hidden selection:bg-abyssal-navy selection:text-desert-sand relative">
+    <!-- Fixed Background Color (Fixed CSS Stacking Bug) -->
+    <div class="fixed inset-0 -z-20 pointer-events-none"
+        style="background: #0A1128; background: linear-gradient(180deg, rgba(10, 17, 40, 1) 16%, rgba(244, 245, 247, 0.31) 56%, rgba(217, 186, 156, 1) 80%);">
+    </div>
+    <!-- STITCH_CANVAS_START:ANIMATION_31 class="fixed inset-0 w-full h-full -z-10 pointer-events-none" -->
+    <canvas id="loom-canvas" class="fixed inset-0 w-full h-full -z-10 pointer-events-none"></canvas>
+
+    <script>
+        (function () {
+            const canvas = document.getElementById('loom-canvas');
+            const ctx = canvas.getContext('2d');
+
+            let dpr = window.devicePixelRatio || 1;
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+
+
+
+            function resize() {
+                dpr = window.devicePixelRatio || 1;
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            // Define coordinates for cursive "HATCHLOOM"
+            const basePoints = [
+                { x: -4.220, y: 0.750 },
+                { x: -4.220, y: 0.400 },
+                { x: -4.220, y: 0.000 },
+                { x: -4.220, y: -0.400 },
+                { x: -4.220, y: -0.800 },
+                { x: -4.370, y: -0.850 },
+                { x: -4.420, y: -0.600 },
+                { x: -4.470, y: -0.250 },
+                { x: -4.400, y: -0.050 },
+                { x: -4.240, y: 0.000 },
+                { x: -3.970, y: 0.050 },
+                { x: -3.720, y: 0.080 },
+                { x: -3.470, y: 0.100 },
+                { x: -3.440, y: 0.400 },
+                { x: -3.440, y: 0.750 },
+                { x: -3.340, y: 0.750 },
+                { x: -3.280, y: 0.400 },
+                { x: -3.320, y: -0.100 },
+                { x: -3.470, y: -0.800 },
+                { x: -3.320, y: -0.300 },
+                { x: -3.070, y: 0.250 },
+                { x: -2.820, y: 0.750 },
+                { x: -2.720, y: 0.200 },
+                { x: -2.620, y: -0.700 },
+                { x: -2.970, y: -0.200 },
+                { x: -3.170, y: -0.050 },
+                { x: -3.270, y: -0.200 },
+                { x: -3.120, y: -0.300 },
+                { x: -2.720, y: -0.250 },
+                { x: -2.420, y: -0.200 },
+                { x: -2.340, y: 0.650 },
+                { x: -1.970, y: 0.700 },
+                { x: -1.570, y: 0.700 },
+                { x: -1.620, y: 0.750 },
+                { x: -1.820, y: 0.700 },
+                { x: -2.000, y: 0.650 },
+                { x: -2.000, y: 0.300 },
+                { x: -2.000, y: -0.100 },
+                { x: -2.000, y: -0.700 },
+                { x: -2.040, y: -0.800 },
+                { x: -1.920, y: -0.700 },
+                { x: -1.770, y: -0.450 },
+                { x: -1.620, y: -0.100 },
+                { x: -1.520, y: 0.300 },
+                { x: -1.270, y: 0.750 },
+                { x: -1.420, y: 0.700 },
+                { x: -1.570, y: 0.400 },
+                { x: -1.620, y: 0.000 },
+                { x: -1.570, y: -0.400 },
+                { x: -1.370, y: -0.650 },
+                { x: -1.120, y: -0.700 },
+                { x: -0.970, y: -0.400 },
+                { x: -0.770, y: 0.100 },
+                { x: -0.470, y: 0.850 },
+                { x: -0.540, y: 0.750 },
+                { x: -0.540, y: 0.300 },
+                { x: -0.540, y: -0.200 },
+                { x: -0.540, y: -0.700 },
+                { x: -0.540, y: -0.200 },
+                { x: -0.320, y: 0.200 },
+                { x: -0.120, y: 0.300 },
+                { x: 0.080, y: 0.150 },
+                { x: 0.180, y: -0.200 },
+                { x: 0.180, y: -0.700 },
+                { x: 0.330, y: -0.750 },
+                { x: 0.530, y: -0.700 },
+                { x: 0.680, y: -0.200 },
+                { x: 0.830, y: 0.800 },
+                { x: 0.730, y: 0.700 },
+                { x: 0.730, y: 0.200 },
+                { x: 0.730, y: -0.400 },
+                { x: 0.730, y: -0.950 },
+                { x: 0.830, y: -1.050 },
+                { x: 1.030, y: -0.900 },
+                { x: 1.230, y: -0.800 },
+                { x: 1.380, y: -0.800 },
+                { x: 1.730, y: 0.700 },
+                { x: 1.580, y: 0.650 },
+                { x: 1.480, y: 0.200 },
+                { x: 1.480, y: -0.400 },
+                { x: 1.480, y: -0.700 },
+                { x: 1.530, y: -0.700 },
+                { x: 1.680, y: -0.800 },
+                { x: 1.880, y: -0.600 },
+                { x: 2.000, y: -0.100 },
+                { x: 2.000, y: 0.500 },
+                { x: 1.880, y: 0.550 },
+                { x: 1.780, y: 0.500 },
+                { x: 1.830, y: 0.350 },
+                { x: 2.030, y: 0.350 },
+                { x: 2.230, y: 0.350 },
+                { x: 2.280, y: 0.400 },
+                { x: 2.630, y: 0.700 },
+                { x: 2.480, y: 0.650 },
+                { x: 2.380, y: 0.200 },
+                { x: 2.330, y: -0.400 },
+                { x: 2.380, y: -0.700 },
+                { x: 2.530, y: -0.800 },
+                { x: 2.730, y: -0.600 },
+                { x: 2.830, y: -0.100 },
+                { x: 2.830, y: 0.500 },
+                { x: 2.730, y: 0.550 },
+                { x: 2.630, y: 0.500 },
+                { x: 2.680, y: 0.350 },
+                { x: 2.880, y: 0.350 },
+                { x: 3.030, y: 0.350 },
+                { x: 3.080, y: 0.300 },
+                { x: 3.130, y: 0.750 },
+                { x: 3.230, y: 0.200 },
+                { x: 3.330, y: -0.600 },
+                { x: 3.430, y: 0.100 },
+                { x: 3.530, y: 0.700 },
+                { x: 3.630, y: 0.050 },
+                { x: 3.730, y: -0.600 },
+                { x: 3.830, y: 0.100 },
+                { x: 3.930, y: 0.700 },
+                { x: 4.030, y: 0.050 },
+                { x: 4.130, y: -0.600 },
+                { x: 4.330, y: -0.550 }
+            ];
+
+            // Center alignment offset
+            const minX = Math.min(...basePoints.map(p => p.x));
+            const maxX = Math.max(...basePoints.map(p => p.x));
+            const cx = (minX + maxX) / 2;
+            const cy = 0.1;
+            const spanX = maxX - minX;
+
+            // Centripetal Catmull-Rom interpolation to prevent overshoots and maintain readability
+            function catmullRom(p0, p1, p2, p3, t) {
+                const alpha = 0.5; // Centripetal
+
+                function getT(tPrev, pt0, pt1) {
+                    const dx = pt1.x - pt0.x;
+                    const dy = pt1.y - pt0.y;
+                    return tPrev + Math.pow(dx * dx + dy * dy, alpha * 0.5);
+                }
+
+                const t0 = 0;
+                const t1 = getT(t0, p0, p1);
+                const t2 = getT(t1, p1, p2);
+                const t3 = getT(t2, p2, p3);
+
+                if (Math.abs(t1 - t0) < 0.0001 || Math.abs(t2 - t1) < 0.0001 || Math.abs(t3 - t2) < 0.0001) {
+                    return {
+                        x: p1.x + (p2.x - p1.x) * t,
+                        y: p1.y + (p2.y - p1.y) * t
+                    };
+                }
+
+                const val = t1 + (t2 - t1) * t;
+
+                const a1x = ((t1 - val) / (t1 - t0)) * p0.x + ((val - t0) / (t1 - t0)) * p1.x;
+                const a1y = ((t1 - val) / (t1 - t0)) * p0.y + ((val - t0) / (t1 - t0)) * p1.y;
+
+                const a2x = ((t2 - val) / (t2 - t1)) * p1.x + ((val - t1) / (t2 - t1)) * p2.x;
+                const a2y = ((t2 - val) / (t2 - t1)) * p1.y + ((val - t1) / (t2 - t1)) * p2.y;
+
+                const a3x = ((t3 - val) / (t3 - t2)) * p2.x + ((val - t2) / (t3 - t2)) * p3.x;
+                const a3y = ((t3 - val) / (t3 - t2)) * p2.y + ((val - t2) / (t3 - t2)) * p3.y;
+
+                const b1x = ((t2 - val) / (t2 - t0)) * a1x + ((val - t0) / (t2 - t0)) * a2x;
+                const b1y = ((t2 - val) / (t2 - t0)) * a1y + ((val - t0) / (t2 - t0)) * a2y;
+
+                const b2x = ((t3 - val) / (t3 - t1)) * a2x + ((val - t1) / (t3 - t1)) * a3x;
+                const b2y = ((t3 - val) / (t3 - t1)) * a2y + ((val - t1) / (t3 - t1)) * a3y;
+
+                const cx = ((t2 - val) / (t2 - t1)) * b1x + ((val - t1) / (t2 - t1)) * b2x;
+                const cy = ((t2 - val) / (t2 - t1)) * b1y + ((val - t1) / (t2 - t1)) * b2y;
+
+                return { x: cx, y: cy };
+            }
+
+            // Generate dense, smooth path points
+            const pathPoints = [];
+            const padded = [basePoints[0], ...basePoints, basePoints[basePoints.length - 1]];
+            for (let i = 1; i < padded.length - 2; i++) {
+                const p0 = padded[i - 1];
+                const p1 = padded[i];
+                const p2 = padded[i + 1];
+                const p3 = padded[i + 2];
+
+                const steps = 30;
+                for (let j = 0; j < steps; j++) {
+                    pathPoints.push(catmullRom(p0, p1, p2, p3, j / steps));
+                }
+            }
+            pathPoints.push(basePoints[basePoints.length - 1]);
+
+            function getScreenCoords(p) {
+                const logoW = Math.min(width * 0.6, 600);
+                const scale = logoW / spanX;
+                return {
+                    x: (width / 2 + (p.x - cx) * scale) * dpr,
+                    y: (height / 2 - (p.y - cy) * scale) * dpr
+                };
+            }
+
+            let scrollProgress = 0;
+            let targetScrollProgress = 0;
+
+            const handleScroll = () => {
+                if (window.innerWidth < 768) {
+                    return; // Bypass scroll updates for warp calculations on mobile
+                }
+                const h = document.documentElement;
+                const b = document.body;
+                const total = (h.scrollHeight || b.scrollHeight) - h.clientHeight;
+                if (total > 0) {
+                    const rawProgress = (h.scrollTop || b.scrollTop) / total;
+                    // Manifest fully when scrolled 40% of the page (well before contacts covers it)
+                    targetScrollProgress = Math.min(1.0, rawProgress / 0.40);
+                } else {
+                    targetScrollProgress = 0;
+                }
+            };
+            window.addEventListener('scroll', handleScroll, { passive: true });
+
+            // Warp strings (vertical guide lines)
+            const warpCount = 30;
+            const warpStrings = [];
+            for (let i = 0; i < warpCount; i++) {
+                warpStrings.push({
+                    xPercent: i / (warpCount - 1),
+                    tension: 0,
+                    velocity: 0
+                });
+            }
+
+            let animating = false;
+            function startAnim() {
+                if (!animating && window.innerWidth >= 768) {
+                    animating = true;
+                    requestAnimationFrame(draw);
+                }
+            }
+            window.addEventListener('resize', () => {
+                resize();
+                startAnim();
+            });
+
+            function draw() {
+                if (window.innerWidth < 768) {
+                    canvas.style.display = 'none';
+                    animating = false;
+                    return; // Sleep entirely on mobile
+                }
+                canvas.style.display = 'block';
+
+                // Draw background solid color and gradient on canvas to blend multiply layers correctly
+                ctx.fillStyle = '#0A1128';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                grad.addColorStop(0.16, 'rgba(10, 17, 40, 1)');
+                grad.addColorStop(0.56, 'rgba(244, 245, 247, 0.31)');
+                grad.addColorStop(0.80, 'rgba(217, 186, 156, 1)');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Smooth scroll easing
+                scrollProgress += (targetScrollProgress - scrollProgress) * 0.15;
+
+                // 1. Draw Warp Strings
+                ctx.lineWidth = 1 * dpr;
+                for (let i = 0; i < warpCount; i++) {
+                    const s = warpStrings[i];
+                    const xBase = s.xPercent * width * dpr;
+
+                    s.tension += (0 - s.tension) * 0.1;
+                    s.velocity += s.tension * 0.05;
+                    s.velocity *= 0.85;
+                    s.tension += s.velocity;
+
+                    ctx.strokeStyle = 'rgba(10, 17, 40, 0.05)';
+                    ctx.beginPath();
+                    ctx.moveTo(xBase, 0);
+                    if (Math.abs(s.tension) > 0.01) {
+                        ctx.quadraticCurveTo(xBase + s.tension * 40 * dpr, (height * dpr) / 2, xBase, height * dpr);
+                    } else {
+                        ctx.lineTo(xBase, height * dpr);
+                    }
+                    ctx.stroke();
+                }
+
+
+
+                // 3. Draw Weft line and Thread
+                const totalPoints = pathPoints.length;
+                const currentIndex = Math.min(totalPoints - 1, Math.floor(scrollProgress * totalPoints));
+                const currentPoint = pathPoints[currentIndex] ? getScreenCoords(pathPoints[currentIndex]) : null;
+
+                if (currentPoint) {
+                    // Draw horizontal weft guide line
+                    ctx.strokeStyle = 'rgba(10, 17, 40, 0.03)';
+                    ctx.lineWidth = 1 * dpr;
+                    ctx.beginPath();
+                    ctx.moveTo(0, currentPoint.y);
+                    ctx.lineTo(width * dpr, currentPoint.y);
+                    ctx.stroke();
+
+                    // 3. Draw the woven thread (Dark & Realistic)
+                    if (currentIndex >= 1 && pathPoints[0]) {
+                        ctx.lineCap = 'round';
+                        ctx.lineJoin = 'round';
+
+                        // Drop Shadow for 3D realism
+                        ctx.shadowColor = 'rgba(10, 17, 40, 0.25)';
+                        ctx.shadowBlur = 4 * dpr;
+                        ctx.shadowOffsetX = 1.5 * dpr;
+                        ctx.shadowOffsetY = 2.5 * dpr;
+
+                        // Base navy strand (dark and clear)
+                        ctx.strokeStyle = '#0A1128';
+                        ctx.lineWidth = 3.5 * dpr;
+                        ctx.beginPath();
+                        let first = getScreenCoords(pathPoints[0]);
+                        ctx.moveTo(first.x, first.y);
+                        for (let i = 1; i <= currentIndex; i++) {
+                            if (pathPoints[i]) {
+                                const pt = getScreenCoords(pathPoints[i]);
+                                ctx.lineTo(pt.x, pt.y);
+                            }
+                        }
+                        ctx.stroke();
+
+                        // Clear shadow for gold/beige overlay
+                        ctx.shadowColor = 'transparent';
+                        ctx.shadowBlur = 0;
+                        ctx.shadowOffsetX = 0;
+                        ctx.shadowOffsetY = 0;
+
+                        // Gold/beige twist overlay
+                        ctx.strokeStyle = '#D1B49D';
+                        ctx.lineWidth = 1.2 * dpr;
+                        ctx.setLineDash([5 * dpr, 7 * dpr]);
+                        ctx.beginPath();
+                        ctx.moveTo(first.x, first.y);
+                        for (let i = 1; i <= currentIndex; i++) {
+                            if (pathPoints[i]) {
+                                const pt = getScreenCoords(pathPoints[i]);
+                                ctx.lineTo(pt.x, pt.y);
+                            }
+                        }
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+
+                    // 4. Draw Shuttle
+                    let angle = 0;
+                    if (currentIndex > 0 && pathPoints[currentIndex - 1]) {
+                        const prevPt = getScreenCoords(pathPoints[currentIndex - 1]);
+                        const dx = currentPoint.x - prevPt.x;
+                        const dy = currentPoint.y - prevPt.y;
+                        angle = Math.atan2(dy, dx);
+
+                        // Pluck the nearest warp strings
+                        const currentXPercent = currentPoint.x / (width * dpr);
+                        for (let i = 0; i < warpCount; i++) {
+                            const s = warpStrings[i];
+                            if (Math.abs(s.xPercent - currentXPercent) < 0.03) {
+                                s.tension += Math.sign(dx) * 0.15;
+                            }
+                        }
+                    }
+
+                    ctx.save();
+                    ctx.translate(currentPoint.x, currentPoint.y);
+                    ctx.rotate(angle);
+
+                    ctx.shadowColor = 'rgba(10, 17, 40, 0.3)';
+                    ctx.shadowBlur = 6 * dpr;
+                    ctx.shadowOffsetX = 2 * dpr;
+                    ctx.shadowOffsetY = 4 * dpr;
+
+                    // Canoe-shaped wood shuttle
+                    ctx.fillStyle = '#D1B49D';
+                    ctx.strokeStyle = '#0A1128';
+                    ctx.lineWidth = 1.5 * dpr;
+                    ctx.beginPath();
+                    const sWidth = 24 * dpr;
+                    const sHeight = 8 * dpr;
+                    ctx.moveTo(-sWidth / 2, 0);
+                    ctx.quadraticCurveTo(0, -sHeight, sWidth / 2, 0);
+                    ctx.quadraticCurveTo(0, sHeight, -sWidth / 2, 0);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Center spool
+                    ctx.shadowColor = 'transparent';
+                    ctx.shadowBlur = 0;
+                    ctx.shadowOffsetX = 0;
+                    ctx.shadowOffsetY = 0;
+
+                    ctx.fillStyle = '#0A1128';
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, 8 * dpr, 3 * dpr, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Shuttle tips
+                    ctx.fillStyle = '#F4F5F7';
+                    ctx.beginPath();
+                    ctx.arc(sWidth / 2 - 2 * dpr, 0, 1.5 * dpr, 0, Math.PI * 2);
+                    ctx.arc(-sWidth / 2 + 2 * dpr, 0, 1.5 * dpr, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.restore();
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            startAnim();
+        })();
+    </script>
+    <!-- Background Threads -->
+    <div class="fixed inset-0 pointer-events-none z-0 opacity-30 mix-blend-multiply grid-bg animate-weave-x"></div>
+    <!-- TopNavBar -->
+    <nav class="fixed top-4 left-4 right-4 md:top-8 md:left-8 md:right-8 z-50 bg-white/10 backdrop-blur-xl border border-white/20 rounded-none">
+        <div class="flex justify-between items-center h-20 px-4 md:px-8">
+            <div class="flex items-center gap-4 relative z-10">
+                <a href="index.html" class="font-label-sm text-label-sm uppercase tracking-[0.25em] text-desert-sand hover:text-white transition-all duration-200 font-bold btn-weave">Hatchers</a>
+            </div>
+            <div class="hidden md:flex items-center gap-12 relative z-10">
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="#services">Services</a>
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="#process">Our Process</a>
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="#about">Values</a>
+            </div>
+            <div class="hidden md:flex items-center gap-4 relative z-10">
+                <a href="brief.html"
+                    class="font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 bg-desert-sand text-abyssal-navy hover:bg-white hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-desert-sand/40 active:translate-y-0 active:scale-[0.98] transition-all duration-300 shadow-xl shadow-desert-sand/20 btn-weave-fill inline-block">
+                    <span class="relative z-10">Start a Project</span>
+                </a>
+            </div>
+            <div class="flex md:hidden items-center justify-center">
+                <button id="mobile-menu-trigger" class="text-desert-sand focus:outline-none p-2 min-h-[48px] min-w-[48px] flex items-center justify-center">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu Drawer Dropdown -->
+        <div id="mobile-menu-drawer" class="absolute top-full left-0 w-full bg-abyssal-navy/95 backdrop-blur-xl border-b border-desert-sand/20 flex flex-col p-6 space-y-4 hidden opacity-0 transition-all duration-300 pointer-events-none">
+            <a class="font-headline-md text-xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="#services">Services</a>
+            <a class="font-headline-md text-xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="#process">Our Process</a>
+            <a class="font-headline-md text-xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="#about">Values</a>
+            <a class="font-label-sm text-sm uppercase tracking-widest px-8 py-4 bg-desert-sand text-abyssal-navy hover:bg-white transition-all duration-200 btn-weave-fill text-center min-h-[48px] flex items-center justify-center" href="brief.html">
+                <span class="relative z-10">Start a Project</span>
+            </a>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const trigger = document.getElementById('mobile-menu-trigger');
+                const drawer = document.getElementById('mobile-menu-drawer');
+                
+                if (trigger && drawer) {
+                    const toggleDrawer = () => {
+                        if (drawer.classList.contains('hidden')) {
+                            drawer.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+                            drawer.classList.add('opacity-100', 'pointer-events-auto');
+                            trigger.innerHTML = '<span class="material-symbols-outlined text-2xl">close</span>';
+                        } else {
+                            drawer.classList.remove('opacity-100', 'pointer-events-auto');
+                            drawer.classList.add('opacity-0', 'pointer-events-none');
+                            setTimeout(() => {
+                                if (drawer.classList.contains('opacity-0')) {
+                                    drawer.classList.add('hidden');
+                                }
+                            }, 300);
+                            trigger.innerHTML = '<span class="material-symbols-outlined text-2xl">menu</span>';
+                        }
+                    };
+                    
+                    trigger.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleDrawer();
+                    });
+                    
+                    drawer.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', () => {
+                            drawer.classList.remove('opacity-100', 'pointer-events-auto');
+                            drawer.classList.add('opacity-0', 'pointer-events-none');
+                            setTimeout(() => {
+                                if (drawer.classList.contains('opacity-0')) {
+                                    drawer.classList.add('hidden');
+                                }
+                            }, 300);
+                            trigger.innerHTML = '<span class="material-symbols-outlined text-2xl">menu</span>';
+                        });
+                    });
+
+                    document.addEventListener('click', (e) => {
+                        if (!drawer.classList.contains('hidden') && !drawer.contains(e.target) && !trigger.contains(e.target)) {
+                            drawer.classList.remove('opacity-100', 'pointer-events-auto');
+                            drawer.classList.add('opacity-0', 'pointer-events-none');
+                            setTimeout(() => {
+                                if (drawer.classList.contains('opacity-0')) {
+                                    drawer.classList.add('hidden');
+                                }
+                            }, 300);
+                            trigger.innerHTML = '<span class="material-symbols-outlined text-2xl">menu</span>';
+                        }
+                    });
+                }
+            });
+        </script>
+    </nav>
+    <main>
+        <!-- Hero Section -->
+        <section
+            class="relative min-h-screen pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden flex items-center animate-on-scroll">
+            <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent pointer-events-none"></div>
+            <!-- Thread lines -->
+            <div class="thread-h top-1/4"></div>
+            <div class="thread-h top-2/3"></div>
+            <div class="thread-v left-1/3"></div>
+            <div class="thread-v left-2/3"></div>
+            <div class="relative z-10 w-full grid grid-cols-1 md:grid-cols-12 gap-0">
+                <div
+                    class="md:col-span-8 md:col-start-1 flex flex-col justify-center px-6 md:px-8 md:pl-24 relative z-20 md:pr-0">
+                    <!-- Brand Logo (Suits environment using light theme contrast filters) -->
+                    <img alt="Hatchloom Logo"
+                        class="hero-logo object-contain self-start opacity-95 select-none pointer-events-none"
+                        style="filter: url(#remove-white) invert(1) brightness(0.95);"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHVT0oh2_2IHEHvRf3fYo3mEeD_iwGyafB60kXNghg6dZ3A6w3pP-Hq6uVEe-2JMTZe9GcaRF25KlkZ9kD2GmuKkVgI1FM792PIlnzLCGi-LSzlSiLANCLblXk7eYW8CDgw-ZE3es0jQWLuZornWA0bunjavI1bhaeK6BGdYPfG5XXdlFcf-AiDTJZm0uYFbiaDvJWFMyGsg7TxbBzyaGoIHBcBs3GaO_JfKDy9lLYsRezjOZmoRZB0YyexOvVUAVoJa1Cgg9-GR4" />
+                    <div
+                        class="inline-block px-4 py-1.5 border-l-4 border-desert-sand mb-8 bg-white/5 backdrop-blur-sm self-start">
+                        <span class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand">Digital
+                            Innovation Agency</span>
+                    </div>
+                    <h1
+                        class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-display text-white mb-8 leading-[1.0] tracking-tight kinetic-reveal">
+                        Weaving Your Vision Into <br /><span
+                            class="block ml-8 md:ml-24 text-desert-sand font-serif italic font-normal tracking-wide mt-2"
+                            style="font-family: 'Playfair Display', serif;">Digital Success</span>
+                    </h1>
+                </div>
+                <div
+                    class="md:col-span-6 md:col-start-7 bg-abyssal-navy/90 text-desert-sand flex flex-col justify-center px-6 md:px-20 py-16 md:py-20 relative z-10 md:-ml-32 mt-12 md:mt-32 md:mb-32 shadow-2xl border border-desert-sand/20 backdrop-blur-md">
+                    <div
+                        class="absolute -left-12 -top-12 w-24 h-24 border border-desert-sand/20 rounded-full animate-spin-slow pointer-events-none hidden md:block">
+                    </div>
+                    <div class="font-body-lg max-w-lg mb-12 relative z-10">
+                        <span class="text-white text-xl md:text-2xl font-bold leading-snug tracking-wide block mb-6">
+                            We engineer clean, lightning-fast digital systems designed to turn casual traffic into paying customers.
+                        </span>
+                        <span class="text-desert-sand/80 text-sm md:text-base leading-loose tracking-widest block font-semibold uppercase">
+                            No bloated code. No generic fluff. <br class="hidden sm:inline" />Direct, functional, and built to scale.
+                        </span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-6 relative z-10">
+                        <a href="brief.html"
+                            class="font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 bg-desert-sand text-abyssal-navy hover:bg-white hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-desert-sand/40 active:translate-y-0 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 group btn-weave-fill inline-flex shadow-xl shadow-desert-sand/20">
+                            <span class="relative z-10 flex items-center gap-2">Start a Project
+                                <span
+                                    class="material-symbols-outlined group-hover:translate-x-1.5 transition-transform duration-200">arrow_forward</span></span>
+                        </a>
+                        <a href="#process"
+                            class="font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 border border-desert-sand/30 text-desert-sand hover:bg-desert-sand/10 hover:-translate-y-0.5 hover:border-desert-sand/60 active:translate-y-0 active:scale-[0.98] transition-all duration-300 btn-weave-fill inline-flex items-center justify-center">
+                            <span class="relative z-10">Our process</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Brand Logos Marquee Section -->
+        <section class="py-10 overflow-hidden relative z-20">
+            <div class="max-w-[1280px] mx-auto px-6 md:px-24 mb-6">
+                <h3 class="text-center font-label-sm text-label-sm uppercase tracking-[0.3em] text-[#D1B49D]/60 select-none">
+                    Looms we have hatched
+                </h3>
+            </div>
+            <div class="w-full overflow-hidden py-3" style="mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);">
+                <div class="flex w-max animate-marquee">
+                    <!-- Group 1 (3 repeats of the 4 logos) -->
+                    <img src="logos/irel.png" alt="Irel" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/zero_degree.png" alt="Zero Degree" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/afterlife.png" alt="Afterlife Studios" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/ca.png" alt="CA" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    
+                    <img src="logos/irel.png" alt="Irel" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/zero_degree.png" alt="Zero Degree" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/afterlife.png" alt="Afterlife Studios" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/ca.png" alt="CA" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    
+                    <img src="logos/irel.png" alt="Irel" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/zero_degree.png" alt="Zero Degree" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/afterlife.png" alt="Afterlife Studios" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/ca.png" alt="CA" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+
+                    <!-- Group 2 (Duplicate for seamless loop - 3 repeats of the 4 logos) -->
+                    <img src="logos/irel.png" alt="Irel" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/zero_degree.png" alt="Zero Degree" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/afterlife.png" alt="Afterlife Studios" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/ca.png" alt="CA" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    
+                    <img src="logos/irel.png" alt="Irel" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/zero_degree.png" alt="Zero Degree" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/afterlife.png" alt="Afterlife Studios" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/ca.png" alt="CA" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    
+                    <img src="logos/irel.png" alt="Irel" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/zero_degree.png" alt="Zero Degree" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/afterlife.png" alt="Afterlife Studios" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                    <img src="logos/ca.png" alt="CA" class="h-9 md:h-11 object-contain opacity-55 hover:opacity-100 transition-opacity duration-300 select-none pointer-events-none mr-24" />
+                </div>
+            </div>
+        </section>
+        <!-- Services Section (Warp & Weft Overlap) -->
+        <section class="py-16 md:py-24 relative animate-on-scroll overflow-hidden" id="services">
+            <div class="thread-h top-0"></div>
+            <div class="thread-v right-1/4"></div>
+            <div class="mb-12 md:mb-16 flex flex-col gap-4 px-6 md:px-24">
+                <span
+                    class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy block opacity-80 border-b border-abyssal-navy/20 pb-4 max-w-sm">Capabilities</span>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-8">
+                    <h2
+                        class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-abyssal-navy max-w-3xl leading-none kinetic-reveal">
+                        Architecting Digital Experiences</h2>
+                    <button
+                        class="font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 border border-abyssal-navy/40 text-abyssal-navy hover:bg-abyssal-navy hover:text-desert-sand transition-colors duration-200 whitespace-nowrap self-start md:self-auto btn-weave-fill">
+                        <span class="relative z-10">View All Services</span>
+                    </button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-0 relative px-6 md:px-12">
+                <!-- Graphic Design -->
+                <div
+                    class="md:col-span-6 md:col-start-2 bg-white/60 backdrop-blur-md border border-abyssal-navy/20 p-6 md:p-16 flex flex-col justify-between group hover:bg-white/90 transition-all duration-300 z-20 shadow-xl relative -rotate-1 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card">
+                    <div>
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span
+                                class="font-label-sm text-label-sm uppercase text-abyssal-navy border border-abyssal-navy/20 px-3 py-1 rounded-none">Identity</span>
+                            <span
+                                class="font-label-sm text-label-sm uppercase text-abyssal-navy border border-abyssal-navy/20 px-3 py-1 rounded-none">Packaging</span>
+                            <span
+                                class="font-label-sm text-label-sm uppercase text-abyssal-navy border border-abyssal-navy/20 px-3 py-1 rounded-none">UI/UX</span>
+                        </div>
+                        <h3
+                            class="font-headline-lg text-headline-md md:text-headline-lg text-abyssal-navy mb-6 group-hover:opacity-80 transition-colors duration-200">
+                            Graphic Designing</h3>
+                        <div class="service-details-wrapper overflow-hidden md:overflow-visible transition-all duration-500 ease-in-out max-h-0 opacity-0 md:max-h-none md:opacity-100">
+                            <p class="font-body-md text-body-lg text-abyssal-navy/80 max-w-md">We bring your brand to life
+                                through striking identity design, custom packaging, and engaging social media creatives. We
+                                craft intuitive website UI/UX to help connect and grow.</p>
+                        </div>
+                        <button class="service-toggle-btn md:hidden text-xs uppercase tracking-widest font-semibold border-b border-current pb-0.5 mt-4 block self-start" data-expanded="false">
+                            [ + Read More Details ]
+                        </button>
+                    </div>
+                    <div class="mt-16 flex justify-between items-center text-abyssal-navy">
+                        <span
+                            class="font-label-sm text-label-sm uppercase tracking-widest border-b border-abyssal-navy pb-1">Learn
+                            More</span>
+                        <span class="material-symbols-outlined text-3xl">arrow_outward</span>
+                    </div>
+                </div>
+                <!-- UGC Video -->
+                <div
+                    class="md:col-span-5 md:col-start-7 bg-abyssal-navy text-desert-sand border border-abyssal-navy p-6 md:p-16 flex flex-col justify-between group hover:bg-abyssal-navy/95 transition-all duration-300 relative z-30 mt-12 md:mt-0 md:-mt-24 md:-ml-12 shadow-2xl rotate-2 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card">
+                    <div class="relative z-10">
+                        <span
+                            class="material-symbols-outlined text-5xl text-desert-sand mb-8 opacity-50 group-hover:opacity-100 transition-opacity duration-200">videocam</span>
+                        <h3
+                            class="font-headline-lg text-headline-md md:text-headline-lg text-desert-sand mb-6 group-hover:opacity-80 transition-colors duration-200">
+                            UGC Video Creation</h3>
+                        <div class="service-details-wrapper overflow-hidden md:overflow-visible transition-all duration-500 ease-in-out max-h-0 opacity-0 md:max-h-none md:opacity-100">
+                            <p class="font-body-md text-body-lg text-desert-sand/80">Elevate your brand with high-impact
+                                content designed to stop the scroll. From viral reels to aesthetic lifestyle videos, we
+                                craft trend-driven formats.</p>
+                        </div>
+                        <button class="service-toggle-btn md:hidden text-xs uppercase tracking-widest font-semibold border-b border-current pb-0.5 mt-4 block self-start" data-expanded="false">
+                            [ + Read More Details ]
+                        </button>
+                    </div>
+                </div>
+                <!-- Web Design -->
+                <div
+                    class="md:col-span-9 md:col-start-3 bg-[#E5D5C6]/40 backdrop-blur-xl border border-abyssal-navy/20 p-6 md:p-16 group hover:bg-[#E5D5C6]/70 transition-all duration-300 flex flex-col md:flex-row items-center gap-12 mt-12 md:-mt-12 z-10 shadow-lg relative -rotate-1 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card">
+                    <div class="md:w-1/2">
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span
+                                class="font-label-sm text-label-sm uppercase text-abyssal-navy bg-abyssal-navy/10 px-3 py-1">High-Performance</span>
+                            <span
+                                class="font-label-sm text-label-sm uppercase text-abyssal-navy bg-abyssal-navy/10 px-3 py-1">Mobile-Optimized</span>
+                        </div>
+                        <h3
+                            class="font-headline-lg text-headline-md md:text-headline-lg text-abyssal-navy mb-6 group-hover:opacity-80 transition-colors duration-200">
+                            Web Design &amp; Development</h3>
+                        <div class="service-details-wrapper overflow-hidden md:overflow-visible transition-all duration-500 ease-in-out max-h-0 opacity-0 md:max-h-none md:opacity-100">
+                            <p class="font-body-md text-body-lg text-abyssal-navy/80">Supercharge your digital presence with
+                                platforms engineered for business growth. We build lightning-fast, responsive sites that
+                                cater perfectly to mobile users, turning traffic into loyal conversions.</p>
+                        </div>
+                        <button class="service-toggle-btn md:hidden text-xs uppercase tracking-widest font-semibold border-b border-current pb-0.5 mt-4 block self-start" data-expanded="false">
+                            [ + Read More Details ]
+                        </button>
+                    </div>
+                    <div
+                        class="md:w-1/2 w-full aspect-video bg-white/20 border border-abyssal-navy/20 flex items-center justify-center relative overflow-hidden mix-blend-luminosity">
+                        <div class="w-3/4 h-3/4 border-2 border-abyssal-navy/40 shadow-2xl relative bg-white/50">
+                            <div
+                                class="absolute top-0 w-full h-6 border-b border-abyssal-navy/40 flex items-center px-3 gap-2 bg-abyssal-navy/10">
+                                <div class="w-2 h-2 rounded-none bg-abyssal-navy/40"></div>
+                                <div class="w-2 h-2 rounded-none bg-abyssal-navy/40"></div>
+                            </div>
+                            <div class="mt-8 p-6 grid grid-cols-3 gap-4 opacity-40">
+                                <div class="h-4 bg-abyssal-navy col-span-2"></div>
+                                <div class="h-4 bg-abyssal-navy/50"></div>
+                                <div class="h-24 bg-abyssal-navy col-span-3 mt-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Social Media & Digital Marketing -->
+                <div
+                    class="md:col-span-9 md:col-start-2 bg-abyssal-navy text-desert-sand border border-abyssal-navy p-6 md:p-16 flex flex-col justify-between group hover:bg-abyssal-navy/95 transition-all duration-300 relative z-20 mt-12 shadow-2xl rotate-1 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card">
+                    <div>
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span
+                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-desert-sand/20 px-3 py-1 rounded-none">Growth</span>
+                            <span
+                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-desert-sand/20 px-3 py-1 rounded-none">Campaigns</span>
+                            <span
+                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-desert-sand/20 px-3 py-1 rounded-none">Leads</span>
+                        </div>
+                        <h3
+                            class="font-headline-lg text-headline-md md:text-headline-lg text-desert-sand mb-6 group-hover:opacity-80 transition-colors duration-200">
+                            Social Media &amp; Digital Marketing</h3>
+                        <div class="service-details-wrapper overflow-hidden md:overflow-visible transition-all duration-500 ease-in-out max-h-0 opacity-0 md:max-h-none md:opacity-100">
+                            <p class="font-body-md text-body-lg text-desert-sand/80 max-w-4xl leading-relaxed">
+                                Accelerate business growth with data-driven Social Media &amp; Digital Marketing. We expand
+                                your reach, spark high engagement, and convert digital attention into qualified leads that
+                                scale your brand.
+                            </p>
+                        </div>
+                        <button class="service-toggle-btn md:hidden text-xs uppercase tracking-widest font-semibold border-b border-current pb-0.5 mt-4 block self-start" data-expanded="false">
+                            [ + Read More Details ]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Creative Showcase Section -->
+        <section class="py-16 md:py-24 relative overflow-hidden" id="portfolio">
+            <div class="thread-h top-0"></div>
+            <div class="thread-v left-1/4"></div>
+            <div class="mb-12 md:mb-16 flex flex-col gap-4 px-6 md:px-24">
+                <span class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy block opacity-80 border-b border-abyssal-navy/20 pb-4 max-w-sm">Design Showcase</span>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-8">
+                    <h2 class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-abyssal-navy max-w-3xl leading-none kinetic-reveal">
+                        Our Creative Masterpieces</h2>
+                    <p class="font-body-md text-abyssal-navy/60 max-w-md">Tap to explore.</p>
+                </div>
+            </div>
+
+            <!-- Carousel Wrapper for Mobile & Grid for Desktop -->
+            <div class="px-6 md:px-24 relative">
+                <!-- Mobile Carousel Buttons -->
+                <div class="flex md:hidden justify-end gap-2 mb-4">
+                    <button id="prev-slide" class="w-10 h-10 border border-abyssal-navy/20 flex items-center justify-center hover:bg-abyssal-navy/5 text-abyssal-navy rounded-full min-h-[48px] min-w-[48px]">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    <button id="next-slide" class="w-10 h-10 border border-abyssal-navy/20 flex items-center justify-center hover:bg-abyssal-navy/5 text-abyssal-navy rounded-full min-h-[48px] min-w-[48px]">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                </div>
+
+                <!-- Main Scroll Container -->
+                <div id="portfolio-container" class="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-8 md:pb-0 scrollbar-none">
+                    <!-- JBL Earbuds Card -->
+                    <div class="min-w-[85vw] sm:min-w-[45vw] md:min-w-0 snap-center flex-shrink-0 flex flex-col group cursor-pointer" onclick="openLightbox(0)">
+                        <div class="relative w-full pb-[125%] border border-abyssal-navy/20 bg-white/40 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
+                            <img src="designs/design1.jpg" alt="JBL Earbuds Campaign" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <div class="absolute inset-0 bg-abyssal-navy/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
+                                <span class="font-label-sm text-xs uppercase tracking-widest text-desert-sand/70">Social Ad Campaign</span>
+                                <div class="space-y-4">
+                                    <h4 class="font-headline-md text-xl text-white">JBL 220 TWS Ad</h4>
+                                    <p class="text-xs text-chalk-linen/80 leading-relaxed font-light">High-impact product poster featuring dark neon accents and high contrast branding.</p>
+                                    <span class="inline-flex items-center gap-1 text-xs uppercase tracking-widest font-semibold border-b border-desert-sand pb-0.5">Explore Campaign <span class="material-symbols-outlined text-xs">arrow_forward</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-abyssal-navy mt-4 font-bold">JBL 220 TWS</h4>
+                        <span class="text-xs text-abyssal-navy/60 mt-1">Social Product Ad</span>
+                    </div>
+
+                    <!-- AirPods Card -->
+                    <div class="min-w-[85vw] sm:min-w-[45vw] md:min-w-0 snap-center flex-shrink-0 flex flex-col group cursor-pointer" onclick="openLightbox(1)">
+                        <div class="relative w-full pb-[125%] border border-abyssal-navy/20 bg-white/40 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
+                            <img src="designs/design2.jpg" alt="AirPods Launch Concept" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <div class="absolute inset-0 bg-abyssal-navy/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
+                                <span class="font-label-sm text-xs uppercase tracking-widest text-desert-sand/70">Aesthetic Showcase</span>
+                                <div class="space-y-4">
+                                    <h4 class="font-headline-md text-xl text-white">AirPods New Arrival</h4>
+                                    <p class="text-xs text-chalk-linen/80 leading-relaxed font-light">Luminous glowing green mockup highlighting product form and features.</p>
+                                    <span class="inline-flex items-center gap-1 text-xs uppercase tracking-widest font-semibold border-b border-desert-sand pb-0.5">Explore Campaign <span class="material-symbols-outlined text-xs">arrow_forward</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-abyssal-navy mt-4 font-bold">AirPods Maxima</h4>
+                        <span class="text-xs text-abyssal-navy/60 mt-1">Social & Web Banner</span>
+                    </div>
+
+                    <!-- Mixer Grinder Card -->
+                    <div class="min-w-[85vw] sm:min-w-[45vw] md:min-w-0 snap-center flex-shrink-0 flex flex-col group cursor-pointer" onclick="openLightbox(2)">
+                        <div class="relative w-full pb-[125%] border border-abyssal-navy/20 bg-white/40 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
+                            <img src="designs/design3.jpg" alt="750 Watt Mixer Grinder Ad" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <div class="absolute inset-0 bg-abyssal-navy/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
+                                <span class="font-label-sm text-xs uppercase tracking-widest text-desert-sand/70">Commercial Ad</span>
+                                <div class="space-y-4">
+                                    <h4 class="font-headline-md text-xl text-white">750 Watt Mixer</h4>
+                                    <p class="text-xs text-chalk-linen/80 leading-relaxed font-light">Minimalist background with powerful product placement and high clarity typography.</p>
+                                    <span class="inline-flex items-center gap-1 text-xs uppercase tracking-widest font-semibold border-b border-desert-sand pb-0.5">Explore Campaign <span class="material-symbols-outlined text-xs">arrow_forward</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-abyssal-navy mt-4 font-bold">750W Mixer Grinder</h4>
+                        <span class="text-xs text-abyssal-navy/60 mt-1">E-Commerce Creative</span>
+                    </div>
+
+                    <!-- Skincare Serum Card -->
+                    <div class="min-w-[85vw] sm:min-w-[45vw] md:min-w-0 snap-center flex-shrink-0 flex flex-col group cursor-pointer" onclick="openLightbox(3)">
+                        <div class="relative w-full pb-[125%] border border-abyssal-navy/20 bg-white/40 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
+                            <img src="designs/design4.jpg" alt="Winter Skincare Promotion" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <div class="absolute inset-0 bg-abyssal-navy/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
+                                <span class="font-label-sm text-xs uppercase tracking-widest text-desert-sand/70">Campaign Launch</span>
+                                <div class="space-y-4">
+                                    <h4 class="font-headline-md text-xl text-white">GlowX Niacinamide</h4>
+                                    <p class="text-xs text-chalk-linen/80 leading-relaxed font-light">Organic floral accents and natural palette focusing on botanical ingredient benefits.</p>
+                                    <span class="inline-flex items-center gap-1 text-xs uppercase tracking-widest font-semibold border-b border-desert-sand pb-0.5">Explore Campaign <span class="material-symbols-outlined text-xs">arrow_forward</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-abyssal-navy mt-4 font-bold">Winter Skincare 50% Off</h4>
+                        <span class="text-xs text-abyssal-navy/60 mt-1">Product Launch Poster</span>
+                    </div>
+                </div>
+
+                <!-- Carousel Dots Indicator (Mobile Only) -->
+                <div class="flex md:hidden justify-center gap-2 mt-4" id="carousel-dots">
+                    <span class="w-2 h-2 rounded-full bg-abyssal-navy transition-all duration-300" data-index="0"></span>
+                    <span class="w-2 h-2 rounded-full bg-abyssal-navy/25 transition-all duration-300" data-index="1"></span>
+                    <span class="w-2 h-2 rounded-full bg-abyssal-navy/25 transition-all duration-300" data-index="2"></span>
+                    <span class="w-2 h-2 rounded-full bg-abyssal-navy/25 transition-all duration-300" data-index="3"></span>
+                </div>
+            </div>
+
+            <!-- Motion Graphics Video Showcase Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-6 md:px-24 mt-16 relative z-10">
+                <!-- Motion Card 1 -->
+                <div class="video-reveal-card animate-on-scroll opacity-0 scale-95 translate-y-12 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform bg-abyssal-navy/60 backdrop-blur-md border border-desert-sand/10 relative overflow-hidden group shadow-2xl aspect-video">
+                    <video autoplay loop muted playsinline preload="metadata" class="w-full h-full object-cover">
+                        <source src="videos/motion1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <!-- Dark scroll overlay (driven dynamically by scroll position) -->
+                    <div class="dark-scroll-overlay absolute inset-0 bg-black pointer-events-none transition-opacity duration-150 z-10" style="opacity: 0.35;"></div>
+                    <!-- Subtle dark transparent gradient overlay layer to dim borders -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-abyssal-navy/60 via-transparent to-abyssal-navy/60 pointer-events-none mix-blend-multiply z-10"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-abyssal-navy/60 via-transparent to-abyssal-navy/60 pointer-events-none mix-blend-multiply z-10"></div>
+                    <!-- Hover Commission Widget -->
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-20">
+                        <a href="brief.html" class="pointer-events-auto px-6 py-3 bg-desert-sand text-abyssal-navy font-label-sm text-xs uppercase tracking-widest hover:bg-white transition-all duration-200 shadow-2xl flex items-center gap-2 btn-weave-fill">
+                            <span>Commission Similar Project</span>
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Motion Card 2 -->
+                <div class="video-reveal-card animate-on-scroll opacity-0 scale-95 translate-y-12 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform bg-abyssal-navy/60 backdrop-blur-md border border-desert-sand/10 relative overflow-hidden group shadow-2xl aspect-video">
+                    <video autoplay loop muted playsinline preload="metadata" class="w-full h-full object-cover">
+                        <source src="videos/motion2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <!-- Dark scroll overlay (driven dynamically by scroll position) -->
+                    <div class="dark-scroll-overlay absolute inset-0 bg-black pointer-events-none transition-opacity duration-150 z-10" style="opacity: 0.35;"></div>
+                    <!-- Subtle dark transparent gradient overlay layer to dim borders -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-abyssal-navy/60 via-transparent to-abyssal-navy/60 pointer-events-none mix-blend-multiply z-10"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-abyssal-navy/60 via-transparent to-abyssal-navy/60 pointer-events-none mix-blend-multiply z-10"></div>
+                    <!-- Hover Commission Widget -->
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-20">
+                        <a href="brief.html" class="pointer-events-auto px-6 py-3 bg-desert-sand text-abyssal-navy font-label-sm text-xs uppercase tracking-widest hover:bg-white transition-all duration-200 shadow-2xl flex items-center gap-2 btn-weave-fill">
+                            <span>Commission Similar Project</span>
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section (Flowchart/Weave) -->
+        <section
+            class="py-16 md:py-24 px-6 md:px-24 border-y border-abyssal-navy/20 relative overflow-hidden bg-abyssal-navy/5 animate-on-scroll"
+            id="process">
+            <div class="thread-v left-1/2"></div>
+            <div class="relative z-20">
+                <div class="text-center md:text-left mb-16 md:mb-20 md:w-1/2">
+                    <span
+                        class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy mb-6 block border-b border-abyssal-navy/20 pb-4 inline-block">Our
+                        Methodology</span>
+                    <h2
+                        class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-abyssal-navy leading-none kinetic-reveal">
+                        Weaving Your Vision Into Reality</h2>
+                </div>
+                <div class="relative">
+                    <!-- Flowing Thread Line - Literal Weave -->
+                    <svg class="absolute top-0 left-0 w-full h-full pointer-events-none stroke-abyssal-navy/30"
+                        fill="none" preserveaspectratio="none" viewbox="0 0 1200 800"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 0,100 C 300,100 200,400 600,400 C 1000,400 900,700 1200,700" stroke-dasharray="10 10"
+                            stroke-width="2"></path>
+                        <path d="M 0,200 C 400,200 100,500 600,500 C 1100,500 800,800 1200,800" stroke-width="1"></path>
+                    </svg>
+                    <div class="flex flex-col gap-16 md:gap-0 relative z-10">
+                        <!-- Step 1 -->
+                        <div
+                            class="w-full md:w-5/12 bg-white/80 px-5 py-8 md:p-10 border border-abyssal-navy/20 relative backdrop-blur-md shadow-xl hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 transition-all duration-300 origin-left">
+                            <div
+                                class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-desert-sand border border-abyssal-navy items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45">
+                                <span class="-rotate-45">01</span>
+                            </div>
+                            <div class="flex items-center gap-4 mb-4 md:block">
+                                <div class="md:hidden w-10 h-10 bg-desert-sand border border-abyssal-navy flex items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45 flex-shrink-0 animate-spin-slow">
+                                    <span class="-rotate-45 text-sm font-bold">01</span>
+                                </div>
+                                <h3 class="font-headline-lg text-headline-md text-abyssal-navy">The Briefing</h3>
+                            </div>
+                            <span
+                                class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy block mb-4 md:mb-6 opacity-60">Step
+                                1</span>
+                            <p class="font-body-md text-body-lg text-abyssal-navy/80">You share your goals, brand
+                                assets, and target audience through our quick intake form.</p>
+                        </div>
+                        <!-- Step 2 -->
+                        <div
+                            class="w-full md:w-6/12 bg-abyssal-navy px-5 py-8 md:p-10 border border-desert-sand/20 relative shadow-2xl self-stretch md:self-end md:-mt-24 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 transition-all duration-300 origin-right z-20">
+                            <div
+                                class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-desert-sand border border-abyssal-navy items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45">
+                                <span class="-rotate-45">02</span>
+                            </div>
+                            <div class="flex items-center gap-4 mb-4 md:block">
+                                <div class="md:hidden w-10 h-10 bg-desert-sand border border-abyssal-navy flex items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45 flex-shrink-0 animate-spin-slow">
+                                    <span class="-rotate-45 text-sm font-bold">02</span>
+                                </div>
+                                <h3 class="font-headline-lg text-headline-md text-desert-sand">The Prototype &amp; Strategy</h3>
+                            </div>
+                            <span
+                                class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand block mb-4 md:mb-6 opacity-60">Step
+                                2</span>
+                            <p class="font-body-md text-body-lg text-desert-sand/80">We present the UI wireframes and
+                                Reels concepts for your approval before writing a single line of code or shooting video.
+                            </p>
+                        </div>
+                        <!-- Step 3 -->
+                        <div
+                            class="w-full md:w-5/12 bg-white/80 px-5 py-8 md:p-10 border border-abyssal-navy/20 relative backdrop-blur-md shadow-xl md:-mt-12 md:ml-32 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 transition-all duration-300 origin-left z-10">
+                            <div
+                                class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-desert-sand border border-abyssal-navy items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45">
+                                <span class="-rotate-45">03</span>
+                            </div>
+                            <div class="flex items-center gap-4 mb-4 md:block">
+                                <div class="md:hidden w-10 h-10 bg-desert-sand border border-abyssal-navy flex items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45 flex-shrink-0 animate-spin-slow">
+                                    <span class="-rotate-45 text-sm font-bold">03</span>
+                                </div>
+                                <h3 class="font-headline-lg text-headline-md text-abyssal-navy">Launch &amp; Handover</h3>
+                            </div>
+                            <span
+                                class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy block mb-4 md:mb-6 opacity-60">Step
+                                3</span>
+                            <p class="font-body-md text-body-lg text-abyssal-navy/80">We deploy your live website and
+                                deliver your edited Reels ready to publish, along with complete asset access.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer / About Section -->
+    <section
+        class="pt-16 pb-48 md:pt-24 md:pb-80 px-6 md:px-24 border-y border-abyssal-navy/20 animate-on-scroll relative overflow-hidden"
+        id="about">
+        <div class="thread-h top-1/2"></div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-0 relative">
+            <div class="md:col-span-7 md:col-start-1 relative z-20 shadow-2xl">
+                <div class="aspect-[4/3] bg-abyssal-navy border border-abyssal-navy/20 overflow-hidden w-full h-full"
+                    id="threejs-hatch-scene">
+                    <div id="threejs-hatch-container" class="w-full h-full"></div>
+                </div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const container = document.getElementById('threejs-hatch-container');
+                        const width = container.clientWidth || 400;
+                        const height = container.clientHeight || 300;
+                        const scene = new THREE.Scene();
+                        const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+                        camera.position.z = 10;
+
+                        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                        renderer.setSize(width, height);
+                        container.appendChild(renderer.domElement);
+
+                        // Add lighting
+                        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                        scene.add(ambientLight);
+
+                        const pointLight = new THREE.PointLight(0xd1b49d, 2, 50); // Accent Desert Sand
+                        pointLight.position.set(5, 5, 5);
+                        scene.add(pointLight);
+
+                        // Create a grid of moving woven threads
+                        const threadGroup = new THREE.Group();
+                        scene.add(threadGroup);
+
+                        const count = 15;
+                        const lines = [];
+
+                        for (let i = 0; i < count; i++) {
+                            // Horizontal thread
+                            const y = (i / (count - 1) - 0.5) * 6;
+                            const pointsH = [];
+                            for (let j = 0; j <= 20; j++) {
+                                const x = (j / 20 - 0.5) * 8;
+                                pointsH.push(new THREE.Vector3(x, y, 0));
+                            }
+                            const geomH = new THREE.BufferGeometry().setFromPoints(pointsH);
+                            const matH = new THREE.LineBasicMaterial({ color: 0xd1b49d, transparent: true, opacity: 0.3 });
+                            const lineH = new THREE.Line(geomH, matH);
+                            threadGroup.add(lineH);
+                            lines.push({ line: lineH, type: 'H', baseVal: y, phase: i * 0.5 });
+
+                            // Vertical thread
+                            const x = (i / (count - 1) - 0.5) * 8;
+                            const pointsV = [];
+                            for (let j = 0; j <= 20; j++) {
+                                const yV = (j / 20 - 0.5) * 6;
+                                pointsV.push(new THREE.Vector3(x, yV, 0));
+                            }
+                            const geomV = new THREE.BufferGeometry().setFromPoints(pointsV);
+                            const matV = new THREE.LineBasicMaterial({ color: 0xf4f5f7, transparent: true, opacity: 0.2 });
+                            const lineV = new THREE.Line(geomV, matV);
+                            threadGroup.add(lineV);
+                            lines.push({ line: lineV, type: 'V', baseVal: x, phase: i * 0.5 });
+                        }
+
+                        function animate() {
+                            requestAnimationFrame(animate);
+                            if (window.innerWidth < 768) {
+                                return; // Suspend heavy calculations & rendering loop on mobile
+                            }
+                            const time = Date.now() * 0.001;
+
+                            // Weave the lines by distorting them in Z based on sine waves
+                            lines.forEach(item => {
+                                const positions = item.line.geometry.attributes.position.array;
+                                for (let i = 0; i < positions.length; i += 3) {
+                                    const xVal = positions[i];
+                                    const yVal = positions[i + 1];
+                                    if (item.type === 'H') {
+                                        positions[i + 2] = Math.sin(xVal * 2 + time + item.phase) * 0.2;
+                                    } else {
+                                        positions[i + 2] = Math.cos(yVal * 2 + time + item.phase) * 0.2;
+                                    }
+                                }
+                                item.line.geometry.attributes.position.needsUpdate = true;
+                            });
+
+                            threadGroup.rotation.y = Math.sin(time * 0.2) * 0.15;
+                            threadGroup.rotation.x = Math.cos(time * 0.2) * 0.1;
+
+                            renderer.render(scene, camera);
+                        }
+
+                        window.addEventListener('resize', () => {
+                            const w = container.clientWidth || 400;
+                            const h = container.clientHeight || 300;
+                            camera.aspect = w / h;
+                            camera.updateProjectionMatrix();
+                            renderer.setSize(w, h);
+                            if (window.innerWidth < 768) {
+                                renderer.render(scene, camera); // Render a static frame on mobile resize
+                            }
+                        });
+
+                        // Initial render for mobile static frame or animation start
+                        renderer.render(scene, camera);
+                        animate();
+                    });
+                </script>
+            </div>
+            <div
+                class="w-full md:col-span-8 md:col-start-5 bg-white/90 backdrop-blur-xl p-6 md:p-24 border border-abyssal-navy/20 mt-12 md:mt-0 md:-mt-32 md:-ml-16 z-30 shadow-2xl flex flex-col justify-center transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50">
+                <h2
+                    class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-abyssal-navy mb-8 leading-none kinetic-reveal">
+                    Our Values</h2>
+                <p class="font-body-lg text-body-lg text-abyssal-navy/90 mb-16 text-xl">
+                    We don't just pick up projects; we treat your vision as our own. Hatchloom was born to weave raw, powerful ideas into lasting digital success stories. Guided by trust, transparency, and relentless dedication, we align our strategy with your execution to turn your brand's potential into a market powerhouse.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-12">
+                    <div class="border-t-2 border-abyssal-navy pt-6">
+                        <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy mb-4">Our
+                            Vision</h4>
+                        <p class="font-body-md text-body-md text-abyssal-navy/80">The world doesn't need more brands it needs brands with purpose, personality, and presence. Our vision is to create businesses that become movements, inspire conversations, and earn lasting influence by refusing to blend into the ordinary</p>
+                    </div>
+                    <div class="border-t-2 border-abyssal-navy pt-6">
+                        <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy mb-4">Our
+                            Mission</h4>
+                        <p class="font-body-md text-body-md text-abyssal-navy/80">The world doesn't need more brands it needs brands with purpose, personality, and presence. Our vision is to create businesses that become movements, inspire conversations, and earn lasting influence by refusing to blend into the ordinary</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="w-full pt-20 pb-12 bg-abyssal-navy text-desert-sand relative overflow-hidden animate-on-scroll">
+        <div class="absolute inset-0 grid-bg opacity-10 pointer-events-none invert"></div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 px-6 md:px-24 relative z-10">
+            <div class="md:col-span-6 mb-12 md:mb-0">
+                <h2
+                    class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-desert-sand mb-8 leading-none max-w-lg kinetic-reveal">
+                    Let's weave your next success story.</h2>
+                <a class="font-headline-md text-lg sm:text-2xl md:text-headline-lg text-white hover:opacity-80 transition-opacity duration-200 mb-6 inline-block border-b-2 border-desert-sand/30 pb-2 btn-weave"
+                    href="mailto:hatchloom26@gmail.com">hatchloom26@gmail.com</a>
+                <p class="font-body-md text-body-lg text-desert-sand/80 mt-2">India, West Bengal</p>
+            </div>
+            <div class="md:col-span-3 mb-8 md:mb-0">
+                <h4
+                    class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand/60 mb-8 border-b border-desert-sand/20 pb-4">
+                    Navigation</h4>
+                <ul class="space-y-6">
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 btn-weave"
+                            href="#">Home</a></li>
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 btn-weave"
+                            href="#about">About</a></li>
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 btn-weave"
+                            href="#services">Service</a></li>
+                </ul>
+            </div>
+            <div class="md:col-span-3">
+                <h4
+                    class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand/60 mb-8 border-b border-desert-sand/20 pb-4">
+                    Social</h4>
+                <ul class="space-y-6">
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 flex items-center justify-between group btn-weave"
+                            href="https://www.instagram.com/hatchloom.co/" target="_blank" rel="noopener noreferrer">Instagram <span
+                                class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-200">arrow_outward</span></a>
+                    </li>
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 flex items-center justify-between group btn-weave"
+                            href="#">LinkedIn <span
+                                class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-200">arrow_outward</span></a>
+                    </li>
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 flex items-center justify-between group btn-weave"
+                            href="#">Twitter <span
+                                class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-200">arrow_outward</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="px-6 md:px-24 mt-16 pt-8 border-t border-desert-sand/20 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
+            <p class="font-body-md text-body-md text-desert-sand/60">© 2024 Hatchloom Agency. All rights reserved.</p>
+            <div class="flex gap-12">
+                <a class="font-body-md text-body-md text-desert-sand/60 hover:text-white transition-colors duration-300 btn-weave"
+                    href="privacy.html">Privacy Policy</a>
+                <a class="font-body-md text-body-md text-desert-sand/60 hover:text-white transition-colors duration-300 btn-weave"
+                    href="terms.html">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+    <!-- Custom SVG chroma-key filter to remove white background from brand assets -->
+    <svg width="0" height="0" style="position: absolute; pointer-events: none;">
+        <defs>
+            <filter id="remove-white">
+                <feColorMatrix type="matrix" values="
+        1 0 0 0 0
+        0 1 0 0 0
+        0 0 1 0 0
+        -3 -3 -3 9 0
+      " />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Lightbox / Modal Showcase -->
+    <div id="lightbox-modal" class="fixed inset-0 z-[100] bg-abyssal-navy/98 backdrop-blur-2xl flex flex-col md:flex-row hidden opacity-0 transition-all duration-300 pointer-events-none">
+        <button id="lightbox-close" class="absolute top-6 right-6 text-desert-sand hover:text-white p-4 focus:outline-none min-h-[48px] min-w-[48px] flex items-center justify-center z-50">
+            <span class="material-symbols-outlined text-3xl">close</span>
+        </button>
+        <!-- Left Side: Image container -->
+        <div class="w-full md:w-3/5 h-2/3 md:h-full flex items-center justify-center p-8 relative">
+            <img id="lightbox-img" src="" alt="Design Full View" class="max-h-full max-w-full object-contain shadow-2xl border border-desert-sand/20 animate-scale-in" />
+            <button id="lightbox-prev" class="absolute left-4 w-12 h-12 border border-desert-sand/30 flex items-center justify-center hover:bg-desert-sand/15 text-desert-sand rounded-full min-h-[48px] min-w-[48px] z-50">
+                <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <button id="lightbox-next" class="absolute right-4 w-12 h-12 border border-desert-sand/30 flex items-center justify-center hover:bg-desert-sand/15 text-desert-sand rounded-full min-h-[48px] min-w-[48px] z-50">
+                <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+        </div>
+        <!-- Right Side: Details / Insights -->
+        <div class="w-full md:w-2/5 h-1/3 md:h-full bg-abyssal-navy border-t md:border-t-0 md:border-l border-desert-sand/10 p-8 md:p-16 flex flex-col justify-start gap-8 overflow-y-auto">
+            <!-- CTA Button at the top -->
+            <div class="w-full">
+                <a href="brief.html" class="w-full font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 bg-desert-sand text-abyssal-navy hover:bg-white transition-all duration-200 shadow-xl shadow-desert-sand/20 btn-weave-fill inline-flex items-center justify-center gap-2 min-h-[48px]">
+                    <span class="relative z-10 flex items-center gap-2">Commission Similar Design
+                        <span class="material-symbols-outlined text-sm font-bold">arrow_forward</span>
+                    </span>
+                </a>
+            </div>
+            <div class="space-y-8 w-full">
+                <div>
+                    <span id="lightbox-tag" class="font-label-sm text-xs uppercase tracking-[0.2em] text-desert-sand/70 border border-desert-sand/20 px-3 py-1 inline-block mb-4"></span>
+                    <h3 id="lightbox-title" class="font-serif italic text-3xl md:text-4xl text-white font-normal leading-tight" style="font-family: 'Playfair Display', serif;"></h3>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="font-label-sm text-xs uppercase tracking-widest text-desert-sand/60 font-semibold">Campaign Concept</h4>
+                    <p id="lightbox-desc" class="text-sm md:text-base text-chalk-linen/80 font-light leading-relaxed"></p>
+                </div>
+                <div class="space-y-4" id="lightbox-specs-container">
+                    <h4 class="font-label-sm text-xs uppercase tracking-widest text-desert-sand/60 font-semibold">Design Specifications</h4>
+                    <ul class="text-xs text-chalk-linen/70 space-y-2 list-disc pl-4" id="lightbox-specs"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script for Lightbox & Carousel -->
+    <script>
+        (function() {
+            const designData = [
+                {
+                    tag: "Social Ad Campaign",
+                    title: "JBL 220 TWS Earbuds Ad",
+                    desc: "High-impact commercial creative featuring neon orange accents and extreme contrast shading. Engineered specifically for high scroll-stopping potential on Instagram and TikTok feeds.",
+                    specs: [
+                        "Format: 1080x1350px (Instagram Portrait)",
+                        "Color Palette: Cyber Orange, Charcoal Black, Soft Gold",
+                        "Typography: Bold sans-serif heading with clean body alignments",
+                        "Aesthetics: Vibrant neon lighting contrast and 3D shadows"
+                    ],
+                    img: "designs/design1.jpg"
+                },
+                {
+                    tag: "Aesthetic Showcase",
+                    title: "AirPods New Arrival",
+                    desc: "A premium product launch concept using custom glowing neon-green overlays to emphasize clean design, form factor, and state-of-the-art engineering.",
+                    specs: [
+                        "Format: 1080x1350px (Social Feed Ad)",
+                        "Color Palette: Mint Teal, Luminous Green, Matte Black",
+                        "Typography: Geometric sans-serif large overlay tracking",
+                        "Aesthetics: Glossy refraction highlights, subtle particles"
+                    ],
+                    img: "designs/design2.jpg"
+                },
+                {
+                    tag: "Commercial Ad",
+                    title: "750W Mixer Grinder Ad",
+                    desc: "Clean, high-end appliance marketing banner utilizing sky blue gradients and minimalist layout structures to emphasize high build quality, wattage power, and speed performance.",
+                    specs: [
+                        "Format: 1080x1350px (Product Banner)",
+                        "Color Palette: Sky Blue, Powder White, Steel Teal",
+                        "Typography: Heavy geometric numbers, thin modern body text",
+                        "Aesthetics: Radial speed rings, drop shadows, clean borders"
+                    ],
+                    img: "designs/design3.jpg"
+                },
+                {
+                    tag: "Campaign Launch",
+                    title: "GlowX Skincare Campaign",
+                    desc: "Organic botanical creative emphasizing the Niacinamide Serum launch. Uses soft earth-tone backdrops, floating leaf elements, and premium floral accents to build consumer trust in natural ingredients.",
+                    specs: [
+                        "Format: 1080x1350px (Brand Launch)",
+                        "Color Palette: Forest Green, Earthy Brown, Soft Cream",
+                        "Typography: Slanted sans-serif title with clean product labels",
+                        "Aesthetics: Floating foliage, drop shadow realism, natural texture"
+                    ],
+                    img: "designs/design4.jpg"
+                }
+            ];
+
+            let currentLightboxIndex = 0;
+            const modal = document.getElementById('lightbox-modal');
+            const modalImg = document.getElementById('lightbox-img');
+            const modalTag = document.getElementById('lightbox-tag');
+            const modalTitle = document.getElementById('lightbox-title');
+            const modalDesc = document.getElementById('lightbox-desc');
+            const modalSpecs = document.getElementById('lightbox-specs');
+            const closeBtn = document.getElementById('lightbox-close');
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
+
+            window.openLightbox = function(index) {
+                currentLightboxIndex = index;
+                updateLightboxContent();
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modal.classList.add('opacity-100', 'pointer-events-auto');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeLightbox = () => {
+                modal.classList.remove('opacity-100', 'pointer-events-auto');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = '';
+            };
+
+            const updateLightboxContent = () => {
+                const data = designData[currentLightboxIndex];
+                if (!data) return;
+                modalImg.src = data.img;
+                modalTag.textContent = data.tag;
+                modalTitle.textContent = data.title;
+                modalDesc.textContent = data.desc;
+                modalSpecs.innerHTML = '';
+                data.specs.forEach(s => {
+                    const li = document.createElement('li');
+                    li.textContent = s;
+                    modalSpecs.appendChild(li);
+                });
+            };
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeLightbox);
+            }
+            if (prevBtn) {
+                prevBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    currentLightboxIndex = (currentLightboxIndex - 1 + designData.length) % designData.length;
+                    updateLightboxContent();
+                });
+            }
+            if (nextBtn) {
+                nextBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    currentLightboxIndex = (currentLightboxIndex + 1) % designData.length;
+                    updateLightboxContent();
+                });
+            }
+
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal || e.target.id === 'lightbox-modal') {
+                        closeLightbox();
+                    }
+                });
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (modal && !modal.classList.contains('hidden')) {
+                    if (e.key === 'Escape') closeLightbox();
+                    if (e.key === 'ArrowRight') {
+                        currentLightboxIndex = (currentLightboxIndex + 1) % designData.length;
+                        updateLightboxContent();
+                    }
+                    if (e.key === 'ArrowLeft') {
+                        currentLightboxIndex = (currentLightboxIndex - 1 + designData.length) % designData.length;
+                        updateLightboxContent();
+                    }
+                }
+            });
+
+            // Mobile Swipe Carousel
+            const container = document.getElementById('portfolio-container');
+            const dots = document.querySelectorAll('#carousel-dots span');
+            const prevSlide = document.getElementById('prev-slide');
+            const nextSlide = document.getElementById('next-slide');
+
+            if (container && dots.length > 0) {
+                const updateDots = () => {
+                    const scrollPos = container.scrollLeft;
+                    const card = container.querySelector('.snap-center');
+                    if (!card) return;
+                    const cardWidth = card.clientWidth + 24;
+                    const idx = Math.round(scrollPos / cardWidth);
+                    dots.forEach((dot, i) => {
+                        if (i === idx) {
+                            dot.classList.add('bg-abyssal-navy');
+                            dot.classList.remove('bg-abyssal-navy/25');
+                        } else {
+                            dot.classList.remove('bg-abyssal-navy');
+                            dot.classList.add('bg-abyssal-navy/25');
+                        }
+                    });
+                };
+                container.addEventListener('scroll', updateDots);
+
+                if (prevSlide && nextSlide) {
+                    prevSlide.addEventListener('click', () => {
+                        const card = container.querySelector('.snap-center');
+                        if (!card) return;
+                        const cardWidth = card.clientWidth + 24;
+                        container.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+                    });
+                    nextSlide.addEventListener('click', () => {
+                        const card = container.querySelector('.snap-center');
+                        if (!card) return;
+                        const cardWidth = card.clientWidth + 24;
+                        container.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                    });
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>

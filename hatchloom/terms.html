@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html class="dark scroll-smooth overflow-x-hidden" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Terms of Service - Hatchloom Agency</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=Playfair+Display:ital,wght@0,600;1,400;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#c6c6ce",
+                        "on-primary-fixed": "#141a32",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#2a2a2c",
+                        "tertiary-fixed-dim": "#dfc1aa",
+                        "surface": "#131315",
+                        "secondary-fixed-dim": "#c5c6c8",
+                        "on-tertiary-fixed": "#281809",
+                        "tertiary-container": "#1e0f03",
+                        "on-primary-container": "#767c99",
+                        "on-tertiary-container": "#927964",
+                        "secondary": "#c5c6c8",
+                        "inverse-on-surface": "#303032",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e4",
+                        "error": "#ffb4ab",
+                        "outline": "#909098",
+                        "on-error": "#690005",
+                        "outline-variant": "#46464d",
+                        "secondary-container": "#444749",
+                        "surface-container": "#1f1f21",
+                        "on-primary": "#292f48",
+                        "background": "#131315",
+                        "on-tertiary": "#3f2d1c",
+                        "on-secondary-container": "#b4b5b7",
+                        "tertiary": "#dfc1aa",
+                        "on-secondary-fixed": "#191c1e",
+                        "inverse-surface": "#e5e2e4",
+                        "tertiary-fixed": "#fcddc4",
+                        "surface-dim": "#131315",
+                        "on-surface": "#e5e2e4",
+                        "surface-variant": "#353436",
+                        "surface-bright": "#39393b",
+                        "abyssal-navy": "#0A1128",
+                        "on-secondary-fixed-variant": "#444749",
+                        "primary-fixed": "#dce1ff",
+                        "on-tertiary-fixed-variant": "#574331",
+                        "primary": "#bfc5e4",
+                        "surface-tint": "#bfc5e4",
+                        "secondary-fixed": "#e1e2e4",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-primary-fixed-variant": "#3f465f",
+                        "chalk-linen": "#F4F5F7",
+                        "inverse-primary": "#575d78",
+                        "surface-container-low": "#1b1b1d",
+                        "desert-sand": "#D1B49D",
+                        "primary-fixed-dim": "#bfc5e4",
+                        "on-secondary": "#2e3132",
+                        "surface-container-highest": "#353436",
+                        "primary-container": "#0a1128"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "32px",
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-display": ["Hanken Grotesk"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["20px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-display": ["80px", { "lineHeight": "1.0", "letterSpacing": "-0.03em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .grid-bg {
+            background-size: 80px 80px;
+            background-image:
+                linear-gradient(to right, rgba(10, 17, 40, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(10, 17, 40, 0.08) 1px, transparent 1px);
+        }
+
+        .thread-h {
+            position: absolute;
+            height: 1px;
+            background: rgba(209, 180, 157, 0.15);
+            width: 200vw;
+            left: -50vw;
+            z-index: 0;
+        }
+
+        .thread-v {
+            position: absolute;
+            width: 1px;
+            background: rgba(209, 180, 157, 0.15);
+            height: 200vh;
+            top: -50vh;
+            z-index: 0;
+        }
+
+        .btn-weave {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-weave::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.2s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+
+        .btn-weave:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-weave-fill {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-weave-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.2s cubic-bezier(0.86, 0, 0.07, 1);
+            z-index: 1;
+        }
+
+        .btn-weave-fill:hover::before {
+            left: 0;
+        }
+        /* Active touch micro-interactions for mobile */
+        @media (max-width: 767px) {
+            button, a, .service-card, .budget-card {
+                transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s, border-color 0.2s;
+            }
+            button:active, a:active, .service-card:active, .budget-card:active {
+                transform: scale(0.96) !important;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const noiseCanvas = document.createElement('canvas');
+            noiseCanvas.width = 128;
+            noiseCanvas.height = 128;
+            const noiseCtx = noiseCanvas.getContext('2d');
+            const noiseImgData = noiseCtx.createImageData(128, 128);
+            const buffer = new Uint32Array(noiseImgData.data.buffer);
+            for (let i = 0; i < buffer.length; i++) {
+                const noise = (Math.random() * 255) | 0;
+                buffer[i] = (15 << 24) | (noise << 16) | (noise << 8) | noise;
+            }
+            noiseCtx.putImageData(noiseImgData, 0, 0);
+
+            const grainDiv = document.createElement('div');
+            grainDiv.className = 'fixed inset-0 pointer-events-none mix-blend-multiply opacity-[0.35]';
+            grainDiv.style.zIndex = '-5';
+            grainDiv.style.backgroundImage = `url(${noiseCanvas.toDataURL()})`;
+            grainDiv.style.backgroundRepeat = 'repeat';
+            document.body.appendChild(grainDiv);
+        });
+    </script>
+</head>
+
+<body
+    class="text-chalk-linen font-body-md overflow-x-hidden selection:bg-desert-sand selection:text-abyssal-navy relative min-h-screen flex flex-col justify-between">
+    
+    <!-- Fixed Background Color Matching Landing Page -->
+    <div class="fixed inset-0 -z-20 pointer-events-none"
+        style="background: #0A1128; background: linear-gradient(180deg, rgba(10, 17, 40, 1) 16%, rgba(244, 245, 247, 0.31) 56%, rgba(217, 186, 156, 1) 80%);">
+    </div>
+
+    <!-- TopNavBar -->
+    <nav class="fixed top-4 left-4 right-4 md:top-8 md:left-8 md:right-8 z-50 bg-white/10 backdrop-blur-xl border border-white/20 rounded-none">
+        <div class="flex justify-between items-center h-20 px-4 md:px-8">
+            <div class="flex items-center gap-4 relative z-10">
+                <a href="index.html" class="font-label-sm text-label-sm uppercase tracking-[0.25em] text-desert-sand hover:text-white transition-all duration-200 font-bold btn-weave">Hatchers</a>
+            </div>
+            <div class="hidden md:flex items-center gap-12 relative z-10">
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="index.html#services">Services</a>
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="index.html#process">Our Process</a>
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="index.html#about">Values</a>
+            </div>
+            <div class="hidden md:flex items-center gap-4 relative z-10">
+                <a href="brief.html"
+                    class="font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 bg-desert-sand text-abyssal-navy hover:bg-white hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-desert-sand/40 active:translate-y-0 active:scale-[0.98] transition-all duration-300 shadow-xl shadow-desert-sand/20 btn-weave-fill inline-block">
+                    <span class="relative z-10">Start a Project</span>
+                </a>
+            </div>
+            <button id="mobile-menu-trigger" class="md:hidden text-desert-sand focus:outline-none p-2 min-h-[48px] min-w-[48px] flex items-center justify-center">
+                <span class="material-symbols-outlined text-2xl">menu</span>
+            </button>
+        </div>
+        <!-- Mobile Menu Drawer Overlay -->
+        <div id="mobile-menu-drawer" class="fixed inset-0 w-screen h-screen bg-abyssal-navy/98 backdrop-blur-2xl z-[100] flex flex-col items-center justify-center gap-8 hidden opacity-0 transition-all duration-300 pointer-events-none">
+            <button id="mobile-menu-close" class="absolute top-8 right-8 text-desert-sand hover:text-white p-4 focus:outline-none min-h-[48px] min-w-[48px] flex items-center justify-center">
+                <span class="material-symbols-outlined text-3xl">close</span>
+            </button>
+            <a class="font-headline-md text-2xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="index.html#services">Services</a>
+            <a class="font-headline-md text-2xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="index.html#process">Our Process</a>
+            <a class="font-headline-md text-2xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="index.html#about">Values</a>
+            <a class="font-label-sm text-sm uppercase tracking-widest px-8 py-4 bg-desert-sand text-abyssal-navy hover:bg-white transition-all duration-200 btn-weave-fill inline-block min-h-[48px]" href="brief.html">
+                <span class="relative z-10">Start a Project</span>
+            </a>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const trigger = document.getElementById('mobile-menu-trigger');
+                const drawer = document.getElementById('mobile-menu-drawer');
+                const closeBtn = document.getElementById('mobile-menu-close');
+                
+                if (trigger && drawer && closeBtn) {
+                    const openDrawer = () => {
+                        drawer.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+                        drawer.classList.add('opacity-100', 'pointer-events-auto');
+                        document.body.style.overflow = 'hidden';
+                    };
+                    
+                    const closeDrawer = () => {
+                        drawer.classList.remove('opacity-100', 'pointer-events-auto');
+                        drawer.classList.add('opacity-0', 'pointer-events-none');
+                        setTimeout(() => {
+                            if (drawer.classList.contains('opacity-0')) {
+                                drawer.classList.add('hidden');
+                            }
+                        }, 300);
+                        document.body.style.overflow = '';
+                    };
+                    
+                    trigger.addEventListener('click', openDrawer);
+                    closeBtn.addEventListener('click', closeDrawer);
+                    
+                    drawer.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', closeDrawer);
+                    });
+                }
+            });
+        </script>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="flex-grow pt-36 pb-24 px-5 md:px-8 flex items-center justify-center relative z-10 overflow-hidden">
+        <!-- Thread lines behind card to match theme -->
+        <div class="thread-h top-1/4"></div>
+        <div class="thread-h top-3/4"></div>
+        <div class="thread-v left-1/4"></div>
+        <div class="thread-v right-1/4"></div>
+
+        <div class="w-full max-w-4xl bg-abyssal-navy/85 border border-desert-sand/20 p-6 md:p-16 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+            <!-- Header -->
+            <h1 class="font-serif italic text-4xl md:text-5xl text-desert-sand font-normal mb-8 leading-tight border-b border-desert-sand/20 pb-6" style="font-family: 'Playfair Display', serif;">
+                Terms of Service
+            </h1>
+            <p class="text-sm text-desert-sand/70 uppercase tracking-widest font-semibold mb-8">Last Updated: July 9, 2026</p>
+            
+            <div class="prose prose-invert max-w-none text-chalk-linen/80 font-light space-y-8 leading-relaxed font-body-md text-sm md:text-base">
+                <section class="space-y-4">
+                    <h2 class="font-headline-md text-xl md:text-2xl text-white font-semibold uppercase tracking-wider">1. Agreement to Terms</h2>
+                    <p>By accessing or using our services, submitting project briefs, or visiting our website, you agree to be bound by these Terms of Service. If you do not agree to all of these terms, do not access or use our services.</p>
+                </section>
+
+                <section class="space-y-4">
+                    <h2 class="font-headline-md text-xl md:text-2xl text-white font-semibold uppercase tracking-wider">2. Services and Project Intake</h2>
+                    <p>Hatchloom provides digital innovation services, including graphic design, UGC video creation, web design & development, and social media/digital marketing. All project intakes are initiated through our brief form or direct consultation. We reserve the right to decline any project brief at our sole discretion.</p>
+                </section>
+
+                <section class="space-y-4">
+                    <h2 class="font-headline-md text-xl md:text-2xl text-white font-semibold uppercase tracking-wider">3. Intellectual Property</h2>
+                    <p>Unless otherwise agreed in writing under a specific project agreement, all custom designs, assets, code, and video recordings created by Hatchloom for a client will become the intellectual property of the client upon full payment of the agreed project fees. Hatchloom retains the right to display completed project designs and materials in our portfolio and promotional channels.</p>
+                </section>
+
+                <section class="space-y-4">
+                    <h2 class="font-headline-md text-xl md:text-2xl text-white font-semibold uppercase tracking-wider">4. Client Cooperation</h2>
+                    <p>To ensure high-performance execution of projects, clients agree to provide necessary feedback, visual assets, brand credentials, and approvals in a timely manner. Delays in communication or asset delivery may affect overall project timelines.</p>
+                </section>
+
+                <section class="space-y-4">
+                    <h2 class="font-headline-md text-xl md:text-2xl text-white font-semibold uppercase tracking-wider">5. Limitation of Liability</h2>
+                    <p>In no event shall Hatchloom, its directors, employees, or partners, be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, use, or goodwill, arising out of your access to or use of our services or website.</p>
+                </section>
+
+                <section class="space-y-4">
+                    <h2 class="font-headline-md text-xl md:text-2xl text-white font-semibold uppercase tracking-wider">6. Contact Us</h2>
+                    <p>If you have any questions about these Terms of Service, please contact us at:</p>
+                    <p class="text-desert-sand font-semibold">Email: <a href="mailto:hatchloom26@gmail.com" class="hover:underline">hatchloom26@gmail.com</a></p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full pt-20 pb-12 bg-abyssal-navy text-desert-sand relative overflow-hidden">
+        <div class="absolute inset-0 grid-bg opacity-10 pointer-events-none invert"></div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 px-6 md:px-24 relative z-10">
+            <div class="md:col-span-6 mb-12 md:mb-0">
+                <h2
+                    class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-desert-sand mb-8 leading-none max-w-lg">
+                    Let's weave your next success story.</h2>
+                <a class="font-headline-md text-lg sm:text-2xl md:text-headline-lg text-white hover:opacity-80 transition-opacity duration-200 mb-6 inline-block border-b-2 border-desert-sand/30 pb-2 btn-weave"
+                    href="mailto:hatchloom26@gmail.com">hatchloom26@gmail.com</a>
+                <p class="font-body-md text-body-lg text-desert-sand/80 mt-2">India, West Bengal</p>
+            </div>
+            <div class="md:col-span-3 mb-8 md:mb-0">
+                <h4
+                    class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand/60 mb-8 border-b border-desert-sand/20 pb-4">
+                    Navigation</h4>
+                <ul class="space-y-6">
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 btn-weave"
+                            href="index.html#">Home</a></li>
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 btn-weave"
+                            href="index.html#about">About</a></li>
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 btn-weave"
+                            href="index.html#services">Service</a></li>
+                </ul>
+            </div>
+            <div class="md:col-span-3">
+                <h4
+                    class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand/60 mb-8 border-b border-desert-sand/20 pb-4">
+                    Social</h4>
+                <ul class="space-y-6">
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 flex items-center justify-between group btn-weave"
+                            href="https://www.instagram.com/hatchloom.co/" target="_blank" rel="noopener noreferrer">Instagram <span
+                                class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-200">arrow_outward</span></a>
+                    </li>
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 flex items-center justify-between group btn-weave"
+                            href="#">LinkedIn <span
+                                class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-200">arrow_outward</span></a>
+                    </li>
+                    <li class=""><a
+                            class="font-body-md text-body-lg text-desert-sand hover:text-white transition-colors duration-200 flex items-center justify-between group btn-weave"
+                            href="#">Twitter <span
+                                class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity duration-200">arrow_outward</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="px-6 md:px-24 mt-16 pt-8 border-t border-desert-sand/20 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
+            <p class="font-body-md text-body-md text-desert-sand/60">© 2024 Hatchloom Agency. All rights reserved.</p>
+            <div class="flex gap-12">
+                <a class="font-body-md text-body-md text-desert-sand/60 hover:text-white transition-colors duration-300 btn-weave"
+                    href="privacy.html">Privacy Policy</a>
+                <a class="font-body-md text-body-md text-desert-sand/60 hover:text-white transition-colors duration-300 btn-weave"
+                    href="terms.html">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

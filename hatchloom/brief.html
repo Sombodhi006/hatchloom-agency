@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html class="dark scroll-smooth overflow-x-hidden" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Start a Project - Hatchloom Agency</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=Playfair+Display:ital,wght@0,600;1,400;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#c6c6ce",
+                        "on-primary-fixed": "#141a32",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#2a2a2c",
+                        "tertiary-fixed-dim": "#dfc1aa",
+                        "surface": "#131315",
+                        "secondary-fixed-dim": "#c5c6c8",
+                        "on-tertiary-fixed": "#281809",
+                        "tertiary-container": "#1e0f03",
+                        "on-primary-container": "#767c99",
+                        "on-tertiary-container": "#927964",
+                        "secondary": "#c5c6c8",
+                        "inverse-on-surface": "#303032",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e4",
+                        "error": "#ffb4ab",
+                        "outline": "#909098",
+                        "on-error": "#690005",
+                        "outline-variant": "#46464d",
+                        "secondary-container": "#444749",
+                        "surface-container": "#1f1f21",
+                        "on-primary": "#292f48",
+                        "background": "#131315",
+                        "on-tertiary": "#3f2d1c",
+                        "on-secondary-container": "#b4b5b7",
+                        "tertiary": "#dfc1aa",
+                        "on-secondary-fixed": "#191c1e",
+                        "inverse-surface": "#e5e2e4",
+                        "tertiary-fixed": "#fcddc4",
+                        "surface-dim": "#131315",
+                        "on-surface": "#e5e2e4",
+                        "surface-variant": "#353436",
+                        "surface-bright": "#39393b",
+                        "abyssal-navy": "#0A1128",
+                        "on-secondary-fixed-variant": "#444749",
+                        "primary-fixed": "#dce1ff",
+                        "on-tertiary-fixed-variant": "#574331",
+                        "primary": "#bfc5e4",
+                        "surface-tint": "#bfc5e4",
+                        "secondary-fixed": "#e1e2e4",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-primary-fixed-variant": "#3f465f",
+                        "chalk-linen": "#F4F5F7",
+                        "inverse-primary": "#575d78",
+                        "surface-container-low": "#1b1b1d",
+                        "desert-sand": "#D1B49D",
+                        "primary-fixed-dim": "#bfc5e4",
+                        "on-secondary": "#2e3132",
+                        "surface-container-highest": "#353436",
+                        "primary-container": "#0a1128"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "32px",
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-display": ["Hanken Grotesk"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["20px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-display": ["80px", { "lineHeight": "1.0", "letterSpacing": "-0.03em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .grid-bg {
+            background-size: 80px 80px;
+            background-image:
+                linear-gradient(to right, rgba(10, 17, 40, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(10, 17, 40, 0.08) 1px, transparent 1px);
+        }
+
+        /* Thread styling matching homepage theme */
+        .thread-h {
+            position: absolute;
+            height: 1px;
+            background: rgba(209, 180, 157, 0.15);
+            width: 200vw;
+            left: -50vw;
+            z-index: 0;
+        }
+
+        .thread-v {
+            position: absolute;
+            width: 1px;
+            background: rgba(209, 180, 157, 0.15);
+            height: 200vh;
+            top: -50vh;
+            z-index: 0;
+        }
+
+        /* Button micro-interaction */
+        .btn-weave {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-weave::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.2s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+
+        .btn-weave:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-weave-fill {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-weave-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.2s cubic-bezier(0.86, 0, 0.07, 1);
+            z-index: 1;
+        }
+
+        .btn-weave-fill:hover::before {
+            left: 0;
+        }
+
+        /* Step transition utility classes */
+        .step-transition {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .step-exit-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            pointer-events: none;
+        }
+
+        .step-exit-right {
+            opacity: 0;
+            transform: translateX(40px);
+            pointer-events: none;
+        }
+
+        .step-enter-left {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+
+        .step-enter-right {
+            opacity: 0;
+            transform: translateX(40px);
+        }
+
+        .step-active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Pulse scale animation for tactile service selection */
+        .card-pulse {
+            animation: cardScalePulse 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        @keyframes cardScalePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.025); }
+            100% { transform: scale(1); }
+        }
+        /* Active touch micro-interactions for mobile (with elastic spring bounce) */
+        @media (max-width: 767px) {
+            button, a, .service-card, .budget-card {
+                transition: transform 0.15s cubic-bezier(0.25, 1.5, 0.5, 1), background-color 0.2s, border-color 0.2s;
+            }
+            button:active, a:active, .service-card:active, .budget-card:active, .btn-weave-fill:active {
+                transform: scale3d(0.96, 0.96, 1) !important;
+                transition: transform 0.2s cubic-bezier(0.25, 1.5, 0.5, 1) !important;
+            }
+        }
+
+        /* Kinetic Text Reveal Mask */
+        .text-reveal-container {
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: bottom;
+            width: 100%;
+            will-change: transform;
+        }
+        .text-reveal-item {
+            display: block;
+            transform: translateY(102%) translateZ(0);
+            opacity: 0;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .text-reveal-item.reveal-active {
+            transform: translateY(0) translateZ(0);
+            opacity: 1;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Noise overlay generation
+            const noiseCanvas = document.createElement('canvas');
+            noiseCanvas.width = 128;
+            noiseCanvas.height = 128;
+            const noiseCtx = noiseCanvas.getContext('2d');
+            const noiseImgData = noiseCtx.createImageData(128, 128);
+            const buffer = new Uint32Array(noiseImgData.data.buffer);
+            for (let i = 0; i < buffer.length; i++) {
+                const noise = (Math.random() * 255) | 0;
+                buffer[i] = (15 << 24) | (noise << 16) | (noise << 8) | noise;
+            }
+            noiseCtx.putImageData(noiseImgData, 0, 0);
+
+            const grainDiv = document.createElement('div');
+            grainDiv.className = 'fixed inset-0 pointer-events-none mix-blend-multiply opacity-[0.35]';
+            grainDiv.style.zIndex = '-5';
+            grainDiv.style.backgroundImage = `url(${noiseCanvas.toDataURL()})`;
+            grainDiv.style.backgroundRepeat = 'repeat';
+            document.body.appendChild(grainDiv);
+        });
+    </script>
+</head>
+
+<body
+    class="text-chalk-linen font-body-md overflow-x-hidden selection:bg-desert-sand selection:text-abyssal-navy relative min-h-screen flex flex-col justify-between">
+    
+    <!-- Fixed Background Color Matching Landing Page -->
+    <div class="fixed inset-0 -z-20 pointer-events-none"
+        style="background: #0A1128; background: linear-gradient(180deg, rgba(10, 17, 40, 1) 16%, rgba(244, 245, 247, 0.31) 56%, rgba(217, 186, 156, 1) 80%);">
+    </div>
+
+    <!-- TopNavBar -->
+    <nav class="fixed top-4 left-4 right-4 md:top-8 md:left-8 md:right-8 z-50 bg-white/10 backdrop-blur-xl border border-white/20 rounded-none">
+        <div class="flex justify-between items-center h-20 px-4 md:px-8">
+            <div class="flex items-center gap-4 relative z-10">
+                <a href="index.html" class="font-label-sm text-label-sm uppercase tracking-[0.25em] text-desert-sand hover:text-white transition-all duration-200 font-bold btn-weave">Hatchers</a>
+            </div>
+            <div class="hidden md:flex items-center gap-12 relative z-10">
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="index.html#services">Services</a>
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="index.html#process">Our Process</a>
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="index.html#about">Values</a>
+            </div>
+            <div class="hidden md:flex items-center gap-4 relative z-10">
+                <a href="brief.html"
+                    class="font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 bg-desert-sand/30 border border-desert-sand text-desert-sand hover:bg-desert-sand hover:text-abyssal-navy hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-desert-sand/40 active:translate-y-0 active:scale-[0.98] transition-all duration-300 shadow-xl shadow-desert-sand/10 rounded-none btn-weave-fill">
+                    <span class="relative z-10">Brief Intake</span>
+                </a>
+            </div>
+            <button id="mobile-menu-trigger" class="md:hidden text-desert-sand focus:outline-none p-2 min-h-[48px] min-w-[48px] flex items-center justify-center">
+                <span class="material-symbols-outlined text-2xl">menu</span>
+            </button>
+        </div>
+        <!-- Mobile Menu Drawer Overlay -->
+        <div id="mobile-menu-drawer" class="fixed inset-0 w-screen h-screen bg-abyssal-navy/98 backdrop-blur-2xl z-[100] flex flex-col items-center justify-center gap-8 hidden opacity-0 transition-all duration-300 pointer-events-none">
+            <button id="mobile-menu-close" class="absolute top-8 right-8 text-desert-sand hover:text-white p-4 focus:outline-none min-h-[48px] min-w-[48px] flex items-center justify-center">
+                <span class="material-symbols-outlined text-3xl">close</span>
+            </button>
+            <a class="font-headline-md text-2xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="index.html#services">Services</a>
+            <a class="font-headline-md text-2xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="index.html#process">Our Process</a>
+            <a class="font-headline-md text-2xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="index.html#about">Values</a>
+            <a class="font-label-sm text-sm uppercase tracking-widest px-8 py-4 bg-desert-sand text-abyssal-navy hover:bg-white transition-all duration-200 btn-weave-fill inline-block min-h-[48px]" href="brief.html">
+                <span class="relative z-10">Start a Project</span>
+            </a>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const trigger = document.getElementById('mobile-menu-trigger');
+                const drawer = document.getElementById('mobile-menu-drawer');
+                const closeBtn = document.getElementById('mobile-menu-close');
+                
+                if (trigger && drawer && closeBtn) {
+                    const openDrawer = () => {
+                        drawer.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+                        drawer.classList.add('opacity-100', 'pointer-events-auto');
+                        document.body.style.overflow = 'hidden';
+                    };
+                    
+                    const closeDrawer = () => {
+                        drawer.classList.remove('opacity-100', 'pointer-events-auto');
+                        drawer.classList.add('opacity-0', 'pointer-events-none');
+                        setTimeout(() => {
+                            if (drawer.classList.contains('opacity-0')) {
+                                drawer.classList.add('hidden');
+                            }
+                        }, 300);
+                        document.body.style.overflow = '';
+                    };
+                    
+                    trigger.addEventListener('click', openDrawer);
+                    closeBtn.addEventListener('click', closeDrawer);
+                    
+                    drawer.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', closeDrawer);
+                    });
+                }
+
+                // Kinetic Text Reveal setup
+                document.querySelectorAll('.kinetic-reveal').forEach(el => {
+                    const wrapper = document.createElement('span');
+                    wrapper.className = 'text-reveal-container';
+                    const item = document.createElement('span');
+                    item.className = 'text-reveal-item';
+                    item.innerHTML = el.innerHTML;
+                    wrapper.appendChild(item);
+                    el.innerHTML = '';
+                    el.appendChild(wrapper);
+                    
+                    const revealObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                item.classList.add('reveal-active');
+                                revealObserver.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.1 });
+                    revealObserver.observe(el);
+                });
+            });
+        </script>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="flex-grow pt-36 pb-16 px-5 md:px-8 flex items-center justify-center relative z-10 overflow-hidden">
+        <!-- Thread lines behind form to match theme -->
+        <div class="thread-h top-1/3"></div>
+        <div class="thread-h top-3/4"></div>
+        <div class="thread-v left-1/4"></div>
+        <div class="thread-v right-1/4"></div>
+
+        <div class="w-full max-w-3xl bg-abyssal-navy/85 border border-desert-sand/20 p-6 md:p-12 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+            <!-- Sleek top progress indicator -->
+            <div class="mb-10">
+                <div class="flex justify-between items-center text-xs uppercase tracking-widest text-desert-sand/70 mb-2 font-semibold">
+                    <span id="step-counter">Step 1 of 4</span>
+                    <span id="step-name">Business Details</span>
+                </div>
+                <div class="h-[3px] w-full bg-desert-sand/20 relative rounded-full">
+                    <div id="progress-bar" class="h-full bg-desert-sand transition-all duration-300 ease-out rounded-full" style="width: 25%;"></div>
+                    <!-- Tactile thread-weaver needle -->
+                    <div id="progress-needle" class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-desert-sand border border-abyssal-navy rotate-45 shadow-lg transition-all duration-300 ease-out flex items-center justify-center rounded-none z-10" style="left: 25%;">
+                        <div class="w-1.5 h-1.5 bg-abyssal-navy rounded-none"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Wrapper -->
+            <form id="brief-form" class="relative min-h-[380px] md:min-h-[460px] flex flex-col justify-between" onsubmit="event.preventDefault();">
+                
+                <!-- Steps Container -->
+                <div class="relative overflow-visible flex-grow">
+                    
+                    <!-- STEP 1: BUSINESS DETAILS -->
+                    <div id="step-1" class="step-transition step-active relative w-full flex flex-col justify-start pt-6">
+                        <h2 class="font-serif italic text-3xl md:text-4xl text-desert-sand font-normal mb-2 leading-tight kinetic-reveal" style="font-family: 'Playfair Display', serif;">
+                            Let's spin a thread.
+                        </h2>
+                        <p class="text-sm md:text-base text-chalk-linen/70 mb-8 font-light max-w-md">
+                            Introduce your enterprise. Tell us the name that carries your vision.
+                        </p>
+                        <div class="space-y-6">
+                            <div class="relative group border-b border-chalk-linen/20 focus-within:border-desert-sand transition-colors duration-300 py-2">
+                                <label for="business-name" class="block text-xs uppercase tracking-widest text-desert-sand/60 font-semibold mb-1">
+                                    Business Name *
+                                </label>
+                                <input type="text" id="business-name" name="business_name" required
+                                    class="w-full bg-transparent border-0 p-0 text-lg text-chalk-linen placeholder-chalk-linen/30 focus:ring-0 focus:outline-none"
+                                    placeholder="Enter your company or project name" />
+                            </div>
+                            <div class="relative group border-b border-chalk-linen/20 focus-within:border-desert-sand transition-colors duration-300 py-2">
+                                <label for="business-website" class="block text-xs uppercase tracking-widest text-desert-sand/60 font-semibold mb-1">
+                                    Current Website (Optional)
+                                </label>
+                                <input type="url" id="business-website" name="business_website"
+                                    class="w-full bg-transparent border-0 p-0 text-lg text-chalk-linen placeholder-chalk-linen/30 focus:ring-0 focus:outline-none"
+                                    placeholder="https://example.com" />
+                            </div>
+                        </div>
+                        <div id="step-1-error" class="text-xs text-red-400 mt-4 h-4 opacity-0 transition-opacity duration-200">
+                            Please fill out the business name.
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: SERVICES NEEDED -->
+                    <div id="step-2" class="step-transition step-enter-right relative w-full hidden flex flex-col justify-start pt-6">
+                        <h2 class="font-serif italic text-3xl md:text-4xl text-desert-sand font-normal mb-2 leading-tight kinetic-reveal" style="font-family: 'Playfair Display', serif;">
+                            Choose your weave.
+                        </h2>
+                        <p class="text-sm md:text-base text-chalk-linen/70 mb-6 font-light max-w-md">
+                            Select the creative services your project requires. You may select more than one.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Web Design & Development -->
+                            <label class="service-card cursor-pointer border border-chalk-linen/10 bg-white/5 p-4 flex items-center justify-between hover:border-desert-sand/50 transition-all duration-300 relative select-none">
+                                <input type="checkbox" name="services" value="Web Design & Development" class="sr-only peer" />
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 border border-desert-sand/20 flex items-center justify-center text-desert-sand bg-abyssal-navy">
+                                        <span class="material-symbols-outlined">language</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-chalk-linen text-xs md:text-sm uppercase tracking-wider">Web Design & Dev</h3>
+                                        <p class="text-[10px] text-chalk-linen/50 font-light mt-0.5 leading-normal">Bespoke sites, e-commerce, & SEO</p>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 border border-chalk-linen/30 flex items-center justify-center peer-checked:border-desert-sand peer-checked:bg-desert-sand transition-all duration-300">
+                                    <span class="material-symbols-outlined text-[14px] text-abyssal-navy hidden font-bold peer-checked:block">check</span>
+                                </div>
+                            </label>
+
+                            <!-- UGC Video Creation -->
+                            <label class="service-card cursor-pointer border border-chalk-linen/10 bg-white/5 p-4 flex items-center justify-between hover:border-desert-sand/50 transition-all duration-300 relative select-none">
+                                <input type="checkbox" name="services" value="UGC Video Creation" class="sr-only peer" />
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 border border-desert-sand/20 flex items-center justify-center text-desert-sand bg-abyssal-navy">
+                                        <span class="material-symbols-outlined">video_library</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-chalk-linen text-xs md:text-sm uppercase tracking-wider">UGC Video</h3>
+                                        <p class="text-[10px] text-chalk-linen/50 font-light mt-0.5 leading-normal">Short-form Reels, TikToks, & ads</p>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 border border-chalk-linen/30 flex items-center justify-center peer-checked:border-desert-sand peer-checked:bg-desert-sand transition-all duration-300">
+                                    <span class="material-symbols-outlined text-[14px] text-abyssal-navy hidden font-bold peer-checked:block">check</span>
+                                </div>
+                            </label>
+
+                            <!-- Social Media & Digital Marketing -->
+                            <label class="service-card cursor-pointer border border-chalk-linen/10 bg-white/5 p-4 flex items-center justify-between hover:border-desert-sand/50 transition-all duration-300 relative select-none">
+                                <input type="checkbox" name="services" value="Social Media & Digital Marketing" class="sr-only peer" />
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 border border-desert-sand/20 flex items-center justify-center text-desert-sand bg-abyssal-navy">
+                                        <span class="material-symbols-outlined">trending_up</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-chalk-linen text-xs md:text-sm uppercase tracking-wider">Marketing</h3>
+                                        <p class="text-[10px] text-chalk-linen/50 font-light mt-0.5 leading-normal">Profile management, ads, & growth</p>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 border border-chalk-linen/30 flex items-center justify-center peer-checked:border-desert-sand peer-checked:bg-desert-sand transition-all duration-300">
+                                    <span class="material-symbols-outlined text-[14px] text-abyssal-navy hidden font-bold peer-checked:block">check</span>
+                                </div>
+                            </label>
+
+                            <!-- Graphic Designing -->
+                            <label class="service-card cursor-pointer border border-chalk-linen/10 bg-white/5 p-4 flex items-center justify-between hover:border-desert-sand/50 transition-all duration-300 relative select-none">
+                                <input type="checkbox" name="services" value="Graphic Designing" class="sr-only peer" />
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 border border-desert-sand/20 flex items-center justify-center text-desert-sand bg-abyssal-navy">
+                                        <span class="material-symbols-outlined">palette</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-chalk-linen text-xs md:text-sm uppercase tracking-wider">Graphic Design</h3>
+                                        <p class="text-[10px] text-chalk-linen/50 font-light mt-0.5 leading-normal">Brand identity, logos, & UI/UX</p>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 border border-chalk-linen/30 flex items-center justify-center peer-checked:border-desert-sand peer-checked:bg-desert-sand transition-all duration-300">
+                                    <span class="material-symbols-outlined text-[14px] text-abyssal-navy hidden font-bold peer-checked:block">check</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div id="step-2-error" class="text-xs text-red-400 mt-4 h-4 opacity-0 transition-opacity duration-200">
+                            Please select at least one service.
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: SCALE OF INVESTMENT (DYNAMIC) -->
+                    <div id="step-3" class="step-transition step-enter-right relative w-full hidden flex flex-col justify-start pt-6">
+                        <h2 class="font-serif italic text-3xl md:text-4xl text-desert-sand font-normal mb-2 leading-tight kinetic-reveal" style="font-family: 'Playfair Display', serif;">
+                            Scale of investment.
+                        </h2>
+                        <p class="text-sm md:text-base text-chalk-linen/70 mb-6 font-light max-w-xl">
+                            Select the tier that matches your project requirements.
+                        </p>
+                        <div id="budget-options-container" class="w-full">
+                            <!-- Populated dynamically by JavaScript -->
+                        </div>
+                        <div id="step-3-error" class="text-xs text-red-400 mt-4 h-4 opacity-0 transition-opacity duration-200">
+                            Please select an investment tier.
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: CONTACT INFO -->
+                    <div id="step-4" class="step-transition step-enter-right relative w-full hidden flex flex-col justify-start pt-6">
+                        <h2 class="font-serif italic text-3xl md:text-4xl text-desert-sand font-normal mb-2 leading-tight kinetic-reveal" style="font-family: 'Playfair Display', serif;">
+                            Let's connect.
+                        </h2>
+                        <p class="text-sm md:text-base text-chalk-linen/70 mb-6 font-light max-w-md">
+                            Leave your contact info so we can discuss the weave details.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="relative group border-b border-chalk-linen/20 focus-within:border-desert-sand transition-colors duration-300 py-1">
+                                    <label for="contact-name" class="block text-[10px] uppercase tracking-widest text-desert-sand/60 font-semibold mb-0.5">
+                                        Full Name *
+                                    </label>
+                                    <input type="text" id="contact-name" name="contact_name" required
+                                        class="w-full bg-transparent border-0 p-0 text-base text-chalk-linen placeholder-chalk-linen/30 focus:ring-0 focus:outline-none"
+                                        placeholder="John Doe" />
+                                </div>
+                                <div class="relative group border-b border-chalk-linen/20 focus-within:border-desert-sand transition-colors duration-300 py-1">
+                                    <label for="contact-email" class="block text-[10px] uppercase tracking-widest text-desert-sand/60 font-semibold mb-0.5">
+                                        Email Address *
+                                    </label>
+                                    <input type="email" id="contact-email" name="contact_email" required
+                                        class="w-full bg-transparent border-0 p-0 text-base text-chalk-linen placeholder-chalk-linen/30 focus:ring-0 focus:outline-none"
+                                        placeholder="name@agency.com" />
+                                </div>
+                            </div>
+                            <div class="relative group border-b border-chalk-linen/20 focus-within:border-desert-sand transition-colors duration-300 pt-2 pb-0">
+                                <label for="project-description" class="block text-[10px] uppercase tracking-widest text-desert-sand/60 font-semibold mb-0.5">
+                                    Tell us about your project (Optional)
+                                </label>
+                                <textarea id="project-description" name="project_description" rows="1"
+                                    class="w-full bg-transparent border-0 p-0 m-0 text-sm text-chalk-linen placeholder-chalk-linen/30 focus:ring-0 focus:outline-none resize-none block align-bottom"
+                                    placeholder="Describe your vision, timelines, or inspiration..."></textarea>
+                            </div>
+                        </div>
+                        <div id="step-4-error" class="text-xs text-red-400 mt-4 h-4 opacity-0 transition-opacity duration-200">
+                            Please enter your name and a valid email address.
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer Navigation Buttons -->
+                <div class="flex justify-between items-center mt-8 pt-6 border-t border-chalk-linen/10 relative z-20">
+                    <button type="button" id="prev-btn"
+                        class="hidden font-label-sm text-label-sm uppercase tracking-widest px-6 py-4 min-h-[48px] flex items-center justify-center border border-desert-sand/40 text-desert-sand hover:bg-desert-sand/10 transition-all duration-200 btn-weave-fill">
+                        Back
+                    </button>
+                    <div class="flex-grow"></div>
+                    <button type="button" id="next-btn"
+                        class="font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 min-h-[48px] flex items-center justify-center bg-desert-sand text-abyssal-navy hover:bg-white transition-all duration-200 shadow-xl shadow-desert-sand/20 btn-weave-fill">
+                        Next
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer matching original -->
+    <footer class="w-full pt-12 pb-8 bg-abyssal-navy text-desert-sand relative overflow-hidden">
+        <div class="absolute inset-0 grid-bg opacity-10 pointer-events-none invert"></div>
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10 text-xs md:text-sm">
+            <p class="font-body-md text-desert-sand/60">© 2024 Hatchloom Agency. All rights reserved.</p>
+            <div class="flex gap-8">
+                <a class="font-body-md text-desert-sand/60 hover:text-white transition-colors duration-300 btn-weave" href="index.html">Home</a>
+                <a class="font-body-md text-desert-sand/60 hover:text-white transition-colors duration-300 btn-weave" href="privacy.html">Privacy Policy</a>
+                <a class="font-body-md text-desert-sand/60 hover:text-white transition-colors duration-300 btn-weave" href="terms.html">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Form Handling Script -->
+    <script>
+        (function() {
+            let currentStep = 1;
+            const totalSteps = 4;
+
+            const form = document.getElementById('brief-form');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const stepCounter = document.getElementById('step-counter');
+            const stepName = document.getElementById('step-name');
+            const progressBar = document.getElementById('progress-bar');
+
+            const stepNames = {
+                1: "Business Details",
+                2: "Services Selection",
+                3: "Budget Range",
+                4: "Contact Info"
+            };
+
+            // Custom selection event hooks
+            document.querySelectorAll('.service-card').forEach(card => {
+                const input = card.querySelector('input');
+                const visualIndicator = card.querySelector('.w-5');
+                
+                function updateCard() {
+                    if (input.checked) {
+                        card.classList.add('border-desert-sand', 'bg-desert-sand/5', 'card-pulse');
+                        card.classList.remove('border-chalk-linen/10', 'bg-white/5');
+                        if (visualIndicator) {
+                            visualIndicator.classList.add('border-desert-sand', 'bg-desert-sand');
+                            visualIndicator.querySelector('span').classList.remove('hidden');
+                        }
+                        setTimeout(() => card.classList.remove('card-pulse'), 300);
+                    } else {
+                        card.classList.remove('border-desert-sand', 'bg-desert-sand/5', 'card-pulse');
+                        card.classList.add('border-chalk-linen/10', 'bg-white/5');
+                        if (visualIndicator) {
+                            visualIndicator.classList.remove('border-desert-sand', 'bg-desert-sand');
+                            visualIndicator.querySelector('span').classList.add('hidden');
+                        }
+                    }
+                }
+                
+                input.addEventListener('change', updateCard);
+            });
+
+            let formDataBudget = ""; // Keep selection state across transitions
+
+            function setupBudgetCardListeners() {
+                document.querySelectorAll('.budget-card').forEach(card => {
+                    const input = card.querySelector('input');
+                    const outerCircle = card.querySelector('.rounded-full');
+                    const innerCircle = outerCircle ? outerCircle.querySelector('div') : null;
+                    
+                    function updateCard() {
+                        // Reset all other budget cards
+                        document.querySelectorAll('.budget-card').forEach(other => {
+                            const otherInput = other.querySelector('input');
+                            const otherOuter = other.querySelector('.rounded-full');
+                            const otherInner = otherOuter ? otherOuter.querySelector('div') : null;
+                            if (otherInput !== input) {
+                                otherInput.checked = false;
+                                other.classList.remove('border-desert-sand', 'bg-desert-sand/5', 'card-pulse');
+                                other.classList.add('border-chalk-linen/10', 'bg-white/5');
+                                if (otherOuter) otherOuter.classList.remove('border-desert-sand', 'bg-desert-sand');
+                                if (otherInner) otherInner.classList.add('hidden');
+                            }
+                        });
+
+                        if (input.checked) {
+                            card.classList.add('border-desert-sand', 'bg-desert-sand/5', 'card-pulse');
+                            card.classList.remove('border-chalk-linen/10', 'bg-white/5');
+                            if (outerCircle) outerCircle.classList.add('border-desert-sand', 'bg-desert-sand');
+                            if (innerCircle) innerCircle.classList.remove('hidden');
+                            setTimeout(() => card.classList.remove('card-pulse'), 300);
+                        }
+                    }
+                    
+                    input.addEventListener('change', () => {
+                        formDataBudget = input.value;
+                        updateCard();
+                    });
+
+                    // If a selection was previously made, restore it
+                    if (formDataBudget && input.value === formDataBudget) {
+                        input.checked = true;
+                        updateCard();
+                    }
+                });
+            }
+
+            function buildStep3() {
+                const checkedServices = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(el => el.value);
+                const container = document.getElementById('budget-options-container');
+                container.innerHTML = ''; // Clear existing contents
+
+                if (checkedServices.length === 1) {
+                    // Case A: 1 service selected. Render a 3-Column Comparison Grid
+                    const service = checkedServices[0];
+                    let tier1 = "", tier2 = "", tier3 = "";
+
+                    if (service === "Web Design & Development") {
+                        tier1 = "Launch-Ready Page: A single, beautifully designed one-page website built to look perfect on smartphones and optimized so local customers can find you on Google.";
+                        tier2 = "Adds: Complete Multi-Page Website + Easy Editing Panel. A full multi-page site (Home, About, Services, Contact) with a simple password-secured login so you can edit text or swap images yourself without needing a coder.";
+                        tier3 = "Adds: Fully Functional Online Store & Ongoing Technical Security. A secure digital storefront to sell products, process customer credit cards, handle subscriptions, plus continuous hands-on protection against bugs or hackers.";
+                    } else if (service === "UGC Video Creation") {
+                        tier1 = "Starter Video Pack: Eye-catching short-form videos (Instagram Reels / Shorts) filmed and edited to match internet trends and stop people from scrolling past your brand.";
+                        tier2 = "Adds: Scriptwriting & Trust-Building Product Showcases. We write the exact words and hooks for you before filming, plus add beautiful close-up videos and authentic product unboxings that make viewers want to buy instantly.";
+                        tier3 = "Adds: Multiple High-Performing Ad Variations & Creator Account Coordination. We edit multiple target variations of your videos specifically to run as powerful paid social media ads, and handle running them directly through local creators' personal accounts for maximum consumer trust.";
+                    } else if (service === "Social Media & Digital Marketing") {
+                        tier1 = "Daily Profile Management: We completely handle your daily social profiles—writing all captions, planning your strategy, and scheduling regular posts so your page looks professional and active.";
+                        tier2 = "Adds: Customer-Attraction Ads & Lead Systems. We set up precision paid advertisements designed to put your business directly in front of buyers and bring a steady stream of phone calls or website inquiries.";
+                        tier3 = "Adds: Influencer Partnerships & Competitor Audits. We source, hire, and manage local creators to promote your business, organize audience giveaways to build loyalty, and deeply research your competitors to keep you ahead.";
+                    } else if (service === "Graphic Designing") {
+                        tier1 = "Social Graphics & Print-Ready Files: Custom social media graphics, sliding carousel visuals, and crystal-clear printable layouts (like flyers or brochures) ready for your business.";
+                        tier2 = "Adds: Complete Brand Logo Identity & Digital Maps. We design a fully custom logo, select matching signature fonts and business color palettes, and map out a modern visual blueprint for your online look.";
+                        tier3 = "Adds: Complete Design Makeovers & Investor Pitch Decks. A total design refresh for older businesses looking for a modern upgrade, plus high-end visual presentation decks built to completely wow business partners or investors.";
+                    }
+
+                    // Build 3-column markup
+                    container.className = "grid grid-cols-1 md:grid-cols-3 gap-3 w-full";
+                    
+                    const tiers = [
+                        { name: "Essential Foundation", text: tier1, adds: false },
+                        { name: "Accelerated Growth", text: tier2, adds: true },
+                        { name: "Market Dominator", text: tier3, adds: true }
+                    ];
+
+                    tiers.forEach(t => {
+                        const label = document.createElement('label');
+                        label.className = "budget-card cursor-pointer border border-chalk-linen/10 bg-white/5 p-3.5 flex flex-col justify-between hover:border-desert-sand/50 transition-all duration-300 relative select-none min-h-[200px]";
+                        
+                        const input = document.createElement('input');
+                        input.type = "radio";
+                        input.name = "budget";
+                        input.value = t.name;
+                        input.className = "sr-only peer";
+                        
+                        const checkIndicator = `
+                            <div class="w-4 h-4 rounded-full border border-chalk-linen/30 flex items-center justify-center peer-checked:border-desert-sand peer-checked:bg-desert-sand transition-all duration-300">
+                                <div class="w-1.5 h-1.5 rounded-full bg-abyssal-navy hidden peer-checked:block"></div>
+                            </div>
+                        `;
+                        
+                        // Apply UX Rule: highlight + EXTRA marker next to text (or next to "Adds:")
+                        const extraBadge = t.adds ? `<span class="bg-desert-sand/20 text-desert-sand border border-desert-sand/40 text-[9px] font-bold px-1.5 py-0.5 rounded-none mr-2 tracking-widest inline-block uppercase select-none">+ EXTRA</span>` : '';
+                        const textContent = t.adds ? t.text.replace(/^Adds:\s*/i, '') : t.text;
+                        const formattedText = t.adds ? `<strong>Adds:</strong> ${extraBadge} ${textContent}` : t.text;
+
+                        label.innerHTML = `
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="text-[10px] uppercase tracking-widest text-desert-sand/70 font-semibold">${t.name}</span>
+                                ${checkIndicator}
+                            </div>
+                            <div class="flex-grow flex flex-col justify-between">
+                                <p class="text-xs text-chalk-linen/75 font-light leading-relaxed">${formattedText}</p>
+                            </div>
+                        `;
+                        label.prepend(input);
+                        container.appendChild(label);
+                    });
+
+                } else {
+                    // Case B: 2+ services selected. Render 4-Box Grid Layout
+                    container.className = "grid grid-cols-1 md:grid-cols-2 gap-3 w-full";
+
+                    const boxes = [
+                        { name: "Starter", tag: "The Kickstart Package", text: "The Kickstart Package: A solid, basic setup across all your chosen services. Ideal for new ventures looking to establish a professional, synchronized baseline across multiple channels without breaking the bank." },
+                        { name: "Growth", tag: "The Scaling Package", text: "The Scaling Package (Most Popular): Fully combines your chosen services into a single, heavy-hitting strategy. Built specifically to completely align your digital presence and systematically pull in consistent new paying customers." },
+                        { name: "Elite", tag: "The Market Leader Package", text: "The Market Leader Package: Engineered for aggressive business growth. Unlocks deeper design customizations, massive video content variations, and highly active digital campaigns to completely outpace your local competitors." },
+                        { name: "Partnership", tag: "The Ultimate Growth Partner", text: "The Ultimate Growth Partner: Treat our agency as your internal marketing, video, and design department. Continuous asset updates, fresh weekly video creation, and hands-on strategy adjustments driven by our team every single month." }
+                    ];
+
+                    boxes.forEach(b => {
+                        const label = document.createElement('label');
+                        label.className = "budget-card cursor-pointer border border-chalk-linen/10 bg-white/5 p-3 flex flex-col justify-between hover:border-desert-sand/50 transition-all duration-300 relative select-none min-h-[125px]";
+                        
+                        const input = document.createElement('input');
+                        input.type = "radio";
+                        input.name = "budget";
+                        input.value = b.name;
+                        input.className = "sr-only peer";
+
+                        const checkIndicator = `
+                            <div class="w-4 h-4 rounded-full border border-chalk-linen/30 flex items-center justify-center peer-checked:border-desert-sand peer-checked:bg-desert-sand transition-all duration-300">
+                                <div class="w-1.5 h-1.5 rounded-full bg-abyssal-navy hidden peer-checked:block"></div>
+                            </div>
+                        `;
+
+                        const popAccent = b.name === "Growth" ? '<span class="bg-desert-sand text-abyssal-navy text-[8px] font-bold px-1.5 py-0.5 rounded-none mr-2 tracking-wider inline-block uppercase">Popular</span>' : '';
+
+                        label.innerHTML = `
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex items-center">
+                                    <span class="text-xs uppercase tracking-widest text-desert-sand/70 font-semibold mr-2">${b.name}</span>
+                                    ${popAccent}
+                                </div>
+                                ${checkIndicator}
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-white font-semibold uppercase tracking-wider mb-1">${b.tag}</h4>
+                                <p class="text-[11px] text-chalk-linen/60 font-light leading-relaxed">${b.text}</p>
+                            </div>
+                        `;
+                        label.prepend(input);
+                        container.appendChild(label);
+                    });
+                }
+
+                // Setup selection event listeners on the dynamically created budget cards
+                setupBudgetCardListeners();
+            }
+
+            function validateStep(step) {
+                // Clear active errors
+                document.getElementById(`step-${step}-error`).classList.add('opacity-0');
+
+                if (step === 1) {
+                    const name = document.getElementById('business-name').value.trim();
+                    if (!name) {
+                        document.getElementById('step-1-error').classList.remove('opacity-0');
+                        return false;
+                    }
+                } else if (step === 2) {
+                    const checkedServices = document.querySelectorAll('input[name="services"]:checked');
+                    if (checkedServices.length === 0) {
+                        document.getElementById('step-2-error').classList.remove('opacity-0');
+                        return false;
+                    }
+                } else if (step === 3) {
+                    const checkedBudget = document.querySelector('input[name="budget"]:checked');
+                    if (!checkedBudget && !formDataBudget) {
+                        document.getElementById('step-3-error').classList.remove('opacity-0');
+                        return false;
+                    }
+                } else if (step === 4) {
+                    const name = document.getElementById('contact-name').value.trim();
+                    const email = document.getElementById('contact-email').value.trim();
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!name || !email || !emailRegex.test(email)) {
+                        document.getElementById('step-4-error').classList.remove('opacity-0');
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            function setStep(newStep, direction) {
+                const currentEl = document.getElementById(`step-${currentStep}`);
+                const nextEl = document.getElementById(`step-${newStep}`);
+
+                // Perform exit animation on current element
+                currentEl.classList.remove('step-active');
+                if (direction === 'next') {
+                    currentEl.classList.add('step-exit-left');
+                } else {
+                    currentEl.classList.add('step-exit-right');
+                }
+
+                setTimeout(() => {
+                    currentEl.classList.add('hidden');
+                    currentEl.classList.remove('step-exit-left', 'step-exit-right');
+
+                    nextEl.classList.remove('hidden');
+                    // Setup entrance state
+                    if (direction === 'next') {
+                        nextEl.classList.add('step-enter-right');
+                    } else {
+                        nextEl.classList.add('step-enter-left');
+                    }
+
+                    // Trigger reflow for transition
+                    nextEl.offsetWidth;
+
+                    nextEl.classList.remove('step-enter-right', 'step-enter-left');
+                    nextEl.classList.add('step-active');
+
+                    // Update states
+                    currentStep = newStep;
+                    updateUI();
+
+                    if (currentStep === 4 && typeof adjustTextareaHeight === 'function') {
+                        adjustTextareaHeight();
+                    }
+                }, 250);
+            }
+
+            function updateUI() {
+                // Set step counter & name
+                stepCounter.innerText = `Step ${currentStep} of ${totalSteps}`;
+                stepName.innerText = stepNames[currentStep];
+
+                // Progress Bar & Needle
+                const percent = (currentStep / totalSteps) * 100;
+                progressBar.style.width = `${percent}%`;
+                const progressNeedle = document.getElementById('progress-needle');
+                if (progressNeedle) {
+                    progressNeedle.style.left = `${percent}%`;
+                }
+
+                // Navigation Buttons visibility
+                if (currentStep === 1) {
+                    prevBtn.classList.add('hidden');
+                } else {
+                    prevBtn.classList.remove('hidden');
+                }
+
+                if (currentStep === totalSteps) {
+                    nextBtn.innerHTML = '<span class="relative z-10 flex items-center gap-2">Submit Brief<span class="material-symbols-outlined text-sm">send</span></span>';
+                } else {
+                    nextBtn.innerHTML = '<span class="relative z-10">Next</span>';
+                }
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (validateStep(currentStep)) {
+                    if (currentStep < totalSteps) {
+                        if (currentStep === 2) {
+                            buildStep3();
+                        }
+                        setStep(currentStep + 1, 'next');
+                    } else {
+                        const formData = {
+                            businessName: document.getElementById('business-name').value,
+                            website: document.getElementById('business-website').value,
+                            services: Array.from(document.querySelectorAll('input[name="services"]:checked')).map(el => el.value),
+                            budget: document.querySelector('input[name="budget"]:checked') ? document.querySelector('input[name="budget"]:checked').value : formDataBudget,
+                            contactName: document.getElementById('contact-name').value,
+                            contactEmail: document.getElementById('contact-email').value,
+                            description: document.getElementById('project-description').value
+                        };
+                        
+                        // Disable nextBtn to prevent double submissions and show loading state
+                        const originalBtnHTML = nextBtn.innerHTML;
+                        nextBtn.disabled = true;
+                        nextBtn.innerHTML = '<span class="relative z-10 flex items-center gap-2">Sending...<span class="material-symbols-outlined text-sm animate-spin">sync</span></span>';
+
+                        const payload = {
+                            access_key: '788ef76e-f589-4a48-8037-00d93212d5d3',
+                            name: formData.contactName,
+                            email: formData.contactEmail,
+                            subject: 'New HATCHLOOM Project Brief from ' + formData.businessName,
+                            business_name: formData.businessName,
+                            business_website: formData.website,
+                            services: formData.services.join(', '),
+                            budget: formData.budget,
+                            project_description: formData.description
+                        };
+
+                        fetch('https://api.web3forms.com/submit', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        })
+                        .then(async (response) => {
+                            const result = await response.json();
+                            if (response.status === 200) {
+                                window.location.href = 'success.html';
+                            } else {
+                                console.error('Web3Forms Error:', result);
+                                alert('Error: ' + (result.message || 'Unable to submit form. Please try again.'));
+                                nextBtn.disabled = false;
+                                nextBtn.innerHTML = originalBtnHTML;
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Web3Forms Connection Error:', error);
+                            alert('Network error. Please check your connection and try again.');
+                            nextBtn.disabled = false;
+                            nextBtn.innerHTML = originalBtnHTML;
+                        });
+                    }
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    setStep(currentStep - 1, 'prev');
+                }
+            });
+
+            // Auto-grow project description textarea to sit snugly on underline
+            const textarea = document.getElementById('project-description');
+            function adjustTextareaHeight() {
+                if (textarea) {
+                    textarea.style.height = 'auto';
+                    if (textarea.scrollHeight > 0) {
+                        textarea.style.height = textarea.scrollHeight + 'px';
+                    }
+                }
+            }
+            if (textarea) {
+                textarea.addEventListener('input', adjustTextareaHeight);
+            }
+
+            updateUI();
+        })();
+    </script>
+</body>
+
+</html>

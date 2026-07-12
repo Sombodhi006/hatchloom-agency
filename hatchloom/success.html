@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html class="dark scroll-smooth overflow-x-hidden" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Thank You - Hatchloom Agency</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=Playfair+Display:ital,wght@0,600;1,400;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#c6c6ce",
+                        "on-primary-fixed": "#141a32",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#2a2a2c",
+                        "tertiary-fixed-dim": "#dfc1aa",
+                        "surface": "#131315",
+                        "secondary-fixed-dim": "#c5c6c8",
+                        "on-tertiary-fixed": "#281809",
+                        "tertiary-container": "#1e0f03",
+                        "on-primary-container": "#767c99",
+                        "on-tertiary-container": "#927964",
+                        "secondary": "#c5c6c8",
+                        "inverse-on-surface": "#303032",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e4",
+                        "error": "#ffb4ab",
+                        "outline": "#909098",
+                        "on-error": "#690005",
+                        "outline-variant": "#46464d",
+                        "secondary-container": "#444749",
+                        "surface-container": "#1f1f21",
+                        "on-primary": "#292f48",
+                        "background": "#131315",
+                        "on-tertiary": "#3f2d1c",
+                        "on-secondary-container": "#b4b5b7",
+                        "tertiary": "#dfc1aa",
+                        "on-secondary-fixed": "#191c1e",
+                        "inverse-surface": "#e5e2e4",
+                        "tertiary-fixed": "#fcddc4",
+                        "surface-dim": "#131315",
+                        "on-surface": "#e5e2e4",
+                        "surface-variant": "#353436",
+                        "surface-bright": "#39393b",
+                        "abyssal-navy": "#0A1128",
+                        "on-secondary-fixed-variant": "#444749",
+                        "primary-fixed": "#dce1ff",
+                        "on-tertiary-fixed-variant": "#574331",
+                        "primary": "#bfc5e4",
+                        "surface-tint": "#bfc5e4",
+                        "secondary-fixed": "#e1e2e4",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-primary-fixed-variant": "#3f465f",
+                        "chalk-linen": "#F4F5F7",
+                        "inverse-primary": "#575d78",
+                        "surface-container-low": "#1b1b1d",
+                        "desert-sand": "#D1B49D",
+                        "primary-fixed-dim": "#bfc5e4",
+                        "on-secondary": "#2e3132",
+                        "surface-container-highest": "#353436",
+                        "primary-container": "#0a1128"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "32px",
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-display": ["Hanken Grotesk"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["20px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-display": ["80px", { "lineHeight": "1.0", "letterSpacing": "-0.03em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .grid-bg {
+            background-size: 80px 80px;
+            background-image:
+                linear-gradient(to right, rgba(10, 17, 40, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(10, 17, 40, 0.08) 1px, transparent 1px);
+        }
+
+        /* Thread styling matching homepage theme */
+        .thread-h {
+            position: absolute;
+            height: 1px;
+            background: rgba(209, 180, 157, 0.15);
+            width: 200vw;
+            left: -50vw;
+            z-index: 0;
+        }
+
+        .thread-v {
+            position: absolute;
+            width: 1px;
+            background: rgba(209, 180, 157, 0.15);
+            height: 200vh;
+            top: -50vh;
+            z-index: 0;
+        }
+
+        /* Button micro-interaction */
+        .btn-weave {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-weave::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.2s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+
+        .btn-weave:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-weave-fill {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-weave-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.2s cubic-bezier(0.86, 0, 0.07, 1);
+            z-index: 1;
+        }
+
+        .btn-weave-fill:hover::before {
+            left: 0;
+        }
+
+        /* SVG checkmark animation */
+        @keyframes strokeCheck {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes scaleCheckContainer {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #D1B49D;
+            fill: none;
+            animation: strokeCheck 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .checkmark-check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            stroke-width: 3;
+            stroke: #0A1128;
+            fill: none;
+            animation: strokeCheck 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+        }
+
+        .checkmark-container {
+            animation: scaleCheckContainer 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s both;
+        }
+        /* Active touch micro-interactions for mobile */
+        @media (max-width: 767px) {
+            button, a, .service-card, .budget-card {
+                transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s, border-color 0.2s;
+            }
+            button:active, a:active, .service-card:active, .budget-card:active {
+                transform: scale(0.96) !important;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Noise overlay generation
+            const noiseCanvas = document.createElement('canvas');
+            noiseCanvas.width = 128;
+            noiseCanvas.height = 128;
+            const noiseCtx = noiseCanvas.getContext('2d');
+            const noiseImgData = noiseCtx.createImageData(128, 128);
+            const buffer = new Uint32Array(noiseImgData.data.buffer);
+            for (let i = 0; i < buffer.length; i++) {
+                const noise = (Math.random() * 255) | 0;
+                buffer[i] = (15 << 24) | (noise << 16) | (noise << 8) | noise;
+            }
+            noiseCtx.putImageData(noiseImgData, 0, 0);
+
+            const grainDiv = document.createElement('div');
+            grainDiv.className = 'fixed inset-0 pointer-events-none mix-blend-multiply opacity-[0.35]';
+            grainDiv.style.zIndex = '-5';
+            grainDiv.style.backgroundImage = `url(${noiseCanvas.toDataURL()})`;
+            grainDiv.style.backgroundRepeat = 'repeat';
+            document.body.appendChild(grainDiv);
+
+            // Curvy threads celebration canvas
+            const canvas = document.createElement('canvas');
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '50';
+            document.body.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const threads = [];
+            const colors = ['#D1B49D', '#F4F5F7', '#bfc5e4', '#bfc5e4'];
+            for (let i = 0; i < 40; i++) {
+                threads.push({
+                    x: Math.random() * width,
+                    y: height + Math.random() * 150,
+                    length: 60 + Math.random() * 90,
+                    speed: 2.5 + Math.random() * 4.5,
+                    curvePhase: Math.random() * Math.PI,
+                    curveSpeed: 0.02 + Math.random() * 0.03,
+                    width: 1.2 + Math.random() * 1.8,
+                    color: colors[Math.floor(Math.random() * colors.length)]
+                });
+            }
+
+            function animateThreads() {
+                ctx.clearRect(0, 0, width, height);
+                let alive = false;
+                threads.forEach(t => {
+                    if (t.y > -t.length - 20) {
+                        alive = true;
+                        t.y -= t.speed;
+                        t.x += Math.sin(t.curvePhase) * 1.2;
+                        t.curvePhase += t.curveSpeed;
+
+                        ctx.beginPath();
+                        ctx.strokeStyle = t.color;
+                        ctx.lineWidth = t.width;
+                        ctx.lineCap = 'round';
+                        ctx.moveTo(t.x, t.y);
+                        ctx.quadraticCurveTo(
+                            t.x + Math.sin(t.curvePhase + 1.2) * 15,
+                            t.y + t.length / 2,
+                            t.x + Math.sin(t.curvePhase) * 8,
+                            t.y + t.length
+                        );
+                        ctx.stroke();
+                    }
+                });
+
+                if (alive) {
+                    requestAnimationFrame(animateThreads);
+                } else {
+                    canvas.remove();
+                }
+            }
+
+            // Start celebration animation after checkmark finishes its main scale sequence
+            setTimeout(animateThreads, 150);
+        });
+    </script>
+</head>
+
+<body
+    class="text-chalk-linen font-body-md overflow-x-hidden selection:bg-desert-sand selection:text-abyssal-navy relative min-h-screen flex flex-col justify-between">
+    
+    <!-- Fixed Background Color Matching Landing Page -->
+    <div class="fixed inset-0 -z-20 pointer-events-none"
+        style="background: #0A1128; background: linear-gradient(180deg, rgba(10, 17, 40, 1) 16%, rgba(244, 245, 247, 0.31) 56%, rgba(217, 186, 156, 1) 80%);">
+    </div>
+
+    <!-- TopNavBar -->
+    <nav class="fixed top-4 left-4 right-4 md:top-8 md:left-8 md:right-8 z-50 bg-white/10 backdrop-blur-xl border border-white/20 rounded-none">
+        <div class="flex justify-between items-center h-20 px-4 md:px-8">
+            <div class="flex items-center gap-4 relative z-10">
+                <a href="index.html" class="font-label-sm text-label-sm uppercase tracking-[0.25em] text-desert-sand hover:text-white transition-all duration-200 font-bold btn-weave">Hatchers</a>
+            </div>
+            <div class="hidden md:flex items-center gap-12 relative z-10">
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="index.html#services">Services</a>
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="index.html#process">Our Process</a>
+                <a class="font-label-sm text-label-sm uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 btn-weave"
+                    href="index.html#about">Values</a>
+            </div>
+            <div class="hidden md:flex items-center gap-4 relative z-10">
+                <a href="brief.html"
+                    class="font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 bg-desert-sand text-abyssal-navy hover:bg-white hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-desert-sand/40 active:translate-y-0 active:scale-[0.98] transition-all duration-300 shadow-xl shadow-desert-sand/20 btn-weave-fill inline-block">
+                    <span class="relative z-10">Start a Project</span>
+                </a>
+            </div>
+            <button id="mobile-menu-trigger" class="md:hidden text-desert-sand focus:outline-none p-2 min-h-[48px] min-w-[48px] flex items-center justify-center">
+                <span class="material-symbols-outlined text-2xl">menu</span>
+            </button>
+        </div>
+        <!-- Mobile Menu Drawer Overlay -->
+        <div id="mobile-menu-drawer" class="fixed inset-0 w-screen h-screen bg-abyssal-navy/98 backdrop-blur-2xl z-[100] flex flex-col items-center justify-center gap-8 hidden opacity-0 transition-all duration-300 pointer-events-none">
+            <button id="mobile-menu-close" class="absolute top-8 right-8 text-desert-sand hover:text-white p-4 focus:outline-none min-h-[48px] min-w-[48px] flex items-center justify-center">
+                <span class="material-symbols-outlined text-3xl">close</span>
+            </button>
+            <a class="font-headline-md text-2xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="index.html#services">Services</a>
+            <a class="font-headline-md text-2xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="index.html#process">Our Process</a>
+            <a class="font-headline-md text-2xl uppercase tracking-widest text-[#F4F5F7] hover:text-desert-sand transition-all duration-200 py-4 px-8 min-h-[48px] flex items-center" href="index.html#about">Values</a>
+            <a class="font-label-sm text-sm uppercase tracking-widest px-8 py-4 bg-desert-sand text-abyssal-navy hover:bg-white transition-all duration-200 btn-weave-fill inline-block min-h-[48px]" href="brief.html">
+                <span class="relative z-10">Start a Project</span>
+            </a>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const trigger = document.getElementById('mobile-menu-trigger');
+                const drawer = document.getElementById('mobile-menu-drawer');
+                const closeBtn = document.getElementById('mobile-menu-close');
+                
+                if (trigger && drawer && closeBtn) {
+                    const openDrawer = () => {
+                        drawer.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+                        drawer.classList.add('opacity-100', 'pointer-events-auto');
+                        document.body.style.overflow = 'hidden';
+                    };
+                    
+                    const closeDrawer = () => {
+                        drawer.classList.remove('opacity-100', 'pointer-events-auto');
+                        drawer.classList.add('opacity-0', 'pointer-events-none');
+                        setTimeout(() => {
+                            if (drawer.classList.contains('opacity-0')) {
+                                drawer.classList.add('hidden');
+                            }
+                        }, 300);
+                        document.body.style.overflow = '';
+                    };
+                    
+                    trigger.addEventListener('click', openDrawer);
+                    closeBtn.addEventListener('click', closeDrawer);
+                    
+                    drawer.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', closeDrawer);
+                    });
+                }
+            });
+        </script>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="flex-grow pt-36 pb-16 px-5 md:px-8 flex items-center justify-center relative z-10 overflow-hidden">
+        <!-- Thread lines behind form to match theme -->
+        <div class="thread-h top-1/2"></div>
+        <div class="thread-v left-1/2"></div>
+
+        <div class="w-full max-w-xl bg-abyssal-navy/85 border border-desert-sand/20 p-6 md:p-12 shadow-2xl backdrop-blur-xl relative overflow-hidden flex flex-col items-center text-center">
+            
+            <!-- Animated Custom Success Icon -->
+            <div class="checkmark-container w-20 h-20 bg-desert-sand rounded-full flex items-center justify-center mb-8 shadow-xl shadow-desert-sand/20 relative z-10">
+                <svg class="w-12 h-12" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+
+            <!-- Header -->
+            <h2 class="font-serif italic text-3xl md:text-4xl text-desert-sand font-normal mb-4 leading-tight" style="font-family: 'Playfair Display', serif;">
+                Your Vision is Spun.
+            </h2>
+            <p class="text-sm md:text-base text-chalk-linen/80 mb-6 font-light max-w-md">
+                Thank you for submitting your project brief. We have captured your ideas and our weavers are already analyzing how to convert them into digital success.
+            </p>
+
+            <!-- Details Block -->
+            <div class="border-t border-b border-chalk-linen/10 py-6 w-full max-w-sm mb-8 text-xs uppercase tracking-widest text-desert-sand/70 font-semibold space-y-2">
+                <div>What happens next?</div>
+                <div class="text-[10px] text-chalk-linen/60 lowercase tracking-normal font-light italic mt-1 font-body-md normal-case">
+                    We will review the details and reach back to you via your provided email within 24 hours to schedule our discovery call.
+                </div>
+            </div>
+
+            <!-- CTA Back to Home -->
+            <a href="index.html"
+                class="font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 bg-desert-sand text-abyssal-navy hover:bg-white transition-all duration-200 shadow-xl shadow-desert-sand/20 btn-weave-fill inline-block relative z-20">
+                <span class="relative z-10 flex items-center gap-2">
+                    Return to Homepage
+                    <span class="material-symbols-outlined text-sm font-bold">arrow_forward</span>
+                </span>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer matching original -->
+    <footer class="w-full pt-12 pb-8 bg-abyssal-navy text-desert-sand relative overflow-hidden">
+        <div class="absolute inset-0 grid-bg opacity-10 pointer-events-none invert"></div>
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10 text-xs md:text-sm">
+            <p class="font-body-md text-desert-sand/60">© 2024 Hatchloom Agency. All rights reserved.</p>
+            <div class="flex gap-8">
+                <a class="font-body-md text-desert-sand/60 hover:text-white transition-colors duration-300 btn-weave" href="index.html">Home</a>
+                <a class="font-body-md text-desert-sand/60 hover:text-white transition-colors duration-300 btn-weave" href="privacy.html">Privacy Policy</a>
+                <a class="font-body-md text-desert-sand/60 hover:text-white transition-colors duration-300 btn-weave" href="terms.html">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
