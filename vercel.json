@@ -1,8 +1,7 @@
 {
   "cleanUrls": true,
-  "rewrites": [
-    { "source": "/hatchloom/:path*", "destination": "/hatchloom/:path*" },
-    { "source": "/", "destination": "/hatchloom/index.html" },
-    { "source": "/:path*", "destination": "/hatchloom/:path*" }
+  "routes": [
+    { "src": "^/hatchloom/(.*)", "dest": "/hatchloom/$1" },
+    { "src": "^/(.*)", "dest": "/hatchloom/$1" }
   ]
 }
