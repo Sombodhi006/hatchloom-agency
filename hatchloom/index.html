@@ -406,7 +406,44 @@
                 });
             });
 
+            // Scroll-Driven SVG Thread Weaving for Mobile
+            const svgPath = document.getElementById('mobile-weaving-path');
+            if (svgPath) {
+                let pathLength = svgPath.getTotalLength();
+                svgPath.style.strokeDasharray = pathLength;
+                svgPath.style.strokeDashoffset = pathLength;
 
+                let ticking = false;
+                const updateSVGScroll = () => {
+                    const h = document.documentElement;
+                    const b = document.body;
+                    const scrollTop = h.scrollTop || b.scrollTop;
+                    const scrollHeight = h.scrollHeight || b.scrollHeight;
+                    const clientHeight = h.clientHeight;
+                    const totalScroll = scrollHeight - clientHeight;
+                    
+                    if (totalScroll > 0) {
+                        const pct = scrollTop / totalScroll;
+                        svgPath.style.strokeDashoffset = pathLength * (1 - pct);
+                    }
+                    ticking = false;
+                };
+
+                window.addEventListener('scroll', () => {
+                    if (window.innerWidth < 768 && !ticking) {
+                        window.requestAnimationFrame(updateSVGScroll);
+                        ticking = true;
+                    }
+                }, { passive: true });
+
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth < 768) {
+                        pathLength = svgPath.getTotalLength();
+                        svgPath.style.strokeDasharray = pathLength;
+                        updateSVGScroll();
+                    }
+                });
+            }
 
             // Kinetic Text Reveal setup
             document.querySelectorAll('.kinetic-reveal').forEach(el => {
@@ -513,6 +550,10 @@
     </div>
     <!-- STITCH_CANVAS_START:ANIMATION_31 class="fixed inset-0 w-full h-full -z-10 pointer-events-none" -->
     <canvas id="loom-canvas" class="fixed inset-0 w-full h-full -z-10 pointer-events-none"></canvas>
+    <!-- Mobile Scroll-Driven SVG Thread Weaving -->
+    <svg id="mobile-weaving-svg" class="fixed inset-y-0 left-4 -translate-x-5 w-12 h-full pointer-events-none z-10 md:hidden" viewBox="0 0 48 800" preserveAspectRatio="none">
+        <path id="mobile-weaving-path" d="M 24 0 Q 36 100 24 200 T 24 400 T 24 600 T 24 800" fill="none" stroke="#D1B49D" stroke-width="2" stroke-dasharray="1000" stroke-dashoffset="1000" />
+    </svg>
 
     <script>
         (function () {
