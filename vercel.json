@@ -1,18 +1,7 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/hatchloom/index.html" },
-    { "source": "/index.html", "destination": "/hatchloom/index.html" },
-    { "source": "/brief", "destination": "/hatchloom/brief.html" },
-    { "source": "/brief.html", "destination": "/hatchloom/brief.html" },
-    { "source": "/success", "destination": "/hatchloom/success.html" },
-    { "source": "/success.html", "destination": "/hatchloom/success.html" },
-    { "source": "/privacy", "destination": "/hatchloom/privacy.html" },
-    { "source": "/privacy.html", "destination": "/hatchloom/privacy.html" },
-    { "source": "/terms", "destination": "/hatchloom/terms.html" },
-    { "source": "/terms.html", "destination": "/hatchloom/terms.html" },
-    { "source": "/designs/:path*", "destination": "/hatchloom/designs/:path*" },
-    { "source": "/logos/:path*", "destination": "/hatchloom/logos/:path*" },
-    { "source": "/videos/:path*", "destination": "/hatchloom/videos/:path*" }
+    { "source": "/hatchloom/:path*", "destination": "/hatchloom/:path*" },
+    { "source": "/:path*", "destination": "/hatchloom/:path*" }
   ]
 }
