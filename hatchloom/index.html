@@ -10,7 +10,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=Playfair+Display:ital,wght@0,600;1,400;1,600&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
         rel="stylesheet" />
     <!-- Three.js Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -135,13 +135,14 @@
                         "container-max": "1280px"
                     },
                     "fontFamily": {
-                        "body-lg": ["Inter"],
-                        "label-sm": ["Inter"],
-                        "headline-md": ["Hanken Grotesk"],
-                        "headline-lg-mobile": ["Hanken Grotesk"],
-                        "headline-lg": ["Hanken Grotesk"],
-                        "headline-display": ["Hanken Grotesk"],
-                        "body-md": ["Inter"]
+                        "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+                        "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-md": ["Bricolage Grotesque", "sans-serif"],
+                        "headline-lg-mobile": ["Bricolage Grotesque", "sans-serif"],
+                        "headline-lg": ["Bricolage Grotesque", "sans-serif"],
+                        "headline-display": ["Bricolage Grotesque", "sans-serif"],
+                        "body-md": ["Plus Jakarta Sans", "sans-serif"],
+                        "serif": ["Instrument Serif", "serif"]
                     },
                     "fontSize": {
                         "body-lg": ["20px", { "lineHeight": "1.6", "fontWeight": "400" }],
@@ -268,21 +269,22 @@
         }
 
         .hero-logo {
-            margin-left: -20px;
-            margin-top: -40px;
-            margin-bottom: -30px;
+            margin-left: 0;
+            margin-top: 0;
+            margin-bottom: 12px;
             height: auto;
             width: 100%;
-            max-width: 280px;
+            max-width: 240px;
         }
 
         @media (min-width: 768px) {
             .hero-logo {
-                margin-left: -75px;
-                margin-top: -173px;
-                margin-bottom: -110px;
-                height: 384px;
-                width: 384px;
+                margin-left: -12px;
+                margin-top: -10px;
+                margin-bottom: 20px;
+                height: auto;
+                width: 480px;
+                max-width: 480px;
             }
         }
         /* Seamless Marquee Animation */
@@ -327,6 +329,8 @@
             vertical-align: bottom;
             width: 100%;
             will-change: transform;
+            padding-bottom: 0.15em;
+            margin-bottom: -0.15em;
         }
         .text-reveal-item {
             display: block;
@@ -408,25 +412,91 @@
 
 
 
-            // Kinetic Text Reveal setup
+            // 1. Dynamic Cursor Sprout Effect (Glow trail)
+            const sprout = document.getElementById('cursor-sprout');
+            if (sprout) {
+                let lastX = window.innerWidth / 2, lastY = window.innerHeight / 2;
+                let targetX = lastX, targetY = lastY;
+                let isVisible = false;
+                let frameId = null;
+
+                const updateGlowPosition = () => {
+                    lastX += (targetX - lastX) * 0.08;
+                    lastY += (targetY - lastY) * 0.08;
+                    sprout.style.background = `radial-gradient(circle 500px at ${lastX}px ${lastY}px, rgba(209, 180, 157, 0.22), transparent 80%)`;
+                    frameId = requestAnimationFrame(updateGlowPosition);
+                };
+
+                const handleMove = (e) => {
+                    targetX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : targetX);
+                    targetY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : targetY);
+                    if (!isVisible) {
+                        isVisible = true;
+                        sprout.classList.remove('opacity-0');
+                        sprout.classList.add('opacity-100');
+                        frameId = requestAnimationFrame(updateGlowPosition);
+                    }
+                };
+
+                const handleLeave = () => {
+                    isVisible = false;
+                    sprout.classList.remove('opacity-100');
+                    sprout.classList.add('opacity-0');
+                    if (frameId) {
+                        cancelAnimationFrame(frameId);
+                        frameId = null;
+                    }
+                };
+
+                window.addEventListener('pointermove', handleMove, { passive: true });
+                window.addEventListener('pointerdown', handleMove, { passive: true });
+                document.addEventListener('pointerleave', handleLeave, { passive: true });
+            }
+
+            // 2. Kinetic Staggered Word Reveal setup (Recurse DOM to preserve tags)
+            function wrapWords(node, indexObj = { count: 0 }) {
+                if (node.nodeType === 3) { // Text node
+                    const text = node.nodeValue;
+                    if (!text.trim()) return;
+                    const words = text.split(/(\s+)/);
+                    const fragment = document.createDocumentFragment();
+                    words.forEach(word => {
+                        if (/\s+/.test(word)) {
+                            fragment.appendChild(document.createTextNode(word));
+                        } else if (word.length > 0) {
+                            const spanOuter = document.createElement('span');
+                            spanOuter.className = 'inline-block overflow-hidden pb-1 -mb-1 align-bottom';
+                            const spanInner = document.createElement('span');
+                            spanInner.className = 'inline-block translate-y-[110%] opacity-0 transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)]';
+                            spanInner.textContent = word;
+                            spanInner.style.transitionDelay = `${indexObj.count * 30}ms`;
+                            spanOuter.appendChild(spanInner);
+                            fragment.appendChild(spanOuter);
+                            indexObj.count++;
+                        }
+                    });
+                    node.parentNode.replaceChild(fragment, node);
+                } else if (node.nodeType === 1) { // Element node
+                    if (node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE' && !node.classList.contains('inline-block')) {
+                        const children = Array.from(node.childNodes);
+                        children.forEach(child => wrapWords(child, indexObj));
+                    }
+                }
+            }
+
             document.querySelectorAll('.kinetic-reveal').forEach(el => {
-                const wrapper = document.createElement('span');
-                wrapper.className = 'text-reveal-container';
-                const item = document.createElement('span');
-                item.className = 'text-reveal-item';
-                item.innerHTML = el.innerHTML;
-                wrapper.appendChild(item);
-                el.innerHTML = '';
-                el.appendChild(wrapper);
-                
+                wrapWords(el);
                 const revealObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            item.classList.add('reveal-active');
+                            el.querySelectorAll('span > span').forEach(span => {
+                                span.classList.remove('translate-y-[110%]', 'opacity-0');
+                                span.classList.add('translate-y-0', 'opacity-100');
+                            });
                             revealObserver.unobserve(entry.target);
                         }
                     });
-                }, { threshold: 0.1 });
+                }, { threshold: 0.05 });
                 revealObserver.observe(el);
             });
 
@@ -506,11 +576,11 @@
 </head>
 
 <body
-    class="text-abyssal-navy font-body-md overflow-x-hidden selection:bg-abyssal-navy selection:text-desert-sand relative">
-    <!-- Fixed Background Color (Fixed CSS Stacking Bug) -->
-    <div class="fixed inset-0 -z-20 pointer-events-none"
-        style="background: #0A1128; background: linear-gradient(180deg, rgba(10, 17, 40, 1) 16%, rgba(244, 245, 247, 0.31) 56%, rgba(217, 186, 156, 1) 80%);">
-    </div>
+    class="text-chalk-linen font-body-md overflow-x-hidden selection:bg-desert-sand selection:text-abyssal-navy relative bg-[#0A1128]">
+    <!-- Fixed Background Color (Solid Deep Navy) -->
+    <div class="fixed inset-0 -z-30 pointer-events-none bg-[#0A1128]"></div>
+    <!-- Cursor Sprout Overlay (Interactive Yellow Glow) -->
+    <div id="cursor-sprout" class="fixed inset-0 pointer-events-none -z-20 opacity-0 transition-opacity duration-700" style="background: radial-gradient(circle 500px at 0px 0px, rgba(209, 180, 157, 0.22), transparent 80%);"></div>
     <!-- STITCH_CANVAS_START:ANIMATION_31 class="fixed inset-0 w-full h-full -z-10 pointer-events-none" -->
     <canvas id="loom-canvas" class="fixed inset-0 w-full h-full -z-10 pointer-events-none"></canvas>
 
@@ -789,15 +859,8 @@
                 }
                 canvas.style.display = 'block';
 
-                // Draw background solid color and gradient on canvas to blend multiply layers correctly
+                // Draw background solid color on canvas
                 ctx.fillStyle = '#0A1128';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                grad.addColorStop(0.16, 'rgba(10, 17, 40, 1)');
-                grad.addColorStop(0.56, 'rgba(244, 245, 247, 0.31)');
-                grad.addColorStop(0.80, 'rgba(217, 186, 156, 1)');
-                ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                 // Smooth scroll easing
@@ -814,7 +877,7 @@
                     s.velocity *= 0.85;
                     s.tension += s.velocity;
 
-                    ctx.strokeStyle = 'rgba(10, 17, 40, 0.05)';
+                    ctx.strokeStyle = 'rgba(209, 180, 157, 0.05)';
                     ctx.beginPath();
                     ctx.moveTo(xBase, 0);
                     if (Math.abs(s.tension) > 0.01) {
@@ -834,26 +897,26 @@
 
                 if (currentPoint) {
                     // Draw horizontal weft guide line
-                    ctx.strokeStyle = 'rgba(10, 17, 40, 0.03)';
+                    ctx.strokeStyle = 'rgba(244, 245, 247, 0.03)';
                     ctx.lineWidth = 1 * dpr;
                     ctx.beginPath();
                     ctx.moveTo(0, currentPoint.y);
                     ctx.lineTo(width * dpr, currentPoint.y);
                     ctx.stroke();
 
-                    // 3. Draw the woven thread (Dark & Realistic)
+                    // 3. Draw the woven thread (Dark background version: Gold & White twist)
                     if (currentIndex >= 1 && pathPoints[0]) {
                         ctx.lineCap = 'round';
                         ctx.lineJoin = 'round';
 
                         // Drop Shadow for 3D realism
-                        ctx.shadowColor = 'rgba(10, 17, 40, 0.25)';
+                        ctx.shadowColor = 'rgba(10, 17, 40, 0.45)';
                         ctx.shadowBlur = 4 * dpr;
                         ctx.shadowOffsetX = 1.5 * dpr;
                         ctx.shadowOffsetY = 2.5 * dpr;
 
-                        // Base navy strand (dark and clear)
-                        ctx.strokeStyle = '#0A1128';
+                        // Base gold strand (clear on dark)
+                        ctx.strokeStyle = '#D1B49D';
                         ctx.lineWidth = 3.5 * dpr;
                         ctx.beginPath();
                         let first = getScreenCoords(pathPoints[0]);
@@ -866,14 +929,14 @@
                         }
                         ctx.stroke();
 
-                        // Clear shadow for gold/beige overlay
+                        // Clear shadow for twist overlay
                         ctx.shadowColor = 'transparent';
                         ctx.shadowBlur = 0;
                         ctx.shadowOffsetX = 0;
                         ctx.shadowOffsetY = 0;
 
-                        // Gold/beige twist overlay
-                        ctx.strokeStyle = '#D1B49D';
+                        // White/linen twist overlay
+                        ctx.strokeStyle = '#F4F5F7';
                         ctx.lineWidth = 1.2 * dpr;
                         ctx.setLineDash([5 * dpr, 7 * dpr]);
                         ctx.beginPath();
@@ -1060,56 +1123,110 @@
             <div class="thread-h top-2/3"></div>
             <div class="thread-v left-1/3"></div>
             <div class="thread-v left-2/3"></div>
-            <div class="relative z-10 w-full grid grid-cols-1 md:grid-cols-12 gap-0">
-                <div
-                    class="md:col-span-8 md:col-start-1 flex flex-col justify-center px-6 md:px-8 md:pl-24 relative z-20 md:pr-0">
-                    <!-- Brand Logo (Suits environment using light theme contrast filters) -->
-                    <img alt="Hatchloom Logo"
-                        class="hero-logo object-contain self-start opacity-95 select-none pointer-events-none"
-                        style="filter: url(#remove-white) invert(1) brightness(0.95);"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHVT0oh2_2IHEHvRf3fYo3mEeD_iwGyafB60kXNghg6dZ3A6w3pP-Hq6uVEe-2JMTZe9GcaRF25KlkZ9kD2GmuKkVgI1FM792PIlnzLCGi-LSzlSiLANCLblXk7eYW8CDgw-ZE3es0jQWLuZornWA0bunjavI1bhaeK6BGdYPfG5XXdlFcf-AiDTJZm0uYFbiaDvJWFMyGsg7TxbBzyaGoIHBcBs3GaO_JfKDy9lLYsRezjOZmoRZB0YyexOvVUAVoJa1Cgg9-GR4" />
-                    <div
-                        class="inline-block px-4 py-1.5 border-l-4 border-desert-sand mb-8 bg-white/5 backdrop-blur-sm self-start">
-                        <span class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand">Digital
-                            Innovation Agency</span>
+            <!-- Responsive Hero Container -->
+            <div class="relative z-10 w-full">
+                <!-- Desktop Hero Layout (md and up) -->
+                <div class="hidden md:grid grid-cols-12 gap-0">
+                    <div class="col-span-8 col-start-1 flex flex-col justify-center px-6 md:px-8 md:pl-24 relative z-20 md:pr-0">
+                        <!-- Brand Logo (Suits environment using light theme contrast filters) -->
+                        <img alt="Hatchloom Logo"
+                            class="hero-logo object-contain self-start opacity-95 select-none pointer-events-none"
+                            style="filter: url(#remove-white) invert(1) brightness(0.95);"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHVT0oh2_2IHEHvRf3fYo3mEeD_iwGyafB60kXNghg6dZ3A6w3pP-Hq6uVEe-2JMTZe9GcaRF25KlkZ9kD2GmuKkVgI1FM792PIlnzLCGi-LSzlSiLANCLblXk7eYW8CDgw-ZE3es0jQWLuZornWA0bunjavI1bhaeK6BGdYPfG5XXdlFcf-AiDTJZm0uYFbiaDvJWFMyGsg7TxbBzyaGoIHBcBs3GaO_JfKDy9lLYsRezjOZmoRZB0YyexOvVUAVoJa1Cgg9-GR4" />
+                        <div
+                            class="inline-block px-4 py-1.5 border-l-4 border-desert-sand mb-8 bg-white/5 backdrop-blur-sm self-start">
+                            <span class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand">Digital Innovation Agency</span>
+                        </div>
+                        <h1
+                            class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-display text-white mb-8 leading-[1.15] tracking-tight kinetic-reveal">
+                            Weaving Your Vision Into <br /><span
+                                class="block ml-8 md:ml-24 text-desert-sand font-serif italic font-normal tracking-wide mt-2"
+                                style="font-family: 'Instrument Serif', serif;">Digital Success</span>
+                        </h1>
                     </div>
-                    <h1
-                        class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-display text-white mb-8 leading-[1.0] tracking-tight kinetic-reveal">
-                        Weaving Your Vision Into <br /><span
-                            class="block ml-8 md:ml-24 text-desert-sand font-serif italic font-normal tracking-wide mt-2"
-                            style="font-family: 'Playfair Display', serif;">Digital Success</span>
-                    </h1>
+                    <div
+                        class="col-span-6 col-start-7 bg-abyssal-navy/90 text-desert-sand flex flex-col justify-center px-6 md:px-20 py-16 md:py-20 relative z-10 md:-ml-32 mt-12 md:mt-32 md:mb-32 shadow-2xl border border-desert-sand/20 backdrop-blur-md">
+                        <div
+                            class="absolute -left-12 -top-12 w-24 h-24 border border-desert-sand/20 rounded-full animate-spin-slow pointer-events-none hidden md:block">
+                        </div>
+                        <div class="font-body-lg max-w-lg mb-12 relative z-10">
+                            <span class="text-white text-xl md:text-2xl font-bold leading-snug tracking-wide block mb-6">
+                                We engineer clean, lightning-fast digital systems designed to turn casual traffic into paying customers.
+                            </span>
+                            <span class="text-desert-sand/80 text-sm md:text-base leading-loose tracking-widest block font-semibold uppercase">
+                                No bloated code. No generic fluff. <br class="hidden sm:inline" />Direct, functional, and built to scale.
+                            </span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-6 relative z-10">
+                            <a href="brief.html"
+                                class="font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 bg-desert-sand text-abyssal-navy hover:bg-white hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-desert-sand/40 active:translate-y-0 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 group btn-weave-fill inline-flex shadow-xl shadow-desert-sand/20">
+                                <span class="relative z-10 flex items-center gap-2">Start a Project
+                                    <span
+                                        class="material-symbols-outlined group-hover:translate-x-1.5 transition-transform duration-200">arrow_forward</span></span>
+                            </a>
+                            <a href="#process"
+                                class="font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 border border-desert-sand/30 text-desert-sand hover:bg-desert-sand/10 hover:-translate-y-0.5 hover:border-desert-sand/60 active:translate-y-0 active:scale-[0.98] transition-all duration-300 btn-weave-fill inline-flex items-center justify-center">
+                                <span class="relative z-10">Our process</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div
-                    class="md:col-span-6 md:col-start-7 bg-abyssal-navy/90 text-desert-sand flex flex-col justify-center px-6 md:px-20 py-16 md:py-20 relative z-10 md:-ml-32 mt-12 md:mt-32 md:mb-32 shadow-2xl border border-desert-sand/20 backdrop-blur-md">
-                    <div
-                        class="absolute -left-12 -top-12 w-24 h-24 border border-desert-sand/20 rounded-full animate-spin-slow pointer-events-none hidden md:block">
+
+                <!-- Mobile-only Hero layout (< md) -->
+                <div class="flex md:hidden flex-col justify-between min-h-[calc(100dvh-140px)] py-4 px-6 relative z-20 w-full">
+                    <!-- Top Block -->
+                    <div class="flex flex-col gap-4">
+                        <!-- Brand Logo -->
+                        <img alt="Hatchloom Logo"
+                            class="hero-logo object-contain self-start opacity-95 select-none pointer-events-none w-[220px]"
+                            style="filter: url(#remove-white) invert(1) brightness(0.95);"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHVT0oh2_2IHEHvRf3fYo3mEeD_iwGyafB60kXNghg6dZ3A6w3pP-Hq6uVEe-2JMTZe9GcaRF25KlkZ9kD2GmuKkVgI1FM792PIlnzLCGi-LSzlSiLANCLblXk7eYW8CDgw-ZE3es0jQWLuZornWA0bunjavI1bhaeK6BGdYPfG5XXdlFcf-AiDTJZm0uYFbiaDvJWFMyGsg7TxbBzyaGoIHBcBs3GaO_JfKDy9lLYsRezjOZmoRZB0YyexOvVUAVoJa1Cgg9-GR4" />
+                        
+                        <div class="inline-block px-3 py-1 border-l-2 border-desert-sand bg-white/5 backdrop-blur-sm self-start">
+                            <span class="font-label-sm text-[10px] uppercase tracking-widest text-desert-sand">Digital Innovation Agency</span>
+                        </div>
+
+                        <h1 class="font-headline-lg-mobile text-headline-lg-mobile text-white leading-[1.1] tracking-tight kinetic-reveal">
+                            Weaving Your Vision Into <br />
+                            <span class="block ml-6 text-desert-sand font-serif italic font-normal tracking-wide mt-1" style="font-family: 'Instrument Serif', serif;">Digital Success</span>
+                        </h1>
                     </div>
-                    <div class="font-body-lg max-w-lg mb-12 relative z-10">
-                        <span class="text-white text-xl md:text-2xl font-bold leading-snug tracking-wide block mb-6">
-                            We engineer clean, lightning-fast digital systems designed to turn casual traffic into paying customers.
-                        </span>
-                        <span class="text-desert-sand/80 text-sm md:text-base leading-loose tracking-widest block font-semibold uppercase">
-                            No bloated code. No generic fluff. <br class="hidden sm:inline" />Direct, functional, and built to scale.
-                        </span>
+
+                    <!-- Middle Block (Logo Marquee - Looms we have hatched) -->
+                    <div class="my-6">
+                        <div class="w-full overflow-hidden py-2" style="mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);">
+                            <div class="flex w-max animate-marquee">
+                                <img src="logos/irel.png" alt="Irel" class="h-6 object-contain opacity-55 mr-12" />
+                                <img src="logos/zero_degree.png" alt="Zero Degree" class="h-6 object-contain opacity-55 mr-12" />
+                                <img src="logos/afterlife.png" alt="Afterlife Studios" class="h-6 object-contain opacity-55 mr-12" />
+                                <img src="logos/ca.png" alt="CA" class="h-6 object-contain opacity-55 mr-12" />
+                                <!-- Duplicate for seamless loop -->
+                                <img src="logos/irel.png" alt="Irel" class="h-6 object-contain opacity-55 mr-12" />
+                                <img src="logos/zero_degree.png" alt="Zero Degree" class="h-6 object-contain opacity-55 mr-12" />
+                                <img src="logos/afterlife.png" alt="Afterlife Studios" class="h-6 object-contain opacity-55 mr-12" />
+                                <img src="logos/ca.png" alt="CA" class="h-6 object-contain opacity-55 mr-12" />
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex flex-col sm:flex-row gap-6 relative z-10">
+
+                    <!-- Bottom Block -->
+                    <div class="flex flex-col gap-6">
+                        <p class="font-body-md text-sm text-desert-sand/90 leading-relaxed font-semibold">
+                            Building systems to convert casual growth into revenue
+                        </p>
+                        
                         <a href="brief.html"
-                            class="font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 bg-desert-sand text-abyssal-navy hover:bg-white hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-desert-sand/40 active:translate-y-0 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 group btn-weave-fill inline-flex shadow-xl shadow-desert-sand/20">
-                            <span class="relative z-10 flex items-center gap-2">Start a Project
-                                <span
-                                    class="material-symbols-outlined group-hover:translate-x-1.5 transition-transform duration-200">arrow_forward</span></span>
-                        </a>
-                        <a href="#process"
-                            class="font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 border border-desert-sand/30 text-desert-sand hover:bg-desert-sand/10 hover:-translate-y-0.5 hover:border-desert-sand/60 active:translate-y-0 active:scale-[0.98] transition-all duration-300 btn-weave-fill inline-flex items-center justify-center">
-                            <span class="relative z-10">Our process</span>
+                            class="w-full font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 bg-desert-sand text-abyssal-navy hover:bg-white active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 group btn-weave-fill shadow-xl shadow-desert-sand/20">
+                            <span class="relative z-10 flex items-center gap-2 font-bold text-xs">Start a Project
+                                <span class="material-symbols-outlined group-hover:translate-x-1.5 transition-transform duration-200 text-sm">arrow_forward</span>
+                            </span>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Brand Logos Marquee Section -->
-        <section class="py-10 overflow-hidden relative z-20">
+        <!-- Brand Logos Marquee Section (Desktop Only) -->
+        <section class="py-10 overflow-hidden relative z-20 hidden md:block">
             <div class="max-w-[1280px] mx-auto px-6 md:px-24 mb-6">
                 <h3 class="text-center font-label-sm text-label-sm uppercase tracking-[0.3em] text-[#D1B49D]/60 select-none">
                     Looms we have hatched
@@ -1157,35 +1274,31 @@
             <div class="thread-v right-1/4"></div>
             <div class="mb-12 md:mb-16 flex flex-col gap-4 px-6 md:px-24">
                 <span
-                    class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy block opacity-80 border-b border-abyssal-navy/20 pb-4 max-w-sm">Capabilities</span>
+                    class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand block opacity-80 border-b border-white/10 pb-4 max-w-sm">Capabilities</span>
                 <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-8">
                     <h2
-                        class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-abyssal-navy max-w-3xl leading-none kinetic-reveal">
+                        class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-white max-w-3xl leading-none kinetic-reveal">
                         Architecting Digital Experiences</h2>
-                    <button
-                        class="font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 border border-abyssal-navy/40 text-abyssal-navy hover:bg-abyssal-navy hover:text-desert-sand transition-colors duration-200 whitespace-nowrap self-start md:self-auto btn-weave-fill">
-                        <span class="relative z-10">View All Services</span>
-                    </button>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-12 gap-0 relative px-6 md:px-12">
                 <!-- Graphic Design -->
                 <div
-                    class="md:col-span-6 md:col-start-2 bg-white/60 backdrop-blur-md border border-abyssal-navy/20 p-6 md:p-16 flex flex-col justify-between group hover:bg-white/90 transition-all duration-300 z-20 shadow-xl relative -rotate-1 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card">
+                    class="md:col-span-6 md:col-start-2 bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-16 flex flex-col justify-between group hover:bg-white/10 transition-all duration-300 z-20 shadow-xl relative -rotate-1 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card text-white">
                     <div>
                         <div class="flex flex-wrap gap-2 mb-8">
                             <span
-                                class="font-label-sm text-label-sm uppercase text-abyssal-navy border border-abyssal-navy/20 px-3 py-1 rounded-none">Identity</span>
+                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-white/10 px-3 py-1 rounded-none">Identity</span>
                             <span
-                                class="font-label-sm text-label-sm uppercase text-abyssal-navy border border-abyssal-navy/20 px-3 py-1 rounded-none">Packaging</span>
+                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-white/10 px-3 py-1 rounded-none">Packaging</span>
                             <span
-                                class="font-label-sm text-label-sm uppercase text-abyssal-navy border border-abyssal-navy/20 px-3 py-1 rounded-none">UI/UX</span>
+                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-white/10 px-3 py-1 rounded-none">UI/UX</span>
                         </div>
                         <h3
-                            class="font-headline-lg text-headline-md md:text-headline-lg text-abyssal-navy mb-6 group-hover:opacity-80 transition-colors duration-200">
+                            class="font-headline-lg text-headline-md md:text-headline-lg text-white mb-6 group-hover:text-desert-sand transition-colors duration-200">
                             Graphic Designing</h3>
                         <div class="service-details-wrapper overflow-hidden md:overflow-visible transition-all duration-500 ease-in-out max-h-0 opacity-0 md:max-h-none md:opacity-100">
-                            <p class="font-body-md text-body-lg text-abyssal-navy/80 max-w-md">We bring your brand to life
+                            <p class="font-body-md text-body-lg text-chalk-linen/80 max-w-md">We bring your brand to life
                                 through striking identity design, custom packaging, and engaging social media creatives. We
                                 craft intuitive website UI/UX to help connect and grow.</p>
                         </div>
@@ -1193,16 +1306,14 @@
                             [ + Read More Details ]
                         </button>
                     </div>
-                    <div class="mt-16 flex justify-between items-center text-abyssal-navy">
-                        <span
-                            class="font-label-sm text-label-sm uppercase tracking-widest border-b border-abyssal-navy pb-1">Learn
-                            More</span>
-                        <span class="material-symbols-outlined text-3xl">arrow_outward</span>
-                    </div>
+                    <a href="#portfolio" class="mt-16 flex justify-between items-center text-desert-sand hover:text-white transition-colors duration-200 group/link">
+                        <span class="font-label-sm text-label-sm uppercase tracking-widest border-b border-desert-sand pb-1 group-hover/link:border-white">Learn More</span>
+                        <span class="material-symbols-outlined text-3xl group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform duration-200">arrow_outward</span>
+                    </a>
                 </div>
                 <!-- UGC Video -->
                 <div
-                    class="md:col-span-5 md:col-start-7 bg-abyssal-navy text-desert-sand border border-abyssal-navy p-6 md:p-16 flex flex-col justify-between group hover:bg-abyssal-navy/95 transition-all duration-300 relative z-30 mt-12 md:mt-0 md:-mt-24 md:-ml-12 shadow-2xl rotate-2 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card">
+                    class="md:col-span-5 md:col-start-7 bg-[#0e162d]/90 backdrop-blur-md text-desert-sand border border-white/10 p-6 md:p-16 flex flex-col justify-between group hover:bg-[#0e162d] transition-all duration-300 relative z-30 mt-12 md:mt-0 md:-mt-24 md:-ml-12 shadow-2xl rotate-2 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card">
                     <div class="relative z-10">
                         <span
                             class="material-symbols-outlined text-5xl text-desert-sand mb-8 opacity-50 group-hover:opacity-100 transition-opacity duration-200">videocam</span>
@@ -1221,19 +1332,19 @@
                 </div>
                 <!-- Web Design -->
                 <div
-                    class="md:col-span-9 md:col-start-3 bg-[#E5D5C6]/40 backdrop-blur-xl border border-abyssal-navy/20 p-6 md:p-16 group hover:bg-[#E5D5C6]/70 transition-all duration-300 flex flex-col md:flex-row items-center gap-12 mt-12 md:-mt-12 z-10 shadow-lg relative -rotate-1 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card">
+                    class="md:col-span-9 md:col-start-3 bg-white/5 backdrop-blur-xl border border-white/10 p-6 md:p-16 group hover:bg-white/10 transition-all duration-300 flex flex-col md:flex-row items-center gap-12 mt-12 md:-mt-12 z-10 shadow-lg relative -rotate-1 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card text-white">
                     <div class="md:w-1/2">
                         <div class="flex flex-wrap gap-2 mb-8">
                             <span
-                                class="font-label-sm text-label-sm uppercase text-abyssal-navy bg-abyssal-navy/10 px-3 py-1">High-Performance</span>
+                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-white/10 px-3 py-1 rounded-none">High-Performance</span>
                             <span
-                                class="font-label-sm text-label-sm uppercase text-abyssal-navy bg-abyssal-navy/10 px-3 py-1">Mobile-Optimized</span>
+                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-white/10 px-3 py-1 rounded-none">Mobile-Optimized</span>
                         </div>
                         <h3
-                            class="font-headline-lg text-headline-md md:text-headline-lg text-abyssal-navy mb-6 group-hover:opacity-80 transition-colors duration-200">
+                            class="font-headline-lg text-headline-md md:text-headline-lg text-white mb-6 group-hover:text-desert-sand transition-colors duration-200">
                             Web Design &amp; Development</h3>
                         <div class="service-details-wrapper overflow-hidden md:overflow-visible transition-all duration-500 ease-in-out max-h-0 opacity-0 md:max-h-none md:opacity-100">
-                            <p class="font-body-md text-body-lg text-abyssal-navy/80">Supercharge your digital presence with
+                            <p class="font-body-md text-body-lg text-chalk-linen/80">Supercharge your digital presence with
                                 platforms engineered for business growth. We build lightning-fast, responsive sites that
                                 cater perfectly to mobile users, turning traffic into loyal conversions.</p>
                         </div>
@@ -1242,32 +1353,32 @@
                         </button>
                     </div>
                     <div
-                        class="md:w-1/2 w-full aspect-video bg-white/20 border border-abyssal-navy/20 flex items-center justify-center relative overflow-hidden mix-blend-luminosity">
-                        <div class="w-3/4 h-3/4 border-2 border-abyssal-navy/40 shadow-2xl relative bg-white/50">
+                        class="md:w-1/2 w-full aspect-video bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden mix-blend-luminosity">
+                        <div class="w-3/4 h-3/4 border-2 border-white/10 shadow-2xl relative bg-[#0e162d]/90">
                             <div
-                                class="absolute top-0 w-full h-6 border-b border-abyssal-navy/40 flex items-center px-3 gap-2 bg-abyssal-navy/10">
-                                <div class="w-2 h-2 rounded-none bg-abyssal-navy/40"></div>
-                                <div class="w-2 h-2 rounded-none bg-abyssal-navy/40"></div>
+                                class="absolute top-0 w-full h-6 border-b border-white/10 flex items-center px-3 gap-2 bg-white/5">
+                                <div class="w-2 h-2 rounded-none bg-desert-sand/50"></div>
+                                <div class="w-2 h-2 rounded-none bg-desert-sand/50"></div>
                             </div>
                             <div class="mt-8 p-6 grid grid-cols-3 gap-4 opacity-40">
-                                <div class="h-4 bg-abyssal-navy col-span-2"></div>
-                                <div class="h-4 bg-abyssal-navy/50"></div>
-                                <div class="h-24 bg-abyssal-navy col-span-3 mt-4"></div>
+                                <div class="h-4 bg-desert-sand/40 col-span-2"></div>
+                                <div class="h-4 bg-desert-sand/20"></div>
+                                <div class="h-24 bg-desert-sand/40 col-span-3 mt-4"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Social Media & Digital Marketing -->
                 <div
-                    class="md:col-span-9 md:col-start-2 bg-abyssal-navy text-desert-sand border border-abyssal-navy p-6 md:p-16 flex flex-col justify-between group hover:bg-abyssal-navy/95 transition-all duration-300 relative z-20 mt-12 shadow-2xl rotate-1 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card">
+                    class="md:col-span-9 md:col-start-2 bg-[#0e162d]/90 text-desert-sand border border-white/10 p-6 md:p-16 flex flex-col justify-between group hover:bg-[#0e162d] transition-all duration-300 relative z-20 mt-12 shadow-2xl rotate-1 hover:rotate-0 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 glow-card">
                     <div>
                         <div class="flex flex-wrap gap-2 mb-8">
                             <span
-                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-desert-sand/20 px-3 py-1 rounded-none">Growth</span>
+                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-white/10 px-3 py-1 rounded-none">Growth</span>
                             <span
-                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-desert-sand/20 px-3 py-1 rounded-none">Campaigns</span>
+                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-white/10 px-3 py-1 rounded-none">Campaigns</span>
                             <span
-                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-desert-sand/20 px-3 py-1 rounded-none">Leads</span>
+                                class="font-label-sm text-label-sm uppercase text-desert-sand border border-white/10 px-3 py-1 rounded-none">Leads</span>
                         </div>
                         <h3
                             class="font-headline-lg text-headline-md md:text-headline-lg text-desert-sand mb-6 group-hover:opacity-80 transition-colors duration-200">
@@ -1292,11 +1403,14 @@
             <div class="thread-h top-0"></div>
             <div class="thread-v left-1/4"></div>
             <div class="mb-12 md:mb-16 flex flex-col gap-4 px-6 md:px-24">
-                <span class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy block opacity-80 border-b border-abyssal-navy/20 pb-4 max-w-sm">Design Showcase</span>
+                <span class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand block opacity-80 border-b border-white/10 pb-4 max-w-sm">Design Showcase</span>
                 <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-8">
-                    <h2 class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-abyssal-navy max-w-3xl leading-none kinetic-reveal">
+                    <h2 class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-white max-w-3xl leading-none kinetic-reveal">
                         Our Creative Masterpieces</h2>
-                    <p class="font-body-md text-abyssal-navy/60 max-w-md">Tap to explore.</p>
+                    <div class="flex items-center gap-3">
+                        <span class="inline-block w-2.5 h-2.5 bg-desert-sand rounded-full animate-pulse shadow-[0_0_8px_rgba(209,180,157,0.8)]"></span>
+                        <p class="font-label-sm text-sm uppercase tracking-[0.2em] text-desert-sand font-bold">Tap to explore</p>
+                    </div>
                 </div>
             </div>
 
@@ -1304,10 +1418,10 @@
             <div class="px-6 md:px-24 relative">
                 <!-- Mobile Carousel Buttons -->
                 <div class="flex md:hidden justify-end gap-2 mb-4">
-                    <button id="prev-slide" class="w-10 h-10 border border-abyssal-navy/20 flex items-center justify-center hover:bg-abyssal-navy/5 text-abyssal-navy rounded-full min-h-[48px] min-w-[48px]">
+                    <button id="prev-slide" class="w-10 h-10 border border-white/15 flex items-center justify-center hover:bg-white/5 text-white rounded-full min-h-[48px] min-w-[48px]">
                         <span class="material-symbols-outlined">chevron_left</span>
                     </button>
-                    <button id="next-slide" class="w-10 h-10 border border-abyssal-navy/20 flex items-center justify-center hover:bg-abyssal-navy/5 text-abyssal-navy rounded-full min-h-[48px] min-w-[48px]">
+                    <button id="next-slide" class="w-10 h-10 border border-white/15 flex items-center justify-center hover:bg-white/5 text-white rounded-full min-h-[48px] min-w-[48px]">
                         <span class="material-symbols-outlined">chevron_right</span>
                     </button>
                 </div>
@@ -1316,9 +1430,9 @@
                 <div id="portfolio-container" class="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-8 md:pb-0 scrollbar-none">
                     <!-- JBL Earbuds Card -->
                     <div class="min-w-[85vw] sm:min-w-[45vw] md:min-w-0 snap-center flex-shrink-0 flex flex-col group cursor-pointer" onclick="openLightbox(0)">
-                        <div class="relative w-full pb-[125%] border border-abyssal-navy/20 bg-white/40 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
+                        <div class="relative w-full pb-[125%] border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
                             <img src="designs/design1.jpg" alt="JBL Earbuds Campaign" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                            <div class="absolute inset-0 bg-abyssal-navy/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
+                            <div class="absolute inset-0 bg-[#0A1128]/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
                                 <span class="font-label-sm text-xs uppercase tracking-widest text-desert-sand/70">Social Ad Campaign</span>
                                 <div class="space-y-4">
                                     <h4 class="font-headline-md text-xl text-white">JBL 220 TWS Ad</h4>
@@ -1327,15 +1441,15 @@
                                 </div>
                             </div>
                         </div>
-                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-abyssal-navy mt-4 font-bold">JBL 220 TWS</h4>
-                        <span class="text-xs text-abyssal-navy/60 mt-1">Social Product Ad</span>
+                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-white mt-4 font-bold">JBL 220 TWS</h4>
+                        <span class="text-xs text-chalk-linen/60 mt-1">Social Product Ad</span>
                     </div>
 
                     <!-- AirPods Card -->
                     <div class="min-w-[85vw] sm:min-w-[45vw] md:min-w-0 snap-center flex-shrink-0 flex flex-col group cursor-pointer" onclick="openLightbox(1)">
-                        <div class="relative w-full pb-[125%] border border-abyssal-navy/20 bg-white/40 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
+                        <div class="relative w-full pb-[125%] border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
                             <img src="designs/design2.jpg" alt="AirPods Launch Concept" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                            <div class="absolute inset-0 bg-abyssal-navy/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
+                            <div class="absolute inset-0 bg-[#0A1128]/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
                                 <span class="font-label-sm text-xs uppercase tracking-widest text-desert-sand/70">Aesthetic Showcase</span>
                                 <div class="space-y-4">
                                     <h4 class="font-headline-md text-xl text-white">AirPods New Arrival</h4>
@@ -1344,15 +1458,15 @@
                                 </div>
                             </div>
                         </div>
-                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-abyssal-navy mt-4 font-bold">AirPods Maxima</h4>
-                        <span class="text-xs text-abyssal-navy/60 mt-1">Social & Web Banner</span>
+                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-white mt-4 font-bold">AirPods Maxima</h4>
+                        <span class="text-xs text-chalk-linen/60 mt-1">Social & Web Banner</span>
                     </div>
 
                     <!-- Mixer Grinder Card -->
                     <div class="min-w-[85vw] sm:min-w-[45vw] md:min-w-0 snap-center flex-shrink-0 flex flex-col group cursor-pointer" onclick="openLightbox(2)">
-                        <div class="relative w-full pb-[125%] border border-abyssal-navy/20 bg-white/40 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
+                        <div class="relative w-full pb-[125%] border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
                             <img src="designs/design3.jpg" alt="750 Watt Mixer Grinder Ad" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                            <div class="absolute inset-0 bg-abyssal-navy/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
+                            <div class="absolute inset-0 bg-[#0A1128]/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
                                 <span class="font-label-sm text-xs uppercase tracking-widest text-desert-sand/70">Commercial Ad</span>
                                 <div class="space-y-4">
                                     <h4 class="font-headline-md text-xl text-white">750 Watt Mixer</h4>
@@ -1361,15 +1475,15 @@
                                 </div>
                             </div>
                         </div>
-                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-abyssal-navy mt-4 font-bold">750W Mixer Grinder</h4>
-                        <span class="text-xs text-abyssal-navy/60 mt-1">E-Commerce Creative</span>
+                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-white mt-4 font-bold">750W Mixer Grinder</h4>
+                        <span class="text-xs text-chalk-linen/60 mt-1">E-Commerce Creative</span>
                     </div>
 
                     <!-- Skincare Serum Card -->
                     <div class="min-w-[85vw] sm:min-w-[45vw] md:min-w-0 snap-center flex-shrink-0 flex flex-col group cursor-pointer" onclick="openLightbox(3)">
-                        <div class="relative w-full pb-[125%] border border-abyssal-navy/20 bg-white/40 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
+                        <div class="relative w-full pb-[125%] border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:border-desert-sand/50 transition-all duration-300">
                             <img src="designs/design4.jpg" alt="Winter Skincare Promotion" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                            <div class="absolute inset-0 bg-abyssal-navy/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
+                            <div class="absolute inset-0 bg-[#0A1128]/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 text-desert-sand">
                                 <span class="font-label-sm text-xs uppercase tracking-widest text-desert-sand/70">Campaign Launch</span>
                                 <div class="space-y-4">
                                     <h4 class="font-headline-md text-xl text-white">GlowX Niacinamide</h4>
@@ -1378,17 +1492,17 @@
                                 </div>
                             </div>
                         </div>
-                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-abyssal-navy mt-4 font-bold">Winter Skincare 50% Off</h4>
-                        <span class="text-xs text-abyssal-navy/60 mt-1">Product Launch Poster</span>
+                        <h4 class="font-label-sm text-xs uppercase tracking-widest text-white mt-4 font-bold">Winter Skincare 50% Off</h4>
+                        <span class="text-xs text-chalk-linen/60 mt-1">Product Launch Poster</span>
                     </div>
                 </div>
 
                 <!-- Carousel Dots Indicator (Mobile Only) -->
                 <div class="flex md:hidden justify-center gap-2 mt-4" id="carousel-dots">
-                    <span class="w-2 h-2 rounded-full bg-abyssal-navy transition-all duration-300" data-index="0"></span>
-                    <span class="w-2 h-2 rounded-full bg-abyssal-navy/25 transition-all duration-300" data-index="1"></span>
-                    <span class="w-2 h-2 rounded-full bg-abyssal-navy/25 transition-all duration-300" data-index="2"></span>
-                    <span class="w-2 h-2 rounded-full bg-abyssal-navy/25 transition-all duration-300" data-index="3"></span>
+                    <span class="w-2 h-2 rounded-full bg-white transition-all duration-300" data-index="0"></span>
+                    <span class="w-2 h-2 rounded-full bg-white/25 transition-all duration-300" data-index="1"></span>
+                    <span class="w-2 h-2 rounded-full bg-white/25 transition-all duration-300" data-index="2"></span>
+                    <span class="w-2 h-2 rounded-full bg-white/25 transition-all duration-300" data-index="3"></span>
                 </div>
             </div>
 
@@ -1437,21 +1551,21 @@
 
         <!-- Process Section (Flowchart/Weave) -->
         <section
-            class="py-16 md:py-24 px-6 md:px-24 border-y border-abyssal-navy/20 relative overflow-hidden bg-abyssal-navy/5 animate-on-scroll"
+            class="py-16 md:py-24 px-6 md:px-24 border-y border-white/10 relative overflow-hidden bg-[#0e162d]/20 animate-on-scroll"
             id="process">
             <div class="thread-v left-1/2"></div>
             <div class="relative z-20">
                 <div class="text-center md:text-left mb-16 md:mb-20 md:w-1/2">
                     <span
-                        class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy mb-6 block border-b border-abyssal-navy/20 pb-4 inline-block">Our
+                        class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand mb-6 block border-b border-white/10 pb-4 inline-block">Our
                         Methodology</span>
                     <h2
-                        class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-abyssal-navy leading-none kinetic-reveal">
+                        class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-white leading-none kinetic-reveal">
                         Weaving Your Vision Into Reality</h2>
                 </div>
                 <div class="relative">
                     <!-- Flowing Thread Line - Literal Weave -->
-                    <svg class="absolute top-0 left-0 w-full h-full pointer-events-none stroke-abyssal-navy/30"
+                    <svg class="absolute top-0 left-0 w-full h-full pointer-events-none stroke-white/20"
                         fill="none" preserveaspectratio="none" viewbox="0 0 1200 800"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M 0,100 C 300,100 200,400 600,400 C 1000,400 900,700 1200,700" stroke-dasharray="10 10"
@@ -1461,32 +1575,32 @@
                     <div class="flex flex-col gap-16 md:gap-0 relative z-10">
                         <!-- Step 1 -->
                         <div
-                            class="w-full md:w-5/12 bg-white/80 px-5 py-8 md:p-10 border border-abyssal-navy/20 relative backdrop-blur-md shadow-xl hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 transition-all duration-300 origin-left">
+                            class="w-full md:w-5/12 bg-white/5 px-5 py-8 md:p-10 border border-white/10 relative backdrop-blur-md shadow-xl hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 transition-all duration-300 origin-left">
                             <div
-                                class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-desert-sand border border-abyssal-navy items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45">
+                                class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-desert-sand border border-white items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45">
                                 <span class="-rotate-45">01</span>
                             </div>
                             <div class="flex items-center gap-4 mb-4 md:block">
-                                <div class="md:hidden w-10 h-10 bg-desert-sand border border-abyssal-navy flex items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45 flex-shrink-0 animate-spin-slow">
+                                <div class="md:hidden w-10 h-10 bg-desert-sand border border-white flex items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45 flex-shrink-0 animate-spin-slow">
                                     <span class="-rotate-45 text-sm font-bold">01</span>
                                 </div>
-                                <h3 class="font-headline-lg text-headline-md text-abyssal-navy">The Briefing</h3>
+                                <h3 class="font-headline-lg text-headline-md text-white">The Briefing</h3>
                             </div>
                             <span
-                                class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy block mb-4 md:mb-6 opacity-60">Step
+                                class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand block mb-4 md:mb-6 opacity-60">Step
                                 1</span>
-                            <p class="font-body-md text-body-lg text-abyssal-navy/80">You share your goals, brand
+                            <p class="font-body-md text-body-lg text-chalk-linen/80">You share your goals, brand
                                 assets, and target audience through our quick intake form.</p>
                         </div>
                         <!-- Step 2 -->
                         <div
-                            class="w-full md:w-6/12 bg-abyssal-navy px-5 py-8 md:p-10 border border-desert-sand/20 relative shadow-2xl self-stretch md:self-end md:-mt-24 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 transition-all duration-300 origin-right z-20">
+                            class="w-full md:w-6/12 bg-[#0e162d]/90 backdrop-blur-md px-5 py-8 md:p-10 border border-desert-sand/30 relative shadow-2xl self-stretch md:self-end md:-mt-24 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 transition-all duration-300 origin-right z-20">
                             <div
-                                class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-desert-sand border border-abyssal-navy items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45">
+                                class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-desert-sand border border-white items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45">
                                 <span class="-rotate-45">02</span>
                             </div>
                             <div class="flex items-center gap-4 mb-4 md:block">
-                                <div class="md:hidden w-10 h-10 bg-desert-sand border border-abyssal-navy flex items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45 flex-shrink-0 animate-spin-slow">
+                                <div class="md:hidden w-10 h-10 bg-desert-sand border border-white flex items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45 flex-shrink-0 animate-spin-slow">
                                     <span class="-rotate-45 text-sm font-bold">02</span>
                                 </div>
                                 <h3 class="font-headline-lg text-headline-md text-desert-sand">The Prototype &amp; Strategy</h3>
@@ -1494,27 +1608,27 @@
                             <span
                                 class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand block mb-4 md:mb-6 opacity-60">Step
                                 2</span>
-                            <p class="font-body-md text-body-lg text-desert-sand/80">We present the UI wireframes and
+                            <p class="font-body-md text-body-lg text-chalk-linen/80">We present the UI wireframes and
                                 Reels concepts for your approval before writing a single line of code or shooting video.
                             </p>
                         </div>
                         <!-- Step 3 -->
                         <div
-                            class="w-full md:w-5/12 bg-white/80 px-5 py-8 md:p-10 border border-abyssal-navy/20 relative backdrop-blur-md shadow-xl md:-mt-12 md:ml-32 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 transition-all duration-300 origin-left z-10">
+                            class="w-full md:w-5/12 bg-white/5 px-5 py-8 md:p-10 border border-white/10 relative backdrop-blur-md shadow-xl md:-mt-12 md:ml-32 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 transition-all duration-300 origin-left z-10">
                             <div
-                                class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-desert-sand border border-abyssal-navy items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45">
+                                class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-desert-sand border border-white items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45">
                                 <span class="-rotate-45">03</span>
                             </div>
                             <div class="flex items-center gap-4 mb-4 md:block">
-                                <div class="md:hidden w-10 h-10 bg-desert-sand border border-abyssal-navy flex items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45 flex-shrink-0 animate-spin-slow">
+                                <div class="md:hidden w-10 h-10 bg-desert-sand border border-white flex items-center justify-center font-headline-md text-abyssal-navy shadow-lg rotate-45 flex-shrink-0 animate-spin-slow">
                                     <span class="-rotate-45 text-sm font-bold">03</span>
                                 </div>
-                                <h3 class="font-headline-lg text-headline-md text-abyssal-navy">Launch &amp; Handover</h3>
+                                <h3 class="font-headline-lg text-headline-md text-white">Launch &amp; Handover</h3>
                             </div>
                             <span
-                                class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy block mb-4 md:mb-6 opacity-60">Step
+                                class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand block mb-4 md:mb-6 opacity-60">Step
                                 3</span>
-                            <p class="font-body-md text-body-lg text-abyssal-navy/80">We deploy your live website and
+                            <p class="font-body-md text-body-lg text-chalk-linen/80">We deploy your live website and
                                 deliver your edited Reels ready to publish, along with complete asset access.</p>
                         </div>
                     </div>
@@ -1524,7 +1638,7 @@
     </main>
     <!-- Footer / About Section -->
     <section
-        class="pt-16 pb-48 md:pt-24 md:pb-80 px-6 md:px-24 border-y border-abyssal-navy/20 animate-on-scroll relative overflow-hidden"
+        class="pt-16 pb-48 md:pt-24 md:pb-80 px-6 md:px-24 border-y border-white/10 animate-on-scroll relative overflow-hidden"
         id="about">
         <div class="thread-h top-1/2"></div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-0 relative">
@@ -1635,23 +1749,23 @@
                 </script>
             </div>
             <div
-                class="w-full md:col-span-8 md:col-start-5 bg-white/90 backdrop-blur-xl p-6 md:p-24 border border-abyssal-navy/20 mt-12 md:mt-0 md:-mt-32 md:-ml-16 z-30 shadow-2xl flex flex-col justify-center transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50">
+                class="w-full md:col-span-8 md:col-start-5 bg-white/5 backdrop-blur-xl p-6 md:p-24 border border-white/10 mt-12 md:mt-0 md:-mt-32 md:-ml-16 z-30 shadow-2xl flex flex-col justify-center transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-desert-sand/20 hover:border-desert-sand/50 text-white">
                 <h2
-                    class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-abyssal-navy mb-8 leading-none kinetic-reveal">
+                    class="font-headline-lg-mobile md:font-headline-display text-headline-lg-mobile md:text-headline-lg text-white mb-8 leading-none kinetic-reveal">
                     Our Values</h2>
-                <p class="font-body-lg text-body-lg text-abyssal-navy/90 mb-16 text-xl">
+                <p class="font-body-lg text-body-lg text-chalk-linen/90 mb-16 text-xl">
                     We don't just pick up projects; we treat your vision as our own. Hatchloom was born to weave raw, powerful ideas into lasting digital success stories. Guided by trust, transparency, and relentless dedication, we align our strategy with your execution to turn your brand's potential into a market powerhouse.
                 </p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-12">
-                    <div class="border-t-2 border-abyssal-navy pt-6">
-                        <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy mb-4">Our
+                    <div class="border-t-2 border-desert-sand pt-6">
+                        <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand mb-4">Our
                             Vision</h4>
-                        <p class="font-body-md text-body-md text-abyssal-navy/80">The world doesn't need more brands it needs brands with purpose, personality, and presence. Our vision is to create businesses that become movements, inspire conversations, and earn lasting influence by refusing to blend into the ordinary</p>
+                        <p class="font-body-md text-body-md text-chalk-linen/80">The world doesn't need more brands it needs brands with purpose, personality, and presence. Our vision is to create businesses that become movements, inspire conversations, and earn lasting influence by refusing to blend into the ordinary</p>
                     </div>
-                    <div class="border-t-2 border-abyssal-navy pt-6">
-                        <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-abyssal-navy mb-4">Our
+                    <div class="border-t-2 border-desert-sand pt-6">
+                        <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-desert-sand mb-4">Our
                             Mission</h4>
-                        <p class="font-body-md text-body-md text-abyssal-navy/80">The world doesn't need more brands it needs brands with purpose, personality, and presence. Our vision is to create businesses that become movements, inspire conversations, and earn lasting influence by refusing to blend into the ordinary</p>
+                        <p class="font-body-md text-body-md text-chalk-linen/80">The world doesn't need more brands it needs brands with purpose, personality, and presence. Our vision is to create businesses that become movements, inspire conversations, and earn lasting influence by refusing to blend into the ordinary</p>
                     </div>
                 </div>
             </div>
@@ -1930,11 +2044,11 @@
                     const idx = Math.round(scrollPos / cardWidth);
                     dots.forEach((dot, i) => {
                         if (i === idx) {
-                            dot.classList.add('bg-abyssal-navy');
-                            dot.classList.remove('bg-abyssal-navy/25');
+                            dot.classList.add('bg-white');
+                            dot.classList.remove('bg-white/25');
                         } else {
-                            dot.classList.remove('bg-abyssal-navy');
-                            dot.classList.add('bg-abyssal-navy/25');
+                            dot.classList.remove('bg-white');
+                            dot.classList.add('bg-white/25');
                         }
                     });
                 };

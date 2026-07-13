@@ -203,6 +203,47 @@
             grainDiv.style.backgroundImage = `url(${noiseCanvas.toDataURL()})`;
             grainDiv.style.backgroundRepeat = 'repeat';
             document.body.appendChild(grainDiv);
+
+            // Dynamic Cursor Sprout Effect (Glow trail)
+            const sprout = document.getElementById('cursor-sprout');
+            if (sprout) {
+                let lastX = window.innerWidth / 2, lastY = window.innerHeight / 2;
+                let targetX = lastX, targetY = lastY;
+                let isVisible = false;
+                let frameId = null;
+
+                const updateGlowPosition = () => {
+                    lastX += (targetX - lastX) * 0.08;
+                    lastY += (targetY - lastY) * 0.08;
+                    sprout.style.background = `radial-gradient(circle 500px at ${lastX}px ${lastY}px, rgba(209, 180, 157, 0.22), transparent 80%)`;
+                    frameId = requestAnimationFrame(updateGlowPosition);
+                };
+
+                const handleMove = (e) => {
+                    targetX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : targetX);
+                    targetY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : targetY);
+                    if (!isVisible) {
+                        isVisible = true;
+                        sprout.classList.remove('opacity-0');
+                        sprout.classList.add('opacity-100');
+                        frameId = requestAnimationFrame(updateGlowPosition);
+                    }
+                };
+
+                const handleLeave = () => {
+                    isVisible = false;
+                    sprout.classList.remove('opacity-100');
+                    sprout.classList.add('opacity-0');
+                    if (frameId) {
+                        cancelAnimationFrame(frameId);
+                        frameId = null;
+                    }
+                };
+
+                window.addEventListener('pointermove', handleMove, { passive: true });
+                window.addEventListener('pointerdown', handleMove, { passive: true });
+                document.addEventListener('pointerleave', handleLeave, { passive: true });
+            }
         });
     </script>
 </head>
@@ -210,10 +251,10 @@
 <body
     class="text-chalk-linen font-body-md overflow-x-hidden selection:bg-desert-sand selection:text-abyssal-navy relative min-h-screen flex flex-col justify-between">
     
-    <!-- Fixed Background Color Matching Landing Page -->
-    <div class="fixed inset-0 -z-20 pointer-events-none"
-        style="background: #0A1128; background: linear-gradient(180deg, rgba(10, 17, 40, 1) 16%, rgba(244, 245, 247, 0.31) 56%, rgba(217, 186, 156, 1) 80%);">
-    </div>
+    <!-- Fixed Background Color (Solid Deep Navy) -->
+    <div class="fixed inset-0 -z-30 pointer-events-none bg-[#0A1128]"></div>
+    <!-- Cursor Sprout Overlay (Interactive Yellow Glow) -->
+    <div id="cursor-sprout" class="fixed inset-0 pointer-events-none -z-20 opacity-0 transition-opacity duration-700" style="background: radial-gradient(circle 500px at 0px 0px, rgba(209, 180, 157, 0.22), transparent 80%);"></div>
 
     <!-- TopNavBar -->
     <nav class="fixed top-4 left-4 right-4 md:top-8 md:left-8 md:right-8 z-50 bg-white/10 backdrop-blur-xl border border-white/20 rounded-none">
