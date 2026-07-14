@@ -1461,13 +1461,13 @@
                 </div>
                 <!-- Project 9 -->
                 <div class="project-img-wrapper aspect-[16/9] md:aspect-video w-full overflow-hidden border border-white/10 shadow-2xl transition-opacity duration-300 opacity-30 select-none will-change-[transform,opacity] cursor-pointer" onclick="openLightbox(8)" data-project-idx="8">
-                    <video autoplay loop muted playsinline preload="metadata" class="w-full h-full object-cover">
+                    <video loop muted playsinline preload="metadata" class="w-full h-full object-cover">
                         <source src="videos/motion1.mp4" type="video/mp4">
                     </video>
                 </div>
                 <!-- Project 10 -->
                 <div class="project-img-wrapper aspect-[16/9] md:aspect-video w-full overflow-hidden border border-white/10 shadow-2xl transition-opacity duration-300 opacity-30 select-none will-change-[transform,opacity] cursor-pointer" onclick="openLightbox(9)" data-project-idx="9">
-                    <video autoplay loop muted playsinline preload="metadata" class="w-full h-full object-cover">
+                    <video loop muted playsinline preload="metadata" class="w-full h-full object-cover">
                         <source src="videos/motion2.mp4" type="video/mp4">
                     </video>
                 </div>
@@ -2169,6 +2169,22 @@
                             item.style.transform = 'translateY(0)';
                         }
                     });
+                    // Play/pause the two showcase videos based on scroll focus
+                    const video9 = imageWrappers[8]?.querySelector('video');
+                    const video10 = imageWrappers[9]?.querySelector('video');
+                    
+                    if (video9 && video10) {
+                        if (activeIndex === 8) {
+                            if (video9.paused) video9.play().catch(()=>{});
+                            if (!video10.paused) video10.pause();
+                        } else if (activeIndex === 9) {
+                            if (video10.paused) video10.play().catch(()=>{});
+                            if (!video9.paused) video9.pause();
+                        } else {
+                            if (!video9.paused) video9.pause();
+                            if (!video10.paused) video10.pause();
+                        }
+                    }
                 }
             });
 
