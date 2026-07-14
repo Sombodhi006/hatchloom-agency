@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark scroll-smooth overflow-x-hidden" lang="en">
+<html class="dark overflow-x-hidden" lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -180,6 +180,23 @@
         }
     </script>
     <style>
+        /* Lenis smooth scrolling compatibility */
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
         .grid-bg {
             background-size: 80px 80px;
             background-image:
@@ -1405,7 +1422,7 @@
         <section class="spotlight-section relative w-full h-screen overflow-hidden bg-slate-950 flex items-center justify-between px-6 md:px-12 z-10" id="portfolio">
             <!-- Column 1: Layout Index Counter (Left) -->
             <div class="project-index text-2xl md:text-3xl font-bold opacity-90 text-desert-sand relative z-20 font-mono">
-                <h1 id="project-index-num">01/05</h1>
+                <h1 id="project-index-num">01/10</h1>
             </div>
 
             <!-- Column 2: Visual Media Track (Center) -->
@@ -1428,7 +1445,31 @@
                 </div>
                 <!-- Project 5 -->
                 <div class="project-img-wrapper aspect-[16/9] md:aspect-video w-full overflow-hidden border border-white/10 shadow-2xl transition-opacity duration-300 opacity-30 select-none will-change-[transform,opacity] cursor-pointer" onclick="openLightbox(4)" data-project-idx="4">
-                    <img src="designs/design1.jpg" alt="Hatchloom Brand Identity" class="w-full h-full object-cover" />
+                    <img src="designs/design5.jpg" alt="Why Koia? Banana Creme" class="w-full h-full object-cover" />
+                </div>
+                <!-- Project 6 -->
+                <div class="project-img-wrapper aspect-[16/9] md:aspect-video w-full overflow-hidden border border-white/10 shadow-2xl transition-opacity duration-300 opacity-30 select-none will-change-[transform,opacity] cursor-pointer" onclick="openLightbox(5)" data-project-idx="5">
+                    <img src="designs/design6.jpg" alt="Lil Bucks Blueberry Crisp" class="w-full h-full object-cover" />
+                </div>
+                <!-- Project 7 -->
+                <div class="project-img-wrapper aspect-[16/9] md:aspect-video w-full overflow-hidden border border-white/10 shadow-2xl transition-opacity duration-300 opacity-30 select-none will-change-[transform,opacity] cursor-pointer" onclick="openLightbox(6)" data-project-idx="6">
+                    <img src="designs/design7.jpg" alt="Muse Enhanced Water" class="w-full h-full object-cover" />
+                </div>
+                <!-- Project 8 -->
+                <div class="project-img-wrapper aspect-[16/9] md:aspect-video w-full overflow-hidden border border-white/10 shadow-2xl transition-opacity duration-300 opacity-30 select-none will-change-[transform,opacity] cursor-pointer" onclick="openLightbox(7)" data-project-idx="7">
+                    <img src="designs/design8.jpg" alt="360 Daily Fruit Fuel" class="w-full h-full object-cover" />
+                </div>
+                <!-- Project 9 -->
+                <div class="project-img-wrapper aspect-[16/9] md:aspect-video w-full overflow-hidden border border-white/10 shadow-2xl transition-opacity duration-300 opacity-30 select-none will-change-[transform,opacity] cursor-pointer" onclick="openLightbox(8)" data-project-idx="8">
+                    <video autoplay loop muted playsinline preload="metadata" class="w-full h-full object-cover">
+                        <source src="videos/motion1.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <!-- Project 10 -->
+                <div class="project-img-wrapper aspect-[16/9] md:aspect-video w-full overflow-hidden border border-white/10 shadow-2xl transition-opacity duration-300 opacity-30 select-none will-change-[transform,opacity] cursor-pointer" onclick="openLightbox(9)" data-project-idx="9">
+                    <video autoplay loop muted playsinline preload="metadata" class="w-full h-full object-cover">
+                        <source src="videos/motion2.mp4" type="video/mp4">
+                    </video>
                 </div>
             </div>
 
@@ -1438,7 +1479,12 @@
                 <p class="project-name-item cursor-pointer text-white/40 hover:text-white transition-all duration-300 will-change-[transform,opacity] font-bold" onclick="openLightbox(1)" data-project-idx="1">AirPods Maxima</p>
                 <p class="project-name-item cursor-pointer text-white/40 hover:text-white transition-all duration-300 will-change-[transform,opacity] font-bold" onclick="openLightbox(2)" data-project-idx="2">750W Mixer Grinder</p>
                 <p class="project-name-item cursor-pointer text-white/40 hover:text-white transition-all duration-300 will-change-[transform,opacity] font-bold" onclick="openLightbox(3)" data-project-idx="3">GlowX Skincare</p>
-                <p class="project-name-item cursor-pointer text-white/40 hover:text-white transition-all duration-300 will-change-[transform,opacity] font-bold" onclick="openLightbox(4)" data-project-idx="4">Hatchloom Identity</p>
+                <p class="project-name-item cursor-pointer text-white/40 hover:text-white transition-all duration-300 will-change-[transform,opacity] font-bold" onclick="openLightbox(4)" data-project-idx="4">Why Koia?</p>
+                <p class="project-name-item cursor-pointer text-white/40 hover:text-white transition-all duration-300 will-change-[transform,opacity] font-bold" onclick="openLightbox(5)" data-project-idx="5">Lil Bucks Crisp</p>
+                <p class="project-name-item cursor-pointer text-white/40 hover:text-white transition-all duration-300 will-change-[transform,opacity] font-bold" onclick="openLightbox(6)" data-project-idx="6">Muse Water</p>
+                <p class="project-name-item cursor-pointer text-white/40 hover:text-white transition-all duration-300 will-change-[transform,opacity] font-bold" onclick="openLightbox(7)" data-project-idx="7">360 Fruit Fuel</p>
+                <p class="project-name-item cursor-pointer text-white/40 hover:text-white transition-all duration-300 will-change-[transform,opacity] font-bold" onclick="openLightbox(8)" data-project-idx="8">Cyber Motion 1</p>
+                <p class="project-name-item cursor-pointer text-white/40 hover:text-white transition-all duration-300 will-change-[transform,opacity] font-bold" onclick="openLightbox(9)" data-project-idx="9">Aesthetic Motion 2</p>
             </div>
         </section>
 
@@ -1747,6 +1793,7 @@
         <!-- Left Side: Image container -->
         <div class="w-full md:w-3/5 h-2/3 md:h-full flex items-center justify-center p-8 relative">
             <img id="lightbox-img" src="" alt="Design Full View" class="max-h-full max-w-full object-contain shadow-2xl border border-desert-sand/20 animate-scale-in" />
+            <video id="lightbox-video" autoplay loop muted playsinline preload="metadata" class="max-h-full max-w-full object-contain shadow-2xl border border-desert-sand/20 animate-scale-in hidden"></video>
             <button id="lightbox-prev" class="absolute left-4 w-12 h-12 border border-desert-sand/30 flex items-center justify-center hover:bg-desert-sand/15 text-desert-sand rounded-full min-h-[48px] min-w-[48px] z-50">
                 <span class="material-symbols-outlined">chevron_left</span>
             </button>
@@ -1834,22 +1881,85 @@
                     img: "designs/design4.jpg"
                 },
                 {
-                    tag: "Creative Poster",
-                    title: "Hatchloom Branding Identity",
-                    desc: "An advanced showcase of our design aesthetics, custom typography integrations, and visual assets highlighting modern premium brand identities.",
+                    tag: "Commercial Poster",
+                    title: "Why Koia? Banana Creme",
+                    desc: "Vibrant yellow product presentation highlighting the organic banana creme plant protein shake. Uses clean modern badges and ingredient storytelling.",
                     specs: [
-                        "Format: 1080x1350px (Brand Identity)",
-                        "Color Palette: Abyssal Navy, Gold Sand, Chalk White",
-                        "Typography: Custom Skiwar and Melodin style fonts",
-                        "Aesthetics: Fluid motion curves, glow sprouts, seamless lines"
+                        "Format: 819x1024px (Product Creative)",
+                        "Color Palette: Sunflower Yellow, Soft Cream, Banana Gold",
+                        "Typography: Handwritten header with rounded geometric labels",
+                        "Aesthetics: Realistic shadows, floating lines, fresh organic theme"
                     ],
-                    img: "designs/design1.jpg"
+                    img: "designs/design5.jpg"
+                },
+                {
+                    tag: "E-Commerce Creative",
+                    title: "Lil Bucks Blueberry Crisp",
+                    desc: "Earthy, texture-rich snack packaging ad showcasing organic sprouted buckwheat clusters. Focuses on premium food details and raw ingredients.",
+                    specs: [
+                        "Format: 819x1024px (Packaging Poster)",
+                        "Color Palette: Cacao Brown, Blueberry Purple, Oat Cream",
+                        "Typography: Heavy serif typography with rustic block subheads",
+                        "Aesthetics: Spilled seed realism, rough stone background, deep depth"
+                    ],
+                    img: "designs/design6.jpg"
+                },
+                {
+                    tag: "Social Media Banner",
+                    title: "Muse Enhanced Water",
+                    desc: "Dynamic, high-impact product layout featuring floating enhanced water bottles in coral-red space. Emphasizes clean branding and hydration styling.",
+                    specs: [
+                        "Format: 819x1024px (Brand Social Ad)",
+                        "Color Palette: Coral Red, Sky Blue, Mango Peach",
+                        "Typography: Vintage psych-rock display fonts, clean body caps",
+                        "Aesthetics: Floating fruit physics, liquid splash drops, flat shading"
+                    ],
+                    img: "designs/design7.jpg"
+                },
+                {
+                    tag: "Packaging Ad",
+                    title: "360 Daily Fruit Fuel",
+                    desc: "Symmetrical, high-contrast product ad for Three Sixty Degree fruit bars. Emphasizes clean packaging and fruit ingredient overlays.",
+                    specs: [
+                        "Format: 819x1024px (Brand Creative)",
+                        "Color Palette: Blossom Pink, Gauva Green, Mango Yellow",
+                        "Typography: Soft round slab-serif, clean modern body",
+                        "Aesthetics: Floating fruit slices, split-color background, soft drop shadows"
+                    ],
+                    img: "designs/design8.jpg"
+                },
+                {
+                    tag: "Motion Graphics Showcase",
+                    title: "Cybernetic Motion 1",
+                    desc: "High-energy commercial video concept combining dark futuristic backgrounds, smooth kinetic typography, and premium product motion loops.",
+                    specs: [
+                        "Format: Aspect 16:9 HD Video Loop",
+                        "Color Palette: Abyssal Navy, Electric Blue, Bright Gold",
+                        "Typography: Dynamic text transitions, uppercase sans display",
+                        "Aesthetics: Glow sprout physics, chromatic aberration, fluid motion"
+                    ],
+                    img: "videos/motion1.mp4",
+                    isVideo: true
+                },
+                {
+                    tag: "Aesthetic Video Concept",
+                    title: "Aesthetic Motion 2",
+                    desc: "Sleek, fluid visual graphic showcase illustrating organic animations, premium packaging forms, and liquid simulation aesthetics.",
+                    specs: [
+                        "Format: Aspect 16:9 HD Video Loop",
+                        "Color Palette: Deep Purple, Platinum Silver, Pastel Rose",
+                        "Typography: Slanted sans-serif titles, modern floating labels",
+                        "Aesthetics: Velvet cloth simulations, glowing dust, luxury reflections"
+                    ],
+                    img: "videos/motion2.mp4",
+                    isVideo: true
                 }
             ];
 
             let currentLightboxIndex = 0;
             const modal = document.getElementById('lightbox-modal');
             const modalImg = document.getElementById('lightbox-img');
+            const modalVideo = document.getElementById('lightbox-video');
             const modalTag = document.getElementById('lightbox-tag');
             const modalTitle = document.getElementById('lightbox-title');
             const modalDesc = document.getElementById('lightbox-desc');
@@ -1874,6 +1984,9 @@
                 modal.classList.add('opacity-0', 'pointer-events-none');
                 setTimeout(() => {
                     modal.classList.add('hidden');
+                    if (modalVideo) {
+                        modalVideo.src = '';
+                    }
                 }, 300);
                 document.body.style.overflow = '';
             };
@@ -1881,7 +1994,25 @@
             const updateLightboxContent = () => {
                 const data = designData[currentLightboxIndex];
                 if (!data) return;
-                modalImg.src = data.img;
+
+                if (data.isVideo) {
+                    if (modalImg) modalImg.classList.add('hidden');
+                    if (modalVideo) {
+                        modalVideo.classList.remove('hidden');
+                        modalVideo.src = data.img;
+                        modalVideo.load();
+                    }
+                } else {
+                    if (modalVideo) {
+                        modalVideo.classList.add('hidden');
+                        modalVideo.src = '';
+                    }
+                    if (modalImg) {
+                        modalImg.classList.remove('hidden');
+                        modalImg.src = data.img;
+                    }
+                }
+
                 modalTag.textContent = data.tag;
                 modalTitle.textContent = data.title;
                 modalDesc.textContent = data.desc;
@@ -1961,7 +2092,7 @@
             const imageWrappers = document.querySelectorAll('.project-img-wrapper');
             const nameItems = document.querySelectorAll('.project-name-item');
             const indexNumEl = document.getElementById('project-index-num');
-            const totalProjects = 5;
+            const totalProjects = 10;
 
             // Geometry variables
             let initialY = 0;
@@ -1992,7 +2123,7 @@
             const masterST = ScrollTrigger.create({
                 trigger: ".spotlight-section",
                 start: "top top",
-                end: () => "+=" + window.innerHeight * 4,
+                end: () => "+=" + window.innerHeight * 8,
                 pin: true,
                 scrub: 1,
                 onUpdate: (self) => {
