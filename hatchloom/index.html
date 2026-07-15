@@ -881,9 +881,8 @@
                 }
                 canvas.style.display = 'block';
 
-                // Draw background solid color on canvas
-                ctx.fillStyle = '#0A1128';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                // Clear canvas to keep it transparent for background WebGL
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                 // Smooth scroll easing
                 scrollProgress += (targetScrollProgress - scrollProgress) * 0.15;
@@ -2303,7 +2302,7 @@
                 void main() {
                     vec4 density = texture2D(uDensity, vUv);
                     float alpha = max(density.r, max(density.g, density.b));
-                    alpha = smoothstep(0.01, 0.7, alpha) * 0.40;
+                    alpha = smoothstep(0.01, 0.6, alpha) * 0.45;
                     gl_FragColor = vec4(density.rgb, alpha);
                 }
             `;
@@ -2332,52 +2331,41 @@
                 }
             `;
 
-            // 2. WebGL Helpers
+            // 2. WebGL Helpers (WebGL1 base for maximum cross-browser linear float texture compatibility)
             function getWebGLContext(canvas) {
-                const gl = canvas.getContext('webgl2', { alpha: true, depth: false, antialias: false }) ||
-                           canvas.getContext('webgl', { alpha: true, depth: false, antialias: false });
+                const gl = canvas.getContext('webgl', { alpha: true, depth: false, antialias: false }) ||
+                           canvas.getContext('experimental-webgl', { alpha: true, depth: false, antialias: false });
                 if (!gl) return null;
                 
-                const isWebGL2 = 'WebGL2RenderingContext' in window && gl instanceof WebGL2RenderingContext;
+                let extFloat = gl.getExtension('OES_texture_float');
+                let extFloatLinear = gl.getExtension('OES_texture_float_linear');
                 let floatType;
                 
-                if (isWebGL2) {
-                    gl.getExtension('EXT_color_buffer_float');
-                    gl.getExtension('OES_texture_float_linear');
+                if (extFloat && extFloatLinear) {
                     floatType = {
-                        internalFormat: gl.RGBA16F || 0x881A,
+                        internalFormat: gl.RGBA,
                         format: gl.RGBA,
-                        type: gl.HALF_FLOAT || 0x140B
+                        type: gl.FLOAT
                     };
                 } else {
-                    let extFloat = gl.getExtension('OES_texture_float');
-                    let extFloatLinear = gl.getExtension('OES_texture_float_linear');
-                    if (extFloat && extFloatLinear) {
+                    let extHalf = gl.getExtension('OES_texture_half_float') || gl.getExtension('MOZ_OES_texture_half_float') || gl.getExtension('WEBKIT_OES_texture_half_float');
+                    let extHalfLinear = gl.getExtension('OES_texture_half_float_linear') || gl.getExtension('MOZ_OES_texture_half_float_linear') || gl.getExtension('WEBKIT_OES_texture_half_float_linear');
+                    if (extHalf && extHalfLinear) {
                         floatType = {
                             internalFormat: gl.RGBA,
                             format: gl.RGBA,
-                            type: gl.FLOAT
+                            type: extHalf.HALF_FLOAT_OES || 0x8D61
                         };
                     } else {
-                        let extHalf = gl.getExtension('OES_texture_half_float') || gl.getExtension('MOZ_OES_texture_half_float') || gl.getExtension('WEBKIT_OES_texture_half_float');
-                        let extHalfLinear = gl.getExtension('OES_texture_half_float_linear') || gl.getExtension('MOZ_OES_texture_half_float_linear') || gl.getExtension('WEBKIT_OES_texture_half_float_linear');
-                        if (extHalf && extHalfLinear) {
-                            floatType = {
-                                internalFormat: gl.RGBA,
-                                format: gl.RGBA,
-                                type: extHalf.HALF_FLOAT_OES || 0x8D61
-                            };
-                        } else {
-                            floatType = {
-                                internalFormat: gl.RGBA,
-                                format: gl.RGBA,
-                                type: gl.UNSIGNED_BYTE
-                            };
-                        }
+                        floatType = {
+                            internalFormat: gl.RGBA,
+                            format: gl.RGBA,
+                            type: gl.UNSIGNED_BYTE
+                        };
                     }
                 }
                 
-                return { gl, floatType, isWebGL2 };
+                return { gl, floatType };
             }
 
             function createShader(gl, source, type) {
@@ -2703,13 +2691,21 @@
                     const video = wrapper.querySelector('video');
                     if (!img && !video) return;
 
-                    // Set original element opacity to 0 (holds layout size)
-                    if (img) img.style.opacity = '0';
-                    if (video) video.style.opacity = '0';
+                    // Set transition on original elements so they transition smoothly
+                    if (img) {
+                        img.style.transition = 'opacity 0.25s ease';
+                        img.style.opacity = '1';
+                    }
+                    if (video) {
+                        video.style.transition = 'opacity 0.25s ease';
+                        video.style.opacity = '1';
+                    }
 
                     // Create Canvas overlay
                     const canvas = document.createElement('canvas');
                     canvas.className = 'absolute inset-0 w-full h-full object-cover pointer-events-none z-10';
+                    canvas.style.opacity = '0';
+                    canvas.style.transition = 'opacity 0.25s ease';
                     wrapper.appendChild(canvas);
 
                     const ctxSetup = getWebGLContext(canvas);
@@ -2890,6 +2886,11 @@
                             if (fadeFrameCount > 60) {
                                 cancelAnimationFrame(animationFrameId);
                                 animationFrameId = null;
+                                
+                                // Transition back to native element
+                                if (img) img.style.opacity = '1';
+                                if (video) video.style.opacity = '1';
+                                canvas.style.opacity = '0';
                                 return;
                             }
                         }
@@ -2901,6 +2902,12 @@
                     wrapper.addEventListener('mouseenter', () => {
                         pointer.active = true;
                         fadeFrameCount = 0;
+                        
+                        // Hide original media and show canvas
+                        if (img) img.style.opacity = '0';
+                        if (video) video.style.opacity = '0';
+                        canvas.style.opacity = '1';
+
                         if (!animationFrameId) {
                             animationFrameId = requestAnimationFrame(updateLoop);
                         }
@@ -2934,16 +2941,19 @@
                 });
             }
 
-            // Run setups
-            document.addEventListener('DOMContentLoaded', () => {
+            // Safe Single-Run Initialization
+            let initialized = false;
+            function initAll() {
+                if (initialized) return;
+                initialized = true;
                 initBackgroundFluid();
                 initCardShowcaseHover();
-            });
+            }
 
-            // If DOM already loaded, run immediately
             if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                initBackgroundFluid();
-                initCardShowcaseHover();
+                initAll();
+            } else {
+                document.addEventListener('DOMContentLoaded', initAll);
             }
         })();
     </script>
