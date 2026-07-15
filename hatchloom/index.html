@@ -2320,8 +2320,8 @@
                     vec4 imgColor = texture2D(uImage, warpedUv);
                     
                     float speed = length(vel);
-                    vec3 goldColor = vec3(0.82, 0.70, 0.62); // Hatchloom Desert Sand (#D1B49D)
-                    vec3 brightYellow = vec3(1.0, 0.88, 0.2); // Golden Yellow
+                    vec3 goldColor = vec3(1.0, 0.73, 0.0); // Bright Amber-Gold
+                    vec3 brightYellow = vec3(1.0, 0.95, 0.3); // Electric Neon Yellow
                     vec3 highlight = mix(goldColor, brightYellow, clamp(speed * 8.0, 0.0, 1.0));
                     
                     float factor = clamp(speed * 6.0, 0.0, 0.60);
@@ -2547,10 +2547,10 @@
                 };
 
                 const colors = [
-                    [0.82, 0.70, 0.62], // Desert Sand (#D1B49D)
-                    [1.0, 0.84, 0.0],   // Gold
-                    [0.96, 0.77, 0.19], // Saffron Yellow (#F4C430)
-                    [1.0, 0.95, 0.60]   // Pale Yellow
+                    [1.0, 0.90, 0.0],   // Vibrant Electric Yellow/Gold
+                    [1.0, 0.73, 0.0],   // Bright Amber-Gold (warmer contrast)
+                    [1.0, 1.0, 0.4],    // Luminous Light Yellow
+                    [0.95, 0.80, 0.2]   // Cadmium Gold
                 ];
                 let colorIndex = 0;
 
